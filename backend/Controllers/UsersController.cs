@@ -6,7 +6,7 @@ using prid_2425_f06.Models;
 
 namespace prid_2425_f06.Controllers;
 
-//[Authorize]
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class UsersController : ControllerBase

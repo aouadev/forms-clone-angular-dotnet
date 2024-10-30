@@ -1,0 +1,14 @@
+<app-nav-bar title="Welcome to My Forms App!" class="toolbar-actions">
+
+</app-nav-bar>
+<div class="body">
+<h2>Sign in</h2>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="row col-3">
+    <div class="form-group mb-3">
+        <label for="email">Email</label>
+        <input #email type="text" formControllName="email" class="form-controll"/>
+
+    </div>
+    
+</form>
+</div>
