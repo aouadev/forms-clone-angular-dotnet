@@ -6,6 +6,9 @@ import {LoginComponent} from "../components/login/login.component";
 
 const appRoutes: Routes = [
     {path: '', component: LoginComponent, pathMatch: 'full'},
+    { path: 'template',
+        component: TemplateComponent
+    },
     {path: '**', component: UnknownComponent}
 ];
 

@@ -2,6 +2,7 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.RegularExpressions;
+using prid_2425_f06.Helpers;
 
 namespace prid_2425_f06.Models;
 
@@ -83,5 +84,11 @@ public class UserValidator : AbstractValidator<User>
         return age;
     }
     
+    public async Task<FluentValidation.Results.ValidationResult> ValidateForAuthenticate(User? user) {
+        if (user == null)
+            return ValidatorHelper.CustomError("User not found.", "Email");
+        return await this.ValidateAsync(user, o => o.IncludeRuleSets("authenticate"));
+
+    }
   
 }
