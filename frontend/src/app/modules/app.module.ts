@@ -16,6 +16,7 @@ import {JwtInterceptor} from "../interceptors/jwt.interceptor";
 import {UnknownComponent} from "../components/unknown/unknown.component";
 import {TemplateComponent} from "../components/template/template.component";
 import { LoginComponent } from '../components/login/login.component';
+import { RestrictedComponent } from '../components/restricted/restricted.component';
 
 @NgModule({
     declarations: [
@@ -24,7 +25,8 @@ import { LoginComponent } from '../components/login/login.component';
         AppComponent, 
         SetFocusDirective,
         NavBarComponent,
-        LoginComponent
+        LoginComponent,
+        RestrictedComponent
     ],
     imports: [
         BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

@@ -1,34 +1,42 @@
-<app-nav-bar title="Welcome to My Forms App!" class="toolbar-actions">
 
-</app-nav-bar>
-<div class="body">
-<h2>Sign in</h2>
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="row col-3">
-    <div class="form-group mb-3">
-        <label for="email">Email</label>
-        <input #email type="email" formControlName="email" class="form-controll" [ngClass]="{ 'is-invalid': submitted && f.email.errors}"/>
-        @if (submitted && f.email.hasError('required')) {
-            <div class="invalid-feeback">Email is required</div>
-        }
-    </div>
-    <div class="form-group mb-3">
-        <label for="password">Password</label>
-        <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"/>
-        @if (submitted && f.password.hasError('required')) {
-            <div class="invalid-feedback">Password is required</div>
-        }
-    </div>
-    <div class="form-group mb-3">
-        <button [disabled]="loading" class="btn btn-primary">Login</button>
-        @if (loading) {
-            <img class="pl-2" src=""/>
-        }
-    </div>
-    @if (error) {
-        <div class="form-group mb-3">
-            <div class="alert alert-danger">{{error}}</div>
-        </div>
-    }
-    
-</form>
+<div class="login-container">
+    <mat-card class="login-card">
+        <h2>Sign in</h2>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <mat-icon matPrefix>person</mat-icon>
+                <input #email matInput [formControl]="ctlEmail" required appSetFocus/>
+                @if (ctlEmail.hasError('required')) {
+                    <mat-error class="field-error">required</mat-error>
+                }
+                @if (ctlEmail.hasError('custom')) {
+                    <mat-error class="field-error">{{ctlEmail.errors?.custom}}</mat-error>
+                }
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Password</mat-label>
+                <mat-icon matPrefix>key</mat-icon>
+                <input matInput type="password" [formControl]="ctlPassword" required>
+                @if (ctlPassword.hasError('required')) {
+                    <mat-error class="field-error">required</mat-error>
+                }
+                @if (ctlPassword.hasError('custom')) {
+                    <mat-error class="field-error">{{ctlPassword.errors?.custom}}</mat-error>
+                }
+            </mat-form-field>
+        
+                <button [disabled]="loading" mat-stroked-button>Login</button>
+                @if (loading) {
+                    <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                }
+                <button [disabled]="loading" mat-stroked-button>Login as Guest</button>
+                @if (loading) {
+                    <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                }
+            
+            
+            
+        </form>
+    </mat-card>
 </div>
