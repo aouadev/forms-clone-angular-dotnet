@@ -1,9 +1,15 @@
 
+<mat-toolbar>
+    <mat-icon>
+       history_edu 
+    </mat-icon>
+      <span>&nbsp;Welcome to My Forms App!</span>
+</mat-toolbar>
 <div class="login-container">
     <mat-card class="login-card">
-        <h2>Sign in</h2>
+        <h6>Sign in</h6>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>Email</mat-label>
                 <mat-icon matPrefix>person</mat-icon>
                 <input #email matInput [formControl]="ctlEmail" required appSetFocus/>
@@ -14,7 +20,7 @@
                     <mat-error class="field-error">{{ctlEmail.errors?.custom}}</mat-error>
                 }
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>Password</mat-label>
                 <mat-icon matPrefix>key</mat-icon>
                 <input matInput type="password" [formControl]="ctlPassword" required>
@@ -34,6 +40,17 @@
                 @if (loading) {
                     <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                 }
+
+                <a class="subscribe-link"href="" > New here? Click here to subscribe!</a>
+                <div class="default-login">
+                    <p><strong>For Debug Purpose</strong></p>
+                    <a class="default-login-link" href="">Login as <b>admin&#64;epfc.eu</b></a>
+                    <a class="default-login-link" href="">Login as <b>ben&#64;epfc.eu</b></a>
+                    <a class="default-login-link" href="">Login as <b>boris&#64;epfc.eu</b></a>
+                    <a class="default-login-link" href="">Login as <b>bruno&#64;epfc.eu</b></a>
+                   
+
+                </div>
             
             
             

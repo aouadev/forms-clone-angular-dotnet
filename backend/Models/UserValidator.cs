@@ -16,12 +16,15 @@ public class UserValidator : AbstractValidator<User>
         RuleFor(u => new {u.Id, u.Email})
             .MustAsync((u, token) => BeUniquEmail(u.Email, u.Id, token))
             .WithMessage("Email must be unique");
+        
         RuleFor(u => u.Email)
             .Must((u, token) => IsValidEmail(u.Email))
             .WithMessage("Email must have a valid format");
+        
         RuleFor(u => u.Password)
             .Must((u, token) => IsValidPassword(u.Password))
             .WithMessage("The Password must be between 3 and 10 car");
+        
         _ = RuleFor(u => new { u.FirstName, u.LastName })
             .Must(u => IsValidName(u.FirstName, u.LastName))
             .WithMessage("Not valid name!!!")
@@ -29,6 +32,7 @@ public class UserValidator : AbstractValidator<User>
                 RuleFor(u => new { u.Id, u.FirstName, u.LastName })
                     .MustAsync((u, token) => ValidateName(u.Id, u.FirstName, u.LastName, token)).WithMessage("The name must be unique");
             });
+        
         RuleFor(u => u.BirthDate)
             .LessThan(DateTime.Today)
             .DependentRules(() => {
@@ -36,6 +40,14 @@ public class UserValidator : AbstractValidator<User>
                 .InclusiveBetween(18, 125)
                 .WithMessage("The age must be between 18 and 125 years");
             });
+
+        RuleFor(u => u.Role)
+            .IsInEnum();
+        
+        RuleSet("authenticate", () => {
+            RuleFor(u => u.Token)
+                .NotNull().OverridePropertyName("Password").WithMessage("Incorrect password");
+        });
 
     }
 

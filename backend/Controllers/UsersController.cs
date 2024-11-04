@@ -17,7 +17,7 @@ using System.Security.Claims;
 
 namespace prid_2425_f06.Controllers;
 
-//[Authorize]
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class UsersController : ControllerBase
@@ -30,7 +30,7 @@ public class UsersController : ControllerBase
         _mapper = mapper;
     }
     
-   // [Authorized(Role.Admin)]
+    [Authorized(Role.Admin)]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll() {
         // Récupère une liste de tous les users et utilise le mapper pour les transformer en leur DTO
