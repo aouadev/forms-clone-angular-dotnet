@@ -52,6 +52,14 @@ export class LoginComponent implements OnInit {
 
     get f() { return this.loginForm.controls;}
 
+    loginAs(email: string ,password: string) {
+        this.loginForm.setValue({
+            email: email,
+            password: password
+        });
+        this.onSubmit();
+    }
+
     onSubmit() {
         this.submitted = true;
 

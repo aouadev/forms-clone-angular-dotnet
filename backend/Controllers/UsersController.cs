@@ -101,7 +101,7 @@ public class UsersController : ControllerBase
     }
 
     private async Task<User?> Authenticate(string email, string password) {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         if (user == null)
             return null; 
         if (user.Password == password) {
