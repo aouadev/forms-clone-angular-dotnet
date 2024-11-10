@@ -10,9 +10,9 @@ namespace prid_2425_f06.Models
     
     public class FormAccess
     {
-        [Key]
-        public int AccessId { get; set; }
-        [Key]
+    
+        public int FormId { get; set; }
+    
         public int UserId { get; set; }
         public AccessType AccessType { get; set; } = AccessType.User;
         
