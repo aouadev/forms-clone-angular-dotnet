@@ -8,7 +8,7 @@ namespace prid_2425_f06.Models
         
     }
     
-    public class Access
+    public class FormAccess
     {
         [Key]
         public int AccessId { get; set; }

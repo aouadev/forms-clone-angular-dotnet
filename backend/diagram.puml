@@ -1,0 +1,51 @@
+@startuml 
+
+class user {
+   +id : int 
+   +email : string
+   +password : string
+   +last_name : string
+   +first_name : string
+   +birth_date : Date 
+   +role : enum {user, admin, guest}
+   
+}
+
+class form_access {
+    +user : int
+    +form : int
+    +access_type : enum {user, editor}
+}
+
+class form {
+    +id : int 
+    +title : string 
+    + description : string 
+    +owner : string 
+    +is_public : boolean
+}
+
+class instance {
+    +id : int 
+    +form : int 
+    +user : int 
+    +started : datetime
+    +completed : datetime
+}
+
+
+
+
+
+user <|-- guest
+user <|-- administrator
+form }.. user
+
+form_access }-- user
+form_access }-- form
+instance }.. user
+instance }.. form
+
+
+
+@enduml

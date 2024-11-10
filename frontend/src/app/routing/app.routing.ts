@@ -9,6 +9,7 @@ import { RestrictedComponent } from '../components/restricted/restricted.compone
 
 const appRoutes: Routes = [
     {path: '', component: LoginComponent, pathMatch: 'full'},
+    {path: 'login', component: LoginComponent },
     {   
         path: 'template',
         component: TemplateComponent,

@@ -8,6 +8,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Security.Claims;
+
+using System.Security.Cryptography;
+
 //using Microsoft.AspNetCore.Authorization;
 //using System.IdentityModel.Tokens.Jwt;
 //using System.Text;
@@ -121,5 +124,15 @@ public class UsersController : ControllerBase
         }
         return user;
     }
+
+    public string HashPasswordWithSHA256(string password, string salt)
+{
+    using (SHA256 sha256 = SHA256.Create())
+    {
+        byte[] combinedPassword = Encoding.UTF8.GetBytes(password + salt);
+        byte[] hash = sha256.ComputeHash(combinedPassword);
+        return Convert.ToBase64String(hash);
+    }
+}
     
 }

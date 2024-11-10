@@ -13,6 +13,7 @@ export class RestrictedComponent implements OnInit {
     constructor(private router: Router) { }
 
     ngOnInit() {
+        console.log("restricted");
         setTimeout(() => {
             this.router.navigate(['/login']);
         }, 2000);
