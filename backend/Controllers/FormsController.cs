@@ -19,9 +19,8 @@ public class FormsController : ControllerBase {
         _mapper = mapper;
     }
     
-    /*
-     
-     Contrôleur pour les forms
-     
-     */
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Form>>>GetForms() {
+        return await _context.Forms.ToListAsync();
+    }
 }

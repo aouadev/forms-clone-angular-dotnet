@@ -11,12 +11,7 @@ using System.Security.Claims;
 
 using System.Security.Cryptography;
 
-//using Microsoft.AspNetCore.Authorization;
-//using System.IdentityModel.Tokens.Jwt;
-//using System.Text;
-//using System.IdentityModel.Tokens;
-//using System.Security.Claims;
-//using prid_2425_f06.Helpers;
+
 
 namespace prid_2425_f06.Controllers;
 

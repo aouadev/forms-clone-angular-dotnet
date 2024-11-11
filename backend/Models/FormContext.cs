@@ -23,7 +23,18 @@ public class FormContext : DbContext
             new User { Id=++count, Email = "guest@epfc.eu", Password = "N/A", Role = Role.Guest, FirstName = "Guest", LastName = "No Name" },
             new User { Id=++count, Email = "xavier@epfc.eu", Password = "Password1,", Role = Role.User, FirstName = "Xavier", LastName = "Pigeolet" }
         );
+        modelBuilder.Entity<Form>().HasData(
+            new Form { FormId = 1, Title = "formtest1", Description = "this form is a test", OwnerId = 1, IsPublic = true},
+            new Form { FormId = 2, Title = "formtest2", Description = "this form is a test2", OwnerId = 1, IsPublic = true}
+        );
+        modelBuilder.Entity<Instance>().HasData(
+
+        );
+        modelBuilder.Entity<FormAccess>().HasData(
+
+        );
     }
 
     public DbSet<User> Users => Set<User>();
+    public DbSet<Form> Forms => Set<Form>();
 }
