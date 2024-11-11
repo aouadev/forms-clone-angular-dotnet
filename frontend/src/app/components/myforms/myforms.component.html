@@ -3,7 +3,8 @@
     <h2>Liste de mes forms</h2>
     @for(form of forms; track form.title) {
         <div>
-            {{form.title}} - {{form.description}} - by {{form.ownerId}}
+            {{form.title}} - {{form.description}} -  by {{formOwner}}
         </div>
     }
+   
 </div>

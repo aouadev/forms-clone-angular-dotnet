@@ -18,7 +18,7 @@ export class FormService {
     }
 
     getUser(id : number): Observable<User> {
-        return this.http.get<any>(`${this.baseUrl}api/users/id`).pipe(
+        return this.http.get<any>(`${this.baseUrl}api/users/${id}`).pipe(
             map(res => plainToInstance(User, res))
         );
     }

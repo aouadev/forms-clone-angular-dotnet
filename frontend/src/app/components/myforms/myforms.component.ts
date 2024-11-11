@@ -9,10 +9,16 @@ import {User} from "../../models/user";
 })
 export class MyFormsComponent {
     forms?: Form[];
-    formOwner?: User;
+    formOwner?: string;
 
     constructor(private formService: FormService) {
-        this.formService.getAll().subscribe((res) => this.forms = res);
+        this.formService.getAll().subscribe((res) => {
+            this.forms = res;
+
+        });
+        this.formService.getUser(1).subscribe((res) => this.formOwner = res.fullName);
+        console.log(this.formOwner);
         
+
     }
 }

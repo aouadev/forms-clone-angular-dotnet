@@ -20,7 +20,7 @@ public class FormsController : ControllerBase {
     }
     
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Form>>>GetForms() {
-        return await _context.Forms.ToListAsync();
+    public async Task<ActionResult<IEnumerable<FormDTO>>>GetForms() {
+        return _mapper.Map<List<FormDTO>>(await _context.Forms.ToListAsync());
     }
 }
