@@ -111,7 +111,7 @@ public class UsersController : ControllerBase
                     new Claim(ClaimTypes.Role, user.Role.ToString())
                 }),
             IssuedAt = DateTime.UtcNow,
-            Expires = DateTime.UtcNow.AddMinutes(1),
+            Expires = DateTime.UtcNow.AddMinutes(10),
             SigningCredentials = new SigningCredentials (new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

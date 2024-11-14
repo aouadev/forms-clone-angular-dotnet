@@ -3,6 +3,7 @@ export class Form {
     title: string = '';
     description: string = '';
     ownerId: number = 0;
+    ownerName: string = '';
     isPublic: boolean = false;
 
 }

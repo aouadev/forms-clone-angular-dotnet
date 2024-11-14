@@ -7,7 +7,7 @@ using prid_2425_f06.Models;
 
 namespace prid_2425_f06.Controllers;
 
-[Authorize]
+//[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class FormsController : ControllerBase {
@@ -23,4 +23,13 @@ public class FormsController : ControllerBase {
     public async Task<ActionResult<IEnumerable<FormDTO>>>GetForms() {
         return _mapper.Map<List<FormDTO>>(await _context.Forms.ToListAsync());
     }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<IEnumerable<FormDTO>>> GetMyForms(int id) {
+        var myForms = await _context.Forms.Where(f => f.OwnerId == id).ToListAsync();
+        var formsIds = await _context.FormsAccess.Where(f => f.UserId == id).Select(fa => fa.FormId).ToListAsync();
+        var myformsAccess = await _context.Forms.Where(f => formsIds.Contains(f.FormId)).ToListAsync();
+        return _mapper.Map<List<FormDTO>>(myForms.Concat(myformsAccess));
+    }
+
 }

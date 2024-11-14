@@ -1,24 +1,38 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FormService } from"../../services/form.service";
 import { Form } from "src/app/models/form"  ;
 import {User} from "../../models/user";
+import { Observable, of } from "rxjs";
+import { AuthenticationService } from "src/app/services/authentication.service";
 @Component({
     selector: 'myforms',
-    templateUrl: './myforms.component.html'
+    templateUrl: './myforms.component.html',
+    styleUrl: './myforms.component.css'
 
 })
 export class MyFormsComponent {
     forms?: Form[];
-    formOwner?: string;
 
-    constructor(private formService: FormService) {
-        this.formService.getAll().subscribe((res) => {
+    
+
+    constructor(private formService: FormService,
+                 private authenticationService : AuthenticationService) {}
+                  
+    ngOnInit() {
+       const userId = this.authenticationService.currentUser?.id;
+       if (userId) {
+        this.formService.getMyForms(userId).subscribe((res) => {
             this.forms = res;
-
+            this.forms.forEach((form) => {
+                this.formService.getUser(form.ownerId).subscribe((user) => {
+                    form.ownerName = user.fullName;
+                })
+            });
         });
-        this.formService.getUser(1).subscribe((res) => this.formOwner = res.fullName);
-        console.log(this.formOwner);
-        
-
+    } else {
+        console.error("not user connected");
     }
+    }
+
+
 }

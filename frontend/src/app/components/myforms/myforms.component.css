@@ -1,0 +1,39 @@
+
+.form-card {
+    width: 300px;
+    min-height: 200px;
+    margin: 20px;
+    display: flex;
+    align-items: center;
+  
+  
+    border: 2px solid lightgray;
+}
+.form-title {
+    align-self:flex-start;
+    margin: 10px;
+    font-size: 20px;
+    
+    
+
+    
+}
+.form-description {
+    font-style: italic;
+    font-size: 18px;
+}
+.public-icon {
+    margin-left: 150px;
+    
+}
+
+.started, .completed, .card-link{
+    font-size: 14px;
+    
+}
+.card-link {
+    text-decoration: none;
+}
+.body {
+    
+}

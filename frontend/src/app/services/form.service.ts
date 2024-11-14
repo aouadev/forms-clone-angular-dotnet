@@ -22,4 +22,9 @@ export class FormService {
             map(res => plainToInstance(User, res))
         );
     }
+    getMyForms(id : number): Observable<Form[]> {
+        return this.http.get<any[]>(`${this.baseUrl}api/forms/${id}`).pipe(
+            map(res => plainToInstance(Form, res))
+        );
+    }
 }

@@ -24,17 +24,24 @@ public class FormContext : DbContext
             new User { Id=++count, Email = "xavier@epfc.eu", Password = "Password1,", Role = Role.User, FirstName = "Xavier", LastName = "Pigeolet" }
         );
         modelBuilder.Entity<Form>().HasData(
-            new Form { FormId = 1, Title = "formtest1", Description = "this form is a test", OwnerId = 1, IsPublic = true},
-            new Form { FormId = 2, Title = "formtest2", Description = "this form is a test2", OwnerId = 1, IsPublic = true}
+            new Form { FormId = 1, Title = "form test1", Description = "this form is a test", OwnerId = 1, IsPublic = true},
+            new Form { FormId = 2, Title = "form test2", Description = "this form is a test2", OwnerId = 1, IsPublic = true},
+             new Form { FormId = 3, Title = "form test3", Description = "this form is a test3", OwnerId = 2, IsPublic = true},
+            new Form { FormId = 4, Title = "form test4", Description = "this form is a test4", OwnerId = 3, IsPublic = true},
+             new Form { FormId = 5, Title = "form test5", Description = "this form is a test5", OwnerId = 2, IsPublic = true},
+            new Form { FormId = 6, Title = "form test6", Description = "this form is a test6", OwnerId = 3, IsPublic = true}
         );
         modelBuilder.Entity<Instance>().HasData(
 
         );
         modelBuilder.Entity<FormAccess>().HasData(
-
+            new FormAccess{ FormId = 3, UserId = 1, AccessType = AccessType.User},
+            new FormAccess{ FormId = 4, UserId = 1, AccessType = AccessType.User},
+            new FormAccess{ FormId = 5, UserId = 1, AccessType = AccessType.User}
         );
     }
 
     public DbSet<User> Users => Set<User>();
     public DbSet<Form> Forms => Set<Form>();
+    public DbSet<FormAccess> FormsAccess => Set<FormAccess>();
 }
