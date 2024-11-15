@@ -17,7 +17,8 @@ import {UnknownComponent} from "../components/unknown/unknown.component";
 import {TemplateComponent} from "../components/template/template.component";
 import { LoginComponent } from '../components/login/login.component';
 import { RestrictedComponent } from '../components/restricted/restricted.component';
-import { ViewFormsComponent } from '../components/view_forms/view_forms.component';
+import { ViewFormsComponent } from '../components/view-forms/view-forms.component';
+import { FormCardComponent } from '../components/view-forms/form-card.component';
 
 @NgModule({
     declarations: [
@@ -28,7 +29,8 @@ import { ViewFormsComponent } from '../components/view_forms/view_forms.componen
         NavBarComponent,
         LoginComponent,
         RestrictedComponent,
-        ViewFormsComponent
+        ViewFormsComponent,
+        FormCardComponent
     ],
     imports: [
         BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

@@ -6,15 +6,12 @@ import { Observable, of } from "rxjs";
 import { AuthenticationService } from "src/app/services/authentication.service";
 @Component({
     selector: 'view_forms',
-    templateUrl: './view_forms.component.html',
-    styleUrl: './view_forms.component.css'
+    templateUrl: './view-forms.component.html',
+    styleUrl: './view-forms.component.css'
 
 })
 export class ViewFormsComponent {
     forms?: Form[];
-
-    
-
     constructor(private formService: FormService,
                  private authenticationService : AuthenticationService) {}
                   

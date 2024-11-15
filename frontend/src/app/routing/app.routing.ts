@@ -6,7 +6,7 @@ import {LoginComponent} from "../components/login/login.component";
 import { AuthGuard } from '../services/auth.guard';
 import { Role } from '../models/user';
 import { RestrictedComponent } from '../components/restricted/restricted.component';
-import { ViewFormsComponent } from '../components/view_forms/view_forms.component';
+import { ViewFormsComponent } from '../components/view-forms/view-forms.component';
 
 const appRoutes: Routes = [
     {path: '', component: LoginComponent, pathMatch: 'full'},

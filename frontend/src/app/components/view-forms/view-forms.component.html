@@ -1,0 +1,13 @@
+<app-nav-bar title="My Forms" class="toolbar-actions"></app-nav-bar>
+<div class="body">
+
+ 
+ 
+    @for(form of forms; track form.formId) {
+        
+        <form-card [form]="form" class=""> </form-card>
+    
+    }
+
+   
+</div>
