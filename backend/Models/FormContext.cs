@@ -13,7 +13,7 @@ public class FormContext : DbContext
         modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
         modelBuilder.Entity<FormAccess>().HasKey(a => new{a.FormId, a.UserId});
 
-        int count = 0;
+       /* int count = 0;
         
         modelBuilder.Entity<User>().HasData(
             new User { Id= ++count, Email = "ben@epfc.eu", Password = "Password1,", Role = Role.User, FirstName = "Benoit", LastName = "Penelle" },
@@ -38,7 +38,7 @@ public class FormContext : DbContext
             new FormAccess{ FormId = 3, UserId = 1, AccessType = AccessType.User},
             new FormAccess{ FormId = 4, UserId = 1, AccessType = AccessType.User},
             new FormAccess{ FormId = 5, UserId = 1, AccessType = AccessType.User}
-        );
+        );*/
     }
 
     public DbSet<User> Users => Set<User>();

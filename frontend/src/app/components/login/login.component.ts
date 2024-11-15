@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
         private authenticationService: AuthenticationService
     ) {
         if (this.authenticationService.currentUser) {
-            this.router.navigate(['/myforms']);
+            this.router.navigate(['/view_forms']);
         }
 
     }
@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
            password: this.ctlPassword
            
         });
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/myforms';
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/view_forms';
     }
    /* ngAfterViewInit(): void {
         setTimeout(() => this.email && this.email.nativeElement.focus());

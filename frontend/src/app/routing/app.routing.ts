@@ -6,12 +6,12 @@ import {LoginComponent} from "../components/login/login.component";
 import { AuthGuard } from '../services/auth.guard';
 import { Role } from '../models/user';
 import { RestrictedComponent } from '../components/restricted/restricted.component';
-import { MyFormsComponent } from '../components/myforms/myforms.component';
+import { ViewFormsComponent } from '../components/view_forms/view_forms.component';
 
 const appRoutes: Routes = [
     {path: '', component: LoginComponent, pathMatch: 'full'},
     {path: 'login', component: LoginComponent },
-    {path: 'myforms', component: MyFormsComponent},
+    {path: 'view_forms', component: ViewFormsComponent},
     {   
         path: 'template',
         component: TemplateComponent,

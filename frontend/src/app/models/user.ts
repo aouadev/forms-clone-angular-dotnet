@@ -9,17 +9,16 @@ export enum Role {
 export class User {
     id: number = 0;
     email?: string = '';
-    fullName: string = '';
-   
+    firstName: string = '';
+    lastName: string = '';
     password?: string = '';
     token?: string;
     role: Role = Role.User;
     refreshToken?: string;
 
     toString(): string {
-        return this.fullName;
+        return this.firstName + " " + this.lastName;
     }
-
     public get roleAsString(): string {
         return Role[this.role];
     }

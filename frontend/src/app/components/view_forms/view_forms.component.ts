@@ -5,12 +5,12 @@ import {User} from "../../models/user";
 import { Observable, of } from "rxjs";
 import { AuthenticationService } from "src/app/services/authentication.service";
 @Component({
-    selector: 'myforms',
-    templateUrl: './myforms.component.html',
-    styleUrl: './myforms.component.css'
+    selector: 'view_forms',
+    templateUrl: './view_forms.component.html',
+    styleUrl: './view_forms.component.css'
 
 })
-export class MyFormsComponent {
+export class ViewFormsComponent {
     forms?: Form[];
 
     
@@ -25,7 +25,7 @@ export class MyFormsComponent {
             this.forms = res;
             this.forms.forEach((form) => {
                 this.formService.getUser(form.ownerId).subscribe((user) => {
-                    form.ownerName = user.fullName;
+                    form.ownerName = user.firstName + " " + user.lastName;
                 })
             });
         });

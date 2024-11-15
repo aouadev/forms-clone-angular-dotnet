@@ -102,7 +102,7 @@ public class UsersController : ControllerBase
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         if (user == null)
             return null; 
-        if (user.Password == password) {
+        if (user.Password == TokenHelper.GetPasswordHash(password)) {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes("my-super-secret-key my-super-secret-key");
             var tokenDescriptor = new SecurityTokenDescriptor {
