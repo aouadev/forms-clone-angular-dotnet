@@ -1,15 +1,15 @@
 
 .body {
+    margin-top: 50px;
    display: flex;
    flex-wrap: wrap;
    justify-content: center;
    padding: 10px; 
 }
-.form-card {
+.mat-form-card {
     width: 100%;
     max-width: 300px;
     min-height: 200px;
-    margin: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,12 +17,19 @@
     transition: transform 0.2s;
     border: 2px solid lightgray;
 }
-form-card {
-    
-    border: 1px solid red;
+.form-card {
+    width: 100%;
+    max-width: 300px;
+    min-height: 200px;
+    margin: 10px;
 }
+
 .form-title {
     font-size: 20px;
+    align-self: flex-start;
+    width: 100%;
+    background-color: blue;
+
    
 }
 .form-description {
@@ -30,12 +37,13 @@ form-card {
     font-size: 18px;
 }
 .public-icon {
-
-    margin-left: 140px;
+    margin-left: 150px;
+    background-color: yellow;
 }
 
 .started, .completed, .card-link{
     font-size: 14px;
+    
     
 }
 .card-link {

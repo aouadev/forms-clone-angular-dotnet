@@ -44,4 +44,5 @@ public class FormContext : DbContext
     public DbSet<User> Users => Set<User>();
     public DbSet<Form> Forms => Set<Form>();
     public DbSet<FormAccess> FormsAccess => Set<FormAccess>();
+    public DbSet<Instance> Instances => Set<Instance>();
 }

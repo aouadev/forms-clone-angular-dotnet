@@ -25,11 +25,23 @@ public class FormsController : ControllerBase {
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<IEnumerable<FormDTO>>> GetMyForms(int id) {
-        var myForms = await _context.Forms.Where(f => f.OwnerId == id).ToListAsync();
+    public async Task<ActionResult<IEnumerable<FormWithLastInstanceDto>>> GetMyForms(int id) {
+        var myForms = await _context.Forms.Where(f => f.OwnerId == id || f.IsPublic == true).ToListAsync();
         var formsIds = await _context.FormsAccess.Where(f => f.UserId == id).Select(fa => fa.FormId).ToListAsync();
         var myformsAccess = await _context.Forms.Where(f => formsIds.Contains(f.FormId)).ToListAsync();
-        return _mapper.Map<List<FormDTO>>(myForms.Concat(myformsAccess));
+        var AllMyForms = myForms.Concat(myformsAccess);
+        List<FormWithLastInstanceDto> forms = new List<FormWithLastInstanceDto>();
+        foreach (var form in AllMyForms) {
+            var lastInstance = await _context.Instances.Where(i => i.FormId == form.FormId && i.UserId == id )
+                                                        .OrderByDescending(i => i.InstanceId)
+                                                        .FirstOrDefaultAsync();
+            
+                var f = _mapper.Map<FormWithLastInstanceDto>(form);
+                f.LastInstance = lastInstance;
+                forms.Add(f);
+        }
+      
+        return forms.OrderBy(f => f.Title).ToList();
     }
 
 }

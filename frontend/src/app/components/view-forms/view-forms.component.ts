@@ -12,6 +12,7 @@ import { AuthenticationService } from "src/app/services/authentication.service";
 })
 export class ViewFormsComponent {
     forms?: Form[];
+    
     constructor(private formService: FormService,
                  private authenticationService : AuthenticationService) {}
                   
@@ -21,6 +22,7 @@ export class ViewFormsComponent {
         this.formService.getMyForms(userId).subscribe((res) => {
             this.forms = res;
             this.forms.forEach((form) => {
+                console.log(form.lastInstance);
                 this.formService.getUser(form.ownerId).subscribe((user) => {
                     form.ownerName = user.firstName + " " + user.lastName;
                 })

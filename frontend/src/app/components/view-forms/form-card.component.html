@@ -1,9 +1,11 @@
-<mat-card class="form-card">
+<mat-card class="mat-form-card">
     <div class="form-title"><strong>{{form.title}}</strong> <span class="public-icon"><mat-icon>public</mat-icon></span></div>
     <div class="form-description"> {{form.description}} </div>
     <div class="form-owner"> by <strong>{{form.ownerName}}</strong></div>
-    <div class="started">Started:</div>
-    <div class="completed">Completed:</div>
+    @if (form.lastInstance) {
+    <div class="started">Started: <strong>{{form.lastInstance.started | date:'dd/MM/yyyy HH:mm:ss'}}</strong></div>
+    <div class="completed">Completed: <strong>{{form.lastInstance.completed | date:'dd/MM/yyyy HH:mm:ss'}}</strong></div>
+    }
     <a href="#" class="card-link">Open</a>
 
 </mat-card>

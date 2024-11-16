@@ -17,6 +17,12 @@ public class MappingProfile : Profile
 
         CreateMap<Form, FormDTO>();
         CreateMap<FormDTO, FormDTO>();
+
+        CreateMap<Instance, InstanceDTO>();
+        CreateMap<InstanceDTO, Instance>();
+
+        CreateMap<Form, FormWithLastInstanceDto>();
+        CreateMap<FormWithLastInstanceDto, Form>();
     }
     
     

@@ -9,3 +9,10 @@ public class FormDTO {
     public int OwnerId { get; set; }
     public bool IsPublic { get; set; } = false;
 }
+
+public class FormWithInstanceDTO : FormDTO {
+    public ICollection<InstanceDTO> InstanceDTOs { get; set; } = new HashSet<InstanceDTO>();
+}
+public class FormWithLastInstanceDto : FormDTO {
+    public Instance? LastInstance { get; set; }
+}

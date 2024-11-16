@@ -11,6 +11,7 @@ namespace prid_2425_f06.Models
             context.Users.AddRange(ImportCsvData<User, UserMap>(@"Models\Data\users.csv"));
             context.Forms.AddRange(ImportCsvData<Form, FormMap>(@"Models\Data\forms.csv"));
             context.FormsAccess.AddRange(ImportCsvData<FormAccess, FormAccessMap>(@"Models\Data\user_form_accesses.csv"));
+            context.Instances.AddRange(ImportCsvData<Instance, InstanceMap>(@"Models\Data\instances.csv"));
             context.SaveChanges();
         }
 
@@ -63,6 +64,16 @@ namespace prid_2425_f06.Models
             Map(fa => fa.UserId).Name("user");
             Map(fa => fa.AccessType)
                 .Convert(data => Enum.Parse<AccessType>(data.Row.GetField("access_type") ?? "", true));
+        }
+    }
+    
+    internal sealed class InstanceMap : ClassMap<Instance> {
+        public InstanceMap() {
+            Map(i => i.InstanceId).Name("id");
+            Map(i => i.FormId).Name("form");
+            Map( i => i.UserId).Name("user");
+            Map(i => i.Started).Name("started");
+            Map(i => i.Completed).Name("completed");
         }
     }
 }
