@@ -13,13 +13,13 @@ export class User {
     lastName: string = '';
     password?: string = '';
     token?: string;
-    role: Role = Role.User;
+    role?: Role;
     refreshToken?: string;
 
     toString(): string {
         return this.firstName + " " + this.lastName;
     }
-    public get roleAsString(): string {
+   /* public get roleAsString(): string {
         return Role[this.role];
-    }
+    }*/
 }

@@ -22,29 +22,37 @@ export class ViewFormsComponent {
     
 
     constructor(private formService: FormService,
-                 private authenticationService : AuthenticationService) {
+                private authenticationService : AuthenticationService) {
                     this.currentUser = this.authenticationService.currentUser;
-                 }
+                }
                   
     ngOnInit() {
-       if (!this.authenticationService.GuestMode) {
-        const userId = this.authenticationService.currentUser?.id;
-        if (userId) {
-            this.formService.getMyForms(userId).subscribe((res) => {
+        if (!this.authenticationService.GuestMode) {
+            const userId = this.currentUser?.id;
+            if (userId) {
+                console.log("role:" + this.currentUser?.role);
+                if (this.currentUser?.role == Role.Admin) {
+                    console.log(this.currentUser?.role);
+                    this.formService.getAllForms().subscribe((res) => {
+                        this.forms = res;
+                        this.formsFromBackend = res;
+                    });
+                }else {
+                    this.formService.getMyForms().subscribe((res) => {
+                        this.forms = res;
+                        this.formsFromBackend = res;
+                    });
+                }
+            }
+            else {
+                console.error("not user connected");
+            }
+        } else {
+            this.formService.getPublicForms().subscribe((res) => {
                 this.forms = res;
                 this.formsFromBackend = res;
-             
             });
-        } else {
-            console.error("not user connected");
         }
-    } else {
-        this.formService.getPublicForms().subscribe((res) => {
-            this.forms = res;
-            this.formsFromBackend = res;
-         
-        });
-    }
     }
     askToggleFilter() {
         console.log(this.filterIsVisible);

@@ -18,14 +18,12 @@ public class FormsController : ControllerBase {
         _context = context;
         _mapper = mapper;
     }
-    
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<FormDTO>>> GetForms() {
-        return _mapper.Map<List<FormDTO>>(await _context.Forms.ToListAsync());
-    }
+ 
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<IEnumerable<FormWithUserDetailsDTO>>> GetMyForms(int id) {
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<FormWithUserDetailsDTO>>> GetMyForms() {
+        var id =  int.Parse(User.Identity.Name);
+        Console.WriteLine("id :::", id);
         var myForms = await _context.Forms.Where(f => f.OwnerId == id || f.IsPublic == true).ToListAsync();
         var formsIds = await _context.FormsAccess.Where(f => f.UserId == id).Select(fa => fa.FormId).ToListAsync();
         var myformsAccess = await _context.Forms.Where(f => formsIds.Contains(f.FormId)).ToListAsync();
