@@ -15,8 +15,18 @@ public class GuestFormcontroller : ControllerBase {
         _mapper = mapper;
     }
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<FormDTO>>> GetPublicForms() {
-        return _mapper.Map<List<FormDTO>>(await _context.Forms.Where(f => f.IsPublic == true).ToListAsync());
+    public async Task<ActionResult<IEnumerable<FormWithUserDetailsDTO>>> GetPublicForms() {
+        var forms = await _context.Forms.Where(f => f.IsPublic == true).ToListAsync();
+        List<FormWithUserDetailsDTO> guestForms = new List<FormWithUserDetailsDTO>();
+        foreach (var form in forms) {
+            FormWithUserDetailsDTO f = _mapper.Map<FormWithUserDetailsDTO>(form);
+            var owner = await _context.Users.Where(u => u.Id == form.OwnerId).FirstOrDefaultAsync();
+            f.OwnerFirstName = owner.FirstName;
+            f.OwnerLastName = owner.LastName;
+            f.OwnerEmail = owner.Email;
+            guestForms.Add(f);
+        }
+        return guestForms;
 
     }
         

@@ -17,6 +17,7 @@ public class FormWithLastInstanceDTO : FormDTO {
     public Instance? LastInstance { get; set; }
 }
 public class FormWithUserDetailsDTO : FormWithLastInstanceDTO{
-    public string? FirstName { get; set;}
-    public string? LastName { get; set; }
+    public string? OwnerFirstName { get; set;}
+    public string? OwnerLastName { get; set; }
+    public string OwnerEmail { get; set; }
 }

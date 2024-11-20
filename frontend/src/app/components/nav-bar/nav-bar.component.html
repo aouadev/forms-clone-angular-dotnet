@@ -5,7 +5,7 @@
     <span class="title">{{ title }}</span>
     <span class="spacer"></span>
     <!-- pour mettre des éléments à droite -->
-     <button mat-icon-button >
+     <button mat-icon-button (click)="toggleFilter()">
         <mat-icon>search</mat-icon>
      </button>
      <button mat-icon-button >
@@ -20,6 +20,6 @@
     </button>
     <button mat-menu-item routerLink="/login" (click)="logout()">
         <mat-icon>logout</mat-icon>
-        <span>Logout ({{currentUser }})</span>
+        <span>Logout ({{guestMode ? 'Guest' : currentUser }})</span>
     </button>
 </mat-menu>

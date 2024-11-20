@@ -38,9 +38,10 @@ public class FormsController : ControllerBase {
                                                         .FirstOrDefaultAsync();
             
                 var f = _mapper.Map<FormWithUserDetailsDTO>(form);
-                f.FirstName = owner.FirstName;
-                f.LastName = owner.LastName;
+                f.OwnerFirstName = owner.FirstName;        //Récupérer les infos du créateur du form pour les mettre dans le dto
+                f.OwnerLastName = owner.LastName;
                 f.LastInstance = lastInstance;
+                f.OwnerEmail = owner.Email;
                 forms.Add(f);
         }
       

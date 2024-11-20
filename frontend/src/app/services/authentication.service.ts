@@ -11,15 +11,22 @@ export class AuthenticationService {
 
     // l'utilisateur couramment connecté (undefined sinon)
     public currentUser?: User;
+    public GuestMode?: boolean;
     
 
     constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
         // au départ on récupère un éventuel utilisateur stocké dans le sessionStorage
+        let mode = sessionStorage.getItem('mode');
+        if(mode == 'user') {
         let data = sessionStorage.getItem('currentUser');
         if (data)
             data = JSON.parse(data);
         this.currentUser = plainToClass(User, data);
         console.log(data);
+        }
+        else {
+            this.GuestMode = true;
+        }
     }
 
     login(email: string, password: string): Observable<User> {
@@ -30,31 +37,18 @@ export class AuthenticationService {
                 if (user && user.token) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     sessionStorage.setItem('currentUser', JSON.stringify(user));
+                    sessionStorage.setItem('mode', 'user')
                     this.currentUser = user;
+                    this.GuestMode = false;
                 }
 
                 return user;
             }));
     }
-    loginAsGuest(): User{
-        // Créer un utilisateur "virtuel" pour les invités
-        const guestUser: User = {
-            id: 0, // Utiliser un ID unique pour représenter le guest
-            email: 'guest@epfc.eu',
-            firstName: '',
-            lastName: '',
-            role: Role.Guest,
-            token: undefined,
-            roleAsString: 'guest' // Pas de token pour les invités
-        };
-        this.currentUser =  guestUser;
-        // Stocker les détails dans sessionStorage pour les utiliser plus tard
-        sessionStorage.setItem('currentUser', JSON.stringify(this.currentUser));
-        
-        // Mettre à jour la propriété currentUser
-      
-        return guestUser;
-        
+
+    loginAsGuest() {
+        sessionStorage.setItem('mode', 'guest');
+        this.GuestMode = true;
     }
     
 

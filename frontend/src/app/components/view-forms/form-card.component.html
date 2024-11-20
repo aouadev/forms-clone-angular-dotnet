@@ -6,7 +6,7 @@
         </span>
     </div>
     <div class="form-description"> {{form.description}} </div>
-    <div class="form-owner"> by <strong>{{form.firstName}} {{form.lastName}}</strong></div>
+    <div class="form-owner"> by <strong>{{form.ownerFirstName}} {{form.ownerLastName}}</strong></div>
     @if (form.lastInstance) {
     <div class="started">Started: <strong>{{form.lastInstance.started | date:'dd/MM/yyyy HH:mm:ss'}}</strong></div>
     <div class="completed">

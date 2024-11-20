@@ -1,13 +1,18 @@
-<app-nav-bar title="My Forms" class="toolbar-actions"></app-nav-bar>
-<div class="body">
-
- 
- 
-    @for(form of forms; track form.formId) {
-        
-        <form-card [form]="form" [currentUser] = "currentUser" class="form-card"> </form-card>
-    
-    }
+<app-nav-bar title="My Forms" class="toolbar-actions" (askToggleFilter) = "askToggleFilter()"></app-nav-bar>
+@if (filterIsVisible) {
+<div class="filter-container">
+    <mat-form-field class="filter-field" appearance="outline">
+        <mat-label>Filter</mat-label>
+        <input matInput [(ngModel)] ="filterText" (input)="applyFilter()">
+    </mat-form-field>
+</div>
+}
+<div class="body" [ngClass]="{'filter-visible': filterIsVisible, 'filter-hidden': !filterIsVisible}">
+    <div class="list-forms">
+        @for(form of forms; track form.formId) {
+            <form-card [form]="form" [currentUser] = "currentUser" class="form-card"> </form-card>
+        }
+    </div>
 
    
 </div>

@@ -2,8 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { FormService } from"../../services/form.service";
 import { Form } from "src/app/models/form"  ;
 import {User} from "../../models/user";
+import {Role} from "../../models/user";
 import { Observable, of } from "rxjs";
 import { AuthenticationService } from "src/app/services/authentication.service";
+import { th } from "date-fns/locale";
 @Component({
     selector: 'view_forms',
     templateUrl: './view-forms.component.html',
@@ -13,6 +15,11 @@ import { AuthenticationService } from "src/app/services/authentication.service";
 export class ViewFormsComponent {
     forms?: Form[];
     currentUser?: User;
+    filterIsVisible?: boolean = false;
+    filterText: string = '';
+    filtredForms?: Form[];
+    formsFromBackend?: Form[];
+    
 
     constructor(private formService: FormService,
                  private authenticationService : AuthenticationService) {
@@ -20,17 +27,13 @@ export class ViewFormsComponent {
                  }
                   
     ngOnInit() {
-       if (this.authenticationService.currentUser?.roleAsString != 'guest') {
+       if (!this.authenticationService.GuestMode) {
         const userId = this.authenticationService.currentUser?.id;
         if (userId) {
             this.formService.getMyForms(userId).subscribe((res) => {
                 this.forms = res;
-               /* this.forms.forEach((form) => {
-                    console.log(form.lastInstance);
-                    this.formService.getUser(form.ownerId).subscribe((user) => {
-                        form.ownerName = user.firstName + " " + user.lastName;
-                    })
-                });*/
+                this.formsFromBackend = res;
+             
             });
         } else {
             console.error("not user connected");
@@ -38,15 +41,30 @@ export class ViewFormsComponent {
     } else {
         this.formService.getPublicForms().subscribe((res) => {
             this.forms = res;
-           /* this.forms.forEach((form) => {
-                this.formService.getUser(form.ownerId).subscribe((user) => {
-                    form.ownerName = user.firstName + " " + user.lastName;
-                })
-            });*/
+            this.formsFromBackend = res;
+         
         });
     }
     }
+    askToggleFilter() {
+        console.log(this.filterIsVisible);
+        this.filterIsVisible = !this.filterIsVisible;
+        console.log(this.filterIsVisible);
 
+    }
+
+    applyFilter() {
+        const lowerCaseFilter = this.filterText.toLowerCase();
+        this.filtredForms = this.forms?.filter((form) => 
+            form.title.toLowerCase().includes(lowerCaseFilter) ||
+            form.description?.toLowerCase().includes(lowerCaseFilter)||
+            form.ownerFirstName?.toLowerCase().includes(lowerCaseFilter) ||
+            form.ownerLastName?.toLowerCase().includes(lowerCaseFilter) ||
+            form.ownerEmail?.toLowerCase().includes(lowerCaseFilter)
+        );
+        
+        this.filterText != '' ? this.forms = this.filtredForms : this.forms = this.formsFromBackend;
+    }
 
 
 }
