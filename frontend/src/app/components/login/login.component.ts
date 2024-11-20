@@ -2,7 +2,7 @@ import { Component, OnInit} from "@angular/core";
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { AuthenticationService } from "src/app/services/authentication.service";
-import { th } from "date-fns/locale";
+import { th, tr } from "date-fns/locale";
 
 @Component({
     templateUrl: 'login.component.html',
@@ -58,6 +58,14 @@ export class LoginComponent implements OnInit {
             password: password
         });
         this.onSubmit();
+    }
+
+    loginAsGuest() {
+        this.submitted = true;
+        
+        
+       this.authenticationService.loginAsGuest();
+       this.router.navigate(['/view_forms']);
     }
 
     onSubmit() {

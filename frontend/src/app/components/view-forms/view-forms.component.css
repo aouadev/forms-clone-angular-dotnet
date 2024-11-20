@@ -26,20 +26,28 @@
 
 .form-title {
     font-size: 20px;
-    align-self: flex-start;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
-    background-color: blue;
+    
+    padding: 5px;
 
    
 }
 .form-description {
     font-style: italic;
     font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    padding: 10px;
+    overflow: hidden;
+
 }
-.public-icon {
-    margin-left: 150px;
-    background-color: yellow;
-}
+
 
 .started, .completed, .card-link{
     font-size: 14px;
@@ -48,4 +56,5 @@
 }
 .card-link {
     text-decoration: none;
+    margin: 10px;
 }

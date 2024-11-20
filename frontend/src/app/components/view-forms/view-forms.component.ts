@@ -12,26 +12,41 @@ import { AuthenticationService } from "src/app/services/authentication.service";
 })
 export class ViewFormsComponent {
     forms?: Form[];
-    
+    currentUser?: User;
+
     constructor(private formService: FormService,
-                 private authenticationService : AuthenticationService) {}
+                 private authenticationService : AuthenticationService) {
+                    this.currentUser = this.authenticationService.currentUser;
+                 }
                   
     ngOnInit() {
-       const userId = this.authenticationService.currentUser?.id;
-       if (userId) {
-        this.formService.getMyForms(userId).subscribe((res) => {
+       if (this.authenticationService.currentUser?.roleAsString != 'guest') {
+        const userId = this.authenticationService.currentUser?.id;
+        if (userId) {
+            this.formService.getMyForms(userId).subscribe((res) => {
+                this.forms = res;
+               /* this.forms.forEach((form) => {
+                    console.log(form.lastInstance);
+                    this.formService.getUser(form.ownerId).subscribe((user) => {
+                        form.ownerName = user.firstName + " " + user.lastName;
+                    })
+                });*/
+            });
+        } else {
+            console.error("not user connected");
+        }
+    } else {
+        this.formService.getPublicForms().subscribe((res) => {
             this.forms = res;
-            this.forms.forEach((form) => {
-                console.log(form.lastInstance);
+           /* this.forms.forEach((form) => {
                 this.formService.getUser(form.ownerId).subscribe((user) => {
                     form.ownerName = user.firstName + " " + user.lastName;
                 })
-            });
+            });*/
         });
-    } else {
-        console.error("not user connected");
     }
     }
+
 
 
 }

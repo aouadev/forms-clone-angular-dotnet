@@ -13,6 +13,10 @@ public class FormDTO {
 public class FormWithInstanceDTO : FormDTO {
     public ICollection<InstanceDTO> InstanceDTOs { get; set; } = new HashSet<InstanceDTO>();
 }
-public class FormWithLastInstanceDto : FormDTO {
+public class FormWithLastInstanceDTO : FormDTO {
     public Instance? LastInstance { get; set; }
+}
+public class FormWithUserDetailsDTO : FormWithLastInstanceDTO{
+    public string? FirstName { get; set;}
+    public string? LastName { get; set; }
 }

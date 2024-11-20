@@ -28,4 +28,10 @@ export class FormService {
 
         );
     }
+
+    getPublicForms(): Observable<Form[]> {
+        return this.http.get<any[]>(`${this.baseUrl}api/guestForm`).pipe(
+            map(res => plainToInstance(Form, res))
+        );
+    }
 }

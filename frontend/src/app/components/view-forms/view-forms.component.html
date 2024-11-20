@@ -5,7 +5,7 @@
  
     @for(form of forms; track form.formId) {
         
-        <form-card [form]="form" class="form-card"> </form-card>
+        <form-card [form]="form" [currentUser] = "currentUser" class="form-card"> </form-card>
     
     }
 
