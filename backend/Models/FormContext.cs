@@ -12,6 +12,11 @@ public class FormContext : DbContext
         modelBuilder.Entity<User>().HasIndex(u => new{u.FirstName,u.LastName}).IsUnique();
         modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
         modelBuilder.Entity<FormAccess>().HasKey(a => new{a.FormId, a.UserId});
+        modelBuilder.Entity<OptionValue>().HasKey(o => new {o.OptionListId, O.Idx});
+        modelBuilder.Entity<OptionList>().HasIndex(o => new{o.Owner, o.Name}).IsUnique();
+        modelBuilder.Entity<OptionValue>().HasIndex(o => new{o.OptionListId, o.Label}).IsUnique();
+        modelBuilder.Entity<Question>().HasIndex(o => new{o.Form, o.Title}).IsUnique( );
+        modelBuilder.Entity<Answer>().HasIndex(o => new{o.AnstanceId, o.QuestionId}).IsUnique( );
 
        /* int count = 0;
         

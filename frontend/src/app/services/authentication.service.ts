@@ -23,6 +23,7 @@ export class AuthenticationService {
             data = JSON.parse(data);
         this.currentUser = plainToClass(User, data);
         console.log(data);
+        console.log(this.currentUser);
         }
         else {
             this.GuestMode = true;

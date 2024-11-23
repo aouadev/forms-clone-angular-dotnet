@@ -12,6 +12,7 @@ namespace prid_2425_f06.Models
         public bool IsPublic { get; set; } = false;
         public ICollection<FormAccess> Accesses { get; set; } = new HashSet<FormAccess>();
         public ICollection<Instance> Instances { get; set; } = new HashSet<Instance>();
+        public ICollection<Question> Questions { get; set;} = new HashSet<Question>();
         
 
 

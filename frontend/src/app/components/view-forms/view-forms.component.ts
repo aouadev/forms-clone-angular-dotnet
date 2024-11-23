@@ -31,7 +31,7 @@ export class ViewFormsComponent {
             const userId = this.currentUser?.id;
             if (userId) {
                 console.log("role:" + this.currentUser?.role);
-                if (this.currentUser?.role == Role.Admin) {
+            if (this.currentUser?.role == Role.Admin) {
                     console.log(this.currentUser?.role);
                     this.formService.getAllForms().subscribe((res) => {
                         this.forms = res;

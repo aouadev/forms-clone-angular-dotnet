@@ -11,6 +11,8 @@ namespace prid_2425_f06.Models
         public int UserId { get; set; } 
         public DateTimeOffset Started { get; set; } = DateTimeOffset.Now;
         public DateTimeOffset? Completed { get; set; }
+
+        public ICollection<Answer> Answers { get; set; } = new HashSet<Answers>();
         
         
     }
