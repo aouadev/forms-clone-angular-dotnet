@@ -66,9 +66,9 @@ export class ViewFormsComponent {
         this.filtredForms = this.forms?.filter((form) => 
             form.title.toLowerCase().includes(lowerCaseFilter) ||
             form.description?.toLowerCase().includes(lowerCaseFilter)||
-            form.ownerFirstName?.toLowerCase().includes(lowerCaseFilter) ||
-            form.ownerLastName?.toLowerCase().includes(lowerCaseFilter) ||
-            form.ownerEmail?.toLowerCase().includes(lowerCaseFilter)
+            form.owner.firstName?.toLowerCase().includes(lowerCaseFilter) ||
+            form.owner.lastName?.toLowerCase().includes(lowerCaseFilter) ||
+            form.owner.email?.toLowerCase().includes(lowerCaseFilter)
         );
         
         this.filterText != '' ? this.forms = this.filtredForms : this.forms = this.formsFromBackend;

@@ -7,11 +7,13 @@ import { AuthGuard } from '../services/auth.guard';
 import { Role } from '../models/user';
 import { RestrictedComponent } from '../components/restricted/restricted.component';
 import { ViewFormsComponent } from '../components/view-forms/view-forms.component';
+import { InstanceComponent } from '../components/instance/instance.component';
 
 const appRoutes: Routes = [
     {path: '', component: LoginComponent, pathMatch: 'full'},
     {path: 'login', component: LoginComponent },
     {path: 'view_forms', component: ViewFormsComponent},
+    {path: 'instance', component: InstanceComponent},
     {   
         path: 'template',
         component: TemplateComponent,

@@ -12,6 +12,11 @@ namespace prid_2425_f06.Models
             context.Forms.AddRange(ImportCsvData<Form, FormMap>(@"Models\Data\forms.csv"));
             context.FormsAccess.AddRange(ImportCsvData<FormAccess, FormAccessMap>(@"Models\Data\user_form_accesses.csv"));
             context.Instances.AddRange(ImportCsvData<Instance, InstanceMap>(@"Models\Data\instances.csv"));
+            context.Questions.AddRange(ImportCsvData<Question, QuestionMap>(@"Models\Data\questions.csv"));
+            context.Answers.AddRange(ImportCsvData<Answer, AnswerMap>(@"Models\Data\answers.csv"));
+            context.OptionLists.AddRange(ImportCsvData<OptionList, OptionListMap>(@"Models\Data\option_lists.csv"));
+            context.OptionValues.AddRange(ImportCsvData<OptionValue, OptionValueMap>(@"Models\Data\option_values.csv"));
+
             context.SaveChanges();
         }
 
@@ -76,4 +81,44 @@ namespace prid_2425_f06.Models
             Map(i => i.Completed).Name("completed");
         }
     }
+    internal sealed class QuestionMap : ClassMap<Question> {
+        public QuestionMap() {
+            Map(q => q.Id).Name("id");
+            Map(q => q.FormId).Name("form");
+            Map(q => q.Idx).Name("idx");
+            Map(q => q.Title).Name("title");
+            Map(q => q.Description).Name("description");
+            Map(q => q.Type)
+                .Convert(data => Enum.Parse<QuestionType>(data.Row.GetField("type") ?? "", true)); 
+            Map(q => q.Required).Name("required");
+            Map(q => q.OptionListId).Name("option_list");
+        }
+    }
+
+    internal sealed class AnswerMap : ClassMap<Answer> {
+        public AnswerMap() {
+            Map(a => a.InstanceId).Name("instance");
+            Map(a => a.QuestionId).Name("question");
+            Map(a => a.Idx).Name("idx");
+            Map(a => a.Value).Name("value");
+        }
+    }
+
+    internal sealed class OptionListMap : ClassMap<OptionList> {
+        public OptionListMap() {
+            Map(o => o.Id).Name("id");
+            Map(o => o.Name).Name("name");
+            Map(o => o.OwnerId).Name("owner");
+        }
+    }
+
+    internal sealed class OptionValueMap : ClassMap<OptionValue> {
+        public OptionValueMap() {
+            Map(o => o.OptionListId).Name("option_list");
+            Map(o => o.Idx).Name("idx");
+            Map(o => o.Label).Name("label");
+        }
+    }
+
+    
 }

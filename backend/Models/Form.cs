@@ -4,6 +4,11 @@ namespace prid_2425_f06.Models
 {
     public class Form
     {
+        private readonly FormContext? _formContext;
+        public Form() {}
+        public Form(FormContext formContext) {
+            this._formContext = formContext;
+        }
         [Key]
         public int FormId { get; set; }
         public string Title { get; set; } = null!;

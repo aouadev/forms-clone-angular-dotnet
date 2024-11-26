@@ -1,0 +1,42 @@
+<mat-toolbar>
+    <button mat-icon-button>
+        <mat-icon (click)="arrowBack()">arrow_back_ios</mat-icon>
+    </button>
+    <span classe="title"> Answer Form</span>
+    <span class="spacer"></span>
+    <button mat-icon-button>
+        <mat-icon (click)="arrowBack()">chevron_left</mat-icon>
+    </button>
+    <button mat-icon-button>
+        <mat-icon (click)="arrowBack()">chevron_right</mat-icon>
+    </button>
+    <button mat-icon-button>
+        <mat-icon (click)="arrowBack()">delete</mat-icon>
+    </button>
+    <button mat-icon-button>
+        <mat-icon (click)="arrowBack()">save</mat-icon>
+    </button>
+
+</mat-toolbar>
+<div class="body-container">
+   <div class="form-info">
+        <div class="form-info-label">Title:</div>
+        <div class="form-info-data"> {{form.title}}</div>
+   </div> 
+   <div class="form-info">
+    <div class="form-info-label">Description:</div>
+    <div class="form-info-data">{{form.description}}</div>
+</div> 
+<div class="form-info">
+    <div class="form-info-label">Started:</div>
+    <div class="form-info-data">{{form.lastInstance.started | date:'dd/MM/yyyy HH:mm:ss'}}</div>
+</div> 
+<div class="form-info">
+    <div class="form-info-label">Completed:</div>
+    <div class="form-info-data">{{(form.lastInstance.completed | date:'dd/MM/yyyy HH:mm:ss')}}</div>
+</div> 
+</div>
+<div class="questions">
+    <div class="card-question-title">{{size}}</div>
+    <question-card></question-card>
+</div>

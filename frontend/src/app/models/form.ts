@@ -1,16 +1,16 @@
 import { Instance } from "./instance";
+import { Question } from "./question";
+import { User } from "./user";
 
 export class Form {
     lastInstance: Instance = null!;
-    ownerFirstName: string = '';
-    ownerLastName: string= '';
-    ownerEmail: string= '';
+    owner: User = null!
     formId: number = 0;
     title: string = '';
     description: string = '';
-    ownerId: number = 0;
-    ownerName: string = '';
     isPublic: boolean = false;
-   
+}
 
+export class formDetailed extends Form {
+    questions: Question[] = [];
 }

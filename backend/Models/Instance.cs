@@ -4,16 +4,25 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace prid_2425_f06.Models
 {
     public class Instance
-    {
+    {   
+        private readonly FormContext? _context;
+        public Instance(FormContext context){
+            this._context = context;
+        }
+        public Instance(){}
         [Key]
         public int InstanceId { get; set; }
-        public int FormId { get; set; } 
+        [ForeignKey(nameof(Form))]
+        public int? FormId { get; set; } 
+        public Form? Form { get; set; }
         public int UserId { get; set; } 
         public DateTimeOffset Started { get; set; } = DateTimeOffset.Now;
         public DateTimeOffset? Completed { get; set; }
 
-        public ICollection<Answer> Answers { get; set; } = new HashSet<Answers>();
+        public ICollection<Answer> InstanceAnswers { get; set; } = new HashSet<Answer>();
         
         
     }
+
+
 }

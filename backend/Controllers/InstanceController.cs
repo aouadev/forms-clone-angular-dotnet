@@ -24,19 +24,25 @@ public class InstanceController : ControllerBase {
     }
 
     
-    [HttpGet("{id}")]
-    public async Task<ActionResult<IEnumerable<InstanceDTO>>> GetInstance(int id) {                 
-        var query = from instance in _context.Instances
-                    where instance.UserId == id
-                    group instance by instance.FormId into g
-                    select g.OrderByDescending(i => i.InstanceId).FirstOrDefault();
-                    return  _mapper.Map<List<InstanceDTO>>(await query.ToListAsync());
-                    
+[HttpGet("{id}")]
+public async Task<ActionResult<InstanceWithFormDetailedDTO>> GetInstance(int id) {                 
+    var instance = await _context.Instances
+        .Where(i => i.InstanceId == id)
+        .Include(i => i.Form)
+        .ThenInclude(f => f.Questions)
+        .ThenInclude(q => q.Answers.Where(a => a.InstanceId == id))
+        .Include(i => i.Form)
+        .ThenInclude(f => f.Questions)
+        .ThenInclude(q => q.OptionList)
+        .ThenInclude(o => o.OptionValues)
+        .FirstOrDefaultAsync();
 
-                
-        
-                
+    if (instance == null)
+        return NotFound(); // Gère le cas où l'instance n'existe pas.
 
-    }
+  
+    return _mapper.Map<InstanceWithFormDetailedDTO>(instance); 
+}
+
 
 }

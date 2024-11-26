@@ -1,0 +1,28 @@
+.body-container{
+  display: flex;
+  flex-direction: column;
+
+  
+   margin-top: 100px;
+
+  
+}
+.form-info {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    margin: 20px;
+    
+}
+.form-info-label {
+    color: gray;
+    flex: 1;
+}
+.form-info-data {
+    flex:7;
+    font-weight: bold;
+}
+.questions {
+    width: 400px;
+}

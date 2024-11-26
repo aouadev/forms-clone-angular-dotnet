@@ -7,17 +7,27 @@ public enum QuestionType{
 }
 
     public class Question {
+        private readonly FormContext? _context;
+        public Question(FormContext context) {
+            this._context = context;
+        }
+        public Question() {}
         [Key]
         public int Id { get; set; }
-        public int Form { get; set; } = 0;
+        [ForeignKey(nameof(Form))]
+        public int FormId { get; set; } = 0;
+        
         public int Idx { get; set; } = 0;
         public string Title { get; set; } = null!;
         public string? Description { get; set; }
-        public QuestionType Type { get; set; } = null!;
+        public QuestionType Type { get; set; } = QuestionType.Short;
         public bool Required { get; set; } = false;
-        public int? OptionList { get; set; }
+         [ForeignKey(nameof(OptionList))]
+        public int? OptionListId { get; set; }
+        public OptionList? OptionList { get; set; }
+    
 
-        public ICollection<Answers> Answers  {get; set;} = new HashSet<Answer>();
-        public ICollection<OptionList> Options {get; set; } = new HashSet<OptionList>();  
+        public ICollection<Answer> Answers  {get; set;} = new HashSet<Answer>();
+       // public ICollection<OptionList> Options {get; set; } = new HashSet<OptionList>();  
         
     }

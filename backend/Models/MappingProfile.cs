@@ -21,10 +21,38 @@ public class MappingProfile : Profile
         CreateMap<Instance, InstanceDTO>();
         CreateMap<InstanceDTO, Instance>();
 
+        CreateMap<Instance, InstanceWithFormDetailedDTO>();
+        CreateMap<InstanceWithFormDetailedDTO, Instance>();
+
         CreateMap<Form, FormWithLastInstanceDTO>();
         CreateMap<FormWithLastInstanceDTO, Form>();
         CreateMap<Form, FormWithUserDetailsDTO>();
         CreateMap<FormWithUserDetailsDTO, Form>();
+
+        CreateMap<OptionValue, OptionValueDTO>();
+        CreateMap<OptionValueDTO, OptionValueDTO>();
+
+       /* CreateMap<OptionList, OptionListWithValuesDTO>();
+        CreateMap<OptionListWithValuesDTO, OptionList>();*/
+
+        CreateMap<OptionList, OptionListDTO>();
+        CreateMap<OptionListDTO, OptionList>();
+
+       /* CreateMap<QuestionWithOLDetailsDTO, Question>();
+        CreateMap<Question, QuestionWithOLDetailsDTO>();*/
+
+        CreateMap<Form, FormWithQuestionAndAnswersDTO>();
+        CreateMap<FormWithQuestionAndAnswersDTO, Form>();
+
+        CreateMap<Question, QuestionDTO>();
+        CreateMap<QuestionDTO, Question>();
+
+        CreateMap<Answer, AnswerDTO>();
+        CreateMap<AnswerDTO, Answer>();
+
+        CreateMap<Question, QuestionWithAnswersDTO>();
+        CreateMap<QuestionWithAnswersDTO, Question>();
+
     }
     
     

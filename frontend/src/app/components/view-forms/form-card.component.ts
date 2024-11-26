@@ -9,7 +9,7 @@ import { OpenFormConfirmComponent } from 'src/app/components/openFormConfirm/ope
 @Component({
     selector: 'form-card',
     templateUrl: './form-card.component.html',
-     styleUrl: './view-forms.component.css'
+    styleUrl: './view-forms.component.css'
 })
 export class FormCardComponent {
     @Input() form!: Form;
@@ -21,7 +21,7 @@ export class FormCardComponent {
 
     canManage() : boolean {
         return this.currentUser?.role == Role.Admin 
-        || this.currentUser?.id == this.form.ownerId;
+        || this.currentUser?.id == this.form.owner.id;
     }
 
     canOpenFormConfirm(): boolean {
@@ -35,7 +35,7 @@ export class FormCardComponent {
 
     openDialog(): void {
         this.confirmDialog.open(OpenFormConfirmComponent, {
-            data: {}
+            data: {form: this.form}
         });
     }
 }

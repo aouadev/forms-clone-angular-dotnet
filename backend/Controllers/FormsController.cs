@@ -22,7 +22,7 @@ public class FormsController : ControllerBase {
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<FormWithUserDetailsDTO>>> GetMyForms() {
-        var id =  int.Parse(User.Identity.Name);
+        var id =  int.Parse(User?.Identity.Name);
         Console.WriteLine("id :::", id);
         var myForms = await _context.Forms.Where(f => f.OwnerId == id || f.IsPublic == true).ToListAsync();
         var formsIds = await _context.FormsAccess.Where(f => f.UserId == id).Select(fa => fa.FormId).ToListAsync();
@@ -30,16 +30,14 @@ public class FormsController : ControllerBase {
         var AllMyForms = myForms.Concat(myformsAccess);
         List<FormWithUserDetailsDTO> forms = new List<FormWithUserDetailsDTO>();
         foreach (var form in AllMyForms) {
-            var owner = await _context.Users.Where(u => u.Id == form.OwnerId).FirstOrDefaultAsync();
+            var owner = _mapper.Map<UserDTO>(await _context.Users.Where(u => u.Id == form.OwnerId).FirstOrDefaultAsync());
             var lastInstance = await _context.Instances.Where(i => i.FormId == form.FormId && i.UserId == id )
                                                         .OrderByDescending(i => i.InstanceId)
                                                         .FirstOrDefaultAsync();
             
                 var f = _mapper.Map<FormWithUserDetailsDTO>(form);
-                f.OwnerFirstName = owner.FirstName;        //Récupérer les infos du créateur du form pour les mettre dans le dto
-                f.OwnerLastName = owner.LastName;
-                f.LastInstance = lastInstance;
-                f.OwnerEmail = owner.Email;
+                f.Owner = owner;
+                f.LastInstance = _mapper.Map<InstanceDTO>(lastInstance);
                 forms.Add(f);
         }
       

@@ -76,7 +76,7 @@ public class UserValidator : AbstractValidator<User>
         string regex = @"^.{3,10}$";
         return Regex.IsMatch(password, regex, RegexOptions.IgnoreCase);
     }
-    private bool IsValidName(string firstName, string lastName) {
+    private bool IsValidName(string? firstName, string? lastName) {
        return string.IsNullOrEmpty(firstName) && string.IsNullOrWhiteSpace(lastName) ||
        ValidateName(firstName) && ValidateName(lastName);
 

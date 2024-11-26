@@ -20,6 +20,8 @@ import { RestrictedComponent } from '../components/restricted/restricted.compone
 import { ViewFormsComponent } from '../components/view-forms/view-forms.component';
 import { FormCardComponent } from '../components/view-forms/form-card.component';
 import { OpenFormConfirmComponent } from '../components/openFormConfirm/openFormConfirm.component';
+import { InstanceComponent } from '../components/instance/instance.component';
+import { QuestionComponent } from '../components/instance/QuestionComponent';
 
 @NgModule({
     declarations: [
@@ -32,7 +34,9 @@ import { OpenFormConfirmComponent } from '../components/openFormConfirm/openForm
         RestrictedComponent,
         ViewFormsComponent,
         FormCardComponent,
-        OpenFormConfirmComponent
+        OpenFormConfirmComponent,
+        InstanceComponent,
+        QuestionComponent
     ],
     imports: [
         BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

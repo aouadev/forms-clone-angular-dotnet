@@ -20,10 +20,8 @@ public class GuestFormcontroller : ControllerBase {
         List<FormWithUserDetailsDTO> guestForms = new List<FormWithUserDetailsDTO>();
         foreach (var form in forms) {
             FormWithUserDetailsDTO f = _mapper.Map<FormWithUserDetailsDTO>(form);
-            var owner = await _context.Users.Where(u => u.Id == form.OwnerId).FirstOrDefaultAsync();
-            f.OwnerFirstName = owner.FirstName;
-            f.OwnerLastName = owner.LastName;
-            f.OwnerEmail = owner.Email;
+            var owner = _mapper.Map<UserDTO>(await _context.Users.Where(u => u.Id == form.OwnerId).FirstOrDefaultAsync());
+            f.Owner = owner;
             guestForms.Add(f);
         }
         return guestForms;
