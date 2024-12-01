@@ -34,8 +34,14 @@ export class FormCardComponent {
     }
 
     openDialog(): void {
+        const activeElement = document.activeElement;
+        if (activeElement instanceof HTMLElement) {
+        activeElement.blur();
+        }
         this.confirmDialog.open(OpenFormConfirmComponent, {
-            data: {form: this.form}
+            data: {form: this.form},
+            disableClose: true,
+            autoFocus: true,
         });
     }
 }

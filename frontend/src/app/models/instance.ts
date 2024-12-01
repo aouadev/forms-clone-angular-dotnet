@@ -10,6 +10,8 @@ export class Instance {
 
 }
 
+
+
 export class InstanceWithFormDetailed extends Instance {
     form? : formDetailed;
 

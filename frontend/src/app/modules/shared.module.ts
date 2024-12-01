@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
@@ -30,7 +31,7 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
         MatSlideToggleModule, MatDialogModule, MatSnackBarModule, MatTabsModule,
         MatSelectModule, MatCardModule, MatDatepickerModule, MatDateFnsModule,
         MatTooltipModule, MatMenuModule, MatToolbarModule, MatListModule, MatGridListModule,
-        MatAutocompleteModule
+        MatAutocompleteModule, MatRadioModule
     ],
     exports: [
         MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule,
@@ -38,7 +39,7 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
         MatSlideToggleModule, MatDialogModule, MatSnackBarModule, MatTabsModule,
         MatSelectModule, MatCardModule, MatDatepickerModule, MatDateFnsModule,
         MatTooltipModule, MatMenuModule, MatToolbarModule, MatListModule, MatGridListModule,
-        MatAutocompleteModule
+        MatAutocompleteModule, MatRadioModule
     ],
 })
 

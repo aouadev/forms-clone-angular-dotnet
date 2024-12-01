@@ -24,6 +24,7 @@ public class FormsController : ControllerBase {
     public async Task<ActionResult<IEnumerable<FormWithUserDetailsDTO>>> GetMyForms() {
         var id =  int.Parse(User?.Identity.Name);
         Console.WriteLine("id :::", id);
+       
         var myForms = await _context.Forms.Where(f => f.OwnerId == id || f.IsPublic == true).ToListAsync();
         var formsIds = await _context.FormsAccess.Where(f => f.UserId == id).Select(fa => fa.FormId).ToListAsync();
         var myformsAccess = await _context.Forms.Where(f => formsIds.Contains(f.FormId)).ToListAsync();
@@ -42,6 +43,11 @@ public class FormsController : ControllerBase {
         }
       
         return forms.OrderBy(f => f.Title).ToList();
+    }
+
+    public void Test() {
+        var id = User.Identity.Name;
+        Console.WriteLine("user : " + id);
     }
 
 

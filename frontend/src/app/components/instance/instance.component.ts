@@ -1,9 +1,10 @@
-import { Component } from "@angular/core";
-import { Form } from "src/app/models/form";
+import { Component, ViewChild, ElementRef } from "@angular/core";
+import { Form, formDetailed } from "src/app/models/form";
 import { Router } from "@angular/router";
 import { Instance, InstanceWithFormDetailed } from "src/app/models/instance";
 import { InstanceService } from "src/app/services/instance.service";
 import { Question } from "src/app/models/question";
+import { Answer } from "src/app/models/answer";
 
 @Component({
     selector: 'instance',
@@ -16,9 +17,12 @@ import { Question } from "src/app/models/question";
 })
 export class InstanceComponent {
     form: Form;
-    instance?: InstanceWithFormDetailed;
-    questions?: Question[];
-    size?: number;
+    submit: boolean = false;
+    instance: InstanceWithFormDetailed = null!;
+    questions: Question[] = [];
+    questionNumber: number = 0;
+
+    
     constructor(private router: Router, private instanceService: InstanceService){
         const navigation = this.router.getCurrentNavigation();
         this.form = navigation?.extras.state?.['form'];
@@ -27,8 +31,12 @@ export class InstanceComponent {
     ngOnInit() {
         this.instanceService.getInstance(this.form?.lastInstance.instanceId).subscribe((res) => {
             this.instance = res;
-            this.questions = this.instance.form?.questions;
-            this.size = this.questions?.length;
+            if(this.instance.form) {
+                this.questions = this.instance.form.questions;
+                
+            }
+
+         
             console.log(res);
         })
     }
@@ -36,4 +44,18 @@ export class InstanceComponent {
     arrowBack() {
         this.router.navigate(['/forms']);
     }
+    
+    incrementQuestion() {
+        if ( this.questions && this.questionNumber < this.questions.length - 1)
+            ++this.questionNumber;
+        
+    }
+
+    decrementQuestion() {
+        if (this.questionNumber > 0)
+            --this.questionNumber;
+        
+    }
+  
+      
 }

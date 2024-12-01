@@ -21,7 +21,7 @@ import { ViewFormsComponent } from '../components/view-forms/view-forms.componen
 import { FormCardComponent } from '../components/view-forms/form-card.component';
 import { OpenFormConfirmComponent } from '../components/openFormConfirm/openFormConfirm.component';
 import { InstanceComponent } from '../components/instance/instance.component';
-import { QuestionComponent } from '../components/instance/QuestionComponent';
+import { QuestionCardComponent } from '../components/instance/QuestionCardComponent';
 
 @NgModule({
     declarations: [
@@ -36,7 +36,7 @@ import { QuestionComponent } from '../components/instance/QuestionComponent';
         FormCardComponent,
         OpenFormConfirmComponent,
         InstanceComponent,
-        QuestionComponent
+        QuestionCardComponent
     ],
     imports: [
         BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

@@ -12,6 +12,7 @@ public class Answer {
     public int InstanceId { get; set; } = 0;
     [ForeignKey(nameof(Question))]
     public int QuestionId { get; set; } = 0;
+    public Question Question { get; set; }
     public int Idx { get; set; } = 0;
     public string Value { get; set; } = "";
 }
