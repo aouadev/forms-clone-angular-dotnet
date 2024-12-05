@@ -45,9 +45,14 @@ public class FormsController : ControllerBase {
         return forms.OrderBy(f => f.Title).ToList();
     }
 
-    public void Test() {
-        var id = User.Identity.Name;
-        Console.WriteLine("user : " + id);
+    [HttpGet("{id}")]
+    public async Task<ActionResult<FormWithQuestionAndAnswersDTO>> GetFormsQuestions(int id) {
+        var form = await _context.Forms.Where(f => f.FormId == id)
+                  .Include(f => f.Questions)
+                  .ThenInclude(q => q.OptionList)
+                  .ThenInclude(o => o.OptionValues)
+                  .FirstOrDefaultAsync();
+        return _mapper.Map<FormWithQuestionAndAnswersDTO>(form);          
     }
 
 

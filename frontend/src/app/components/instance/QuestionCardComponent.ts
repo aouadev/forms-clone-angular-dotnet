@@ -1,4 +1,8 @@
+import { I18nPluralPipe } from "@angular/common";
 import { Component, Input } from "@angular/core";
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from "@angular/forms";
+import { Answer } from "src/app/models/answer";
+import { Instance } from "src/app/models/instance";
 import { OptionValue } from "src/app/models/optionValue";
 import { Question } from "src/app/models/question";
 
@@ -10,16 +14,74 @@ import { Question } from "src/app/models/question";
     ]
 })
 export class QuestionCardComponent {
-    @Input() questionNumber: number = 0;
-    @Input() questions: Question[] = [];
-    constructor() {}
+    @Input() question: Question = null!;
+    @Input() instance?: Instance;
+    
+    answerValue: string = "";
+    selectedValue: string ="";
+    dateValue: string = "";
+    emailValue: string = "";
+    emailForm: FormGroup;
+    integerForm: FormGroup;
+    
+    constructor(private fb: FormBuilder) {
+        this.emailForm = this.fb.group({
+            email: ['',[Validators.required, Validators.email]]
+        });
+        this.integerForm = this.fb.group({
+            integer: ['', [Validators.required, this.integerValidator]]
+        })
+        console.log("Selected value:", this.selectedValue);
+      }
+      ngOnInit() {
+        this.selectedValue = this.getAnswerValue();
+      }
+   
+
+      integerValidator(control: AbstractControl): ValidationErrors | null {
+        const value = control.value;
+        if (value === null || value === undefined || value === '') {
+            return null;
+        }
+        console.log(Number.isInteger(+value))
+        return Number.isInteger(+value) ? null : { notInteger: true};
+      }
+
+  
+          
+      
+        getAnswerValue(): string{
+            if (!this.question.answers[0]) {
+              this.question.answers[0] = Object.assign(new Answer(), {
+                instanceId: this.instance?.instanceId,
+                questionId: this.question.id,
+                idx: 0,
+                value: '',
+              });
+            }
+          
+            return this.question.answers[0].value;
+          }
+          
+          setAnswerValue(value: string): void {
+            if (!this.question.answers[0]) {
+              this.question.answers[0] = Object.assign(new Answer(), {
+                instanceId: this.instance?.instanceId,
+                questionId: this.question.id,
+                idx: 0,
+              });
+            }
+            this.question.answers[0].value = value;
+          }
+            
+ 
 
     isChecked(idx: number) {
-        return this.questions[this.questionNumber].answers.some(answer => Number(answer.value) == idx)
+        return this.question.answers.some(answer => Number(answer.value) == idx)
     }
 
     onCheckboxChange(checked: boolean, idx: number): void {
-        const answers = this.questions[this.questionNumber].answers;
+        const answers = this.question.answers;
         if (checked) {
             // answers.push({ value: idx });
             console.log("answer");
@@ -31,5 +93,17 @@ export class QuestionCardComponent {
           }
         }
       }
+
+      isValidEmail() {
+
+      }
+
+        // Appelé lors du changement de sélection dans le mat-select
+  onSelectionChange(event: any): void {
+    this.selectedValue = event.value; // Récupère la valeur sélectionnée
+    console.log('Selected value:', this.selectedValue);
+  }
+      
+      
       
 }

@@ -30,11 +30,11 @@
         </div> 
         <div class="form-info-line">
             <div class="form-info-label">Started:</div>
-            <div class="form-info-data">{{form.lastInstance.started | date:'dd/MM/yyyy HH:mm:ss'}}</div>
+            <div class="form-info-data">{{instance?.started | date:'dd/MM/yyyy HH:mm:ss'}}</div>
         </div> 
         <div class="form-info-line">
             <div class="form-info-label">Completed:</div>
-            <div class="form-info-data">{{(form.lastInstance.completed | date:'dd/MM/yyyy HH:mm:ss')}}</div>
+            <div class="form-info-data">{{(instance?.completed | date:'dd/MM/yyyy HH:mm:ss')}}</div>
         </div>
     </div> 
 
@@ -43,6 +43,6 @@
     <div class="card-title">Question {{questionNumber + 1}}/ {{questions.length}}
     </div>
 }
-    <question-card [questionNumber]="questionNumber" [questions]="questions"></question-card>
+    <question-card [question]="questions[questionNumber]" [instance]="instance" ></question-card>
 </div>
 </div>

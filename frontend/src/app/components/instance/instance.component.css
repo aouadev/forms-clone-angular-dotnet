@@ -32,6 +32,7 @@
     flex-direction: column;
    
     padding: 30px;
+   
 
     
    
@@ -43,21 +44,12 @@
     min-width: 330px;
     min-height: 200px;
     padding: 20px;
-    
-    
-
-
-    
 }
 .card-title {
 
     text-align: center;
     margin-bottom: 10px;
     font-style: italic;
-    
-    
-    
-    
 }
 .question-description {
     font-style: italic;
@@ -69,13 +61,7 @@
 }
 .checkbox {
     display: flex;
-   
- 
     padding: 5px 10px;
-
-   
-    
-    
 }
 .optionValue {
     
@@ -83,10 +69,11 @@
     flex-wrap: wrap;
     gap: 10px;
     margin: 10px;
-    
-    
-    
+}
 
+mat-form-field {
+  
+    min-width: 300px;
 }
 button[mat-icon-button][disabled] mat-icon {
     color: rgba(255, 255, 255, 0.38); /* Couleur atténuée pour l'icône */
@@ -96,4 +83,6 @@ button[mat-icon-button][disabled] mat-icon {
     flex:1;
     
   }
+
+  
   

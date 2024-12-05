@@ -3,7 +3,7 @@ import { Question } from "./question";
 import { User } from "./user";
 
 export class Form {
-    lastInstance: Instance = null!;
+    lastInstance?: Instance;
     owner: User = null!
     formId: number = 0;
     title: string = '';
@@ -11,6 +11,6 @@ export class Form {
     isPublic: boolean = false;
 }
 
-export class formDetailed extends Form {
+export class FormDetailed extends Form {
     questions: Question[] = [];
 }

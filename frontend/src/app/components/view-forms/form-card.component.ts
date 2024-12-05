@@ -5,6 +5,7 @@ import { format, formatISO} from 'date-fns';
 import { from } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { OpenFormConfirmComponent } from 'src/app/components/openFormConfirm/openFormConfirm.component';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'form-card',
@@ -15,7 +16,8 @@ export class FormCardComponent {
     @Input() form!: Form;
     @Input() currentUser? : User;
     constructor(
-        public confirmDialog: MatDialog) {
+        public confirmDialog: MatDialog,
+        private router: Router) {
 
         }
 
@@ -29,7 +31,7 @@ export class FormCardComponent {
         && !!this.form.lastInstance?.completed;
     }
     handleButtonOpen() {
-        this.canOpenFormConfirm() ? this.openDialog() : console.log("action annulé");
+        this.canOpenFormConfirm() ? this.openDialog() : this.createInstance();
 
     }
 
@@ -43,5 +45,8 @@ export class FormCardComponent {
             disableClose: true,
             autoFocus: true,
         });
+    }
+    createInstance() {
+        this.router.navigate(['instance'], {state: {form: this.form}});
     }
 }
