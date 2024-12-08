@@ -14,7 +14,7 @@ import { Question } from "src/app/models/question";
     ]
 })
 export class QuestionCardComponent {
-    @Input() question: Question = null!;
+    @Input() question?: Question;
     @Input() instance?: Instance;
     
     answerValue: string = "";
@@ -33,9 +33,7 @@ export class QuestionCardComponent {
         })
         console.log("Selected value:", this.selectedValue);
       }
-      ngOnInit() {
-        this.selectedValue = this.getAnswerValue();
-      }
+    
    
 
       integerValidator(control: AbstractControl): ValidationErrors | null {
@@ -50,48 +48,47 @@ export class QuestionCardComponent {
   
           
       
-        getAnswerValue(): string{
-            if (!this.question.answers[0]) {
+        getAnswerValue(){
+            /*if (!this.question?.answers[0]) {
               this.question.answers[0] = Object.assign(new Answer(), {
                 instanceId: this.instance?.instanceId,
-                questionId: this.question.id,
+                questionId: this.question?.id,
                 idx: 0,
                 value: '',
               });
             }
           
-            return this.question.answers[0].value;
+            return this.question?.answers[0].value;*/
           }
           
           setAnswerValue(value: string): void {
-            if (!this.question.answers[0]) {
+           /* if (!this.question.answers[0]) {
               this.question.answers[0] = Object.assign(new Answer(), {
                 instanceId: this.instance?.instanceId,
                 questionId: this.question.id,
                 idx: 0,
               });
             }
-            this.question.answers[0].value = value;
-          }
-            
+            this.question.answers[0].value = value;*/
+          }            
  
 
     isChecked(idx: number) {
-        return this.question.answers.some(answer => Number(answer.value) == idx)
+        return this.question?.answers.some(answer => Number(answer.value) == idx)
     }
 
     onCheckboxChange(checked: boolean, idx: number): void {
-        const answers = this.question.answers;
+       /* const answers = this.question?.answers;
         if (checked) {
             // answers.push({ value: idx });
             console.log("answer");
         } else {
 
-          const indexToRemove = answers.findIndex(answer => Number(answer.value) === idx);
+          const indexToRemove = answers?.findIndex(answer => Number(answer.value) === idx);
           if (indexToRemove > -1) {
             answers.splice(indexToRemove, 1);
           }
-        }
+        }*/
       }
 
       isValidEmail() {

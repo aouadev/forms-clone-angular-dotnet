@@ -1,0 +1,7 @@
+<mat-form-field class="date">
+    <mat-label>Choose a date</mat-label>
+    <input matInput [matDatepicker]="picker" [value]="getAnswerValue()" (input)="dateValue" >
+   
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>

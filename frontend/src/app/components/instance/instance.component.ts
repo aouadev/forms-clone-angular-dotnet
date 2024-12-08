@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from "@angular/core";
+import { Component, ViewChild, ElementRef, OnInit, OnChanges, SimpleChanges, AfterContentChecked, AfterViewInit } from "@angular/core";
 import { Form, FormDetailed } from "src/app/models/form";
 import { Router } from "@angular/router";
 import { Instance, InstanceWithFormDetailed } from "src/app/models/instance";
@@ -18,12 +18,13 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
         './instance.component.css'
     ]
 })
-export class InstanceComponent {
+export class InstanceComponent implements OnInit, OnChanges, AfterViewInit{
     form: FormDetailed;
     submit: boolean = false;
     instance?: InstanceWithFormDetailed;
     questions: Question[] = [];
     questionNumber: number = 0;
+    currentQuestion?: Question;
    
 
 
@@ -36,40 +37,58 @@ export class InstanceComponent {
         this.form = navigation?.extras.state?.['form'];
      
     }
-
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes[('questionNumber')]) {
+            this.currentQuestion = this.questions[this.questionNumber];
+        }
+    }
+ 
     ngOnInit() {
+        this.instance = Object.assign(new InstanceWithFormDetailed(), {
+            formId: this.form.formId,
+            userId: this.authenticationService.currentUser?.id,
+            started: new Date(),
+           
+        });
         if (!this.form.lastInstance) {
-            this.instance = Object.assign(new InstanceWithFormDetailed(), {
-                formId: this.form.formId,
-                userId: this.authenticationService.currentUser?.id,
-                started: new Date(),
-               
-            });
+          
             this.formService.getFormWithquestions(this.form?.formId).subscribe((res) => {
                 this.form = res;
                 this.form.lastInstance = this.instance;
                 this.questions = this.form.questions;
+                this.currentQuestion = this.questions[this.questionNumber];
+              
             });
 
         }
         else {
         this.instanceService.getInstance(this.form?.lastInstance.instanceId).subscribe((res) => {
-            this.instance = res;
-            if(this.instance.form) {
-                this.questions = this.instance.form.questions;
+            if(res.form) {
+                this.form = res.form;
+                this.questions = this.form.questions;
+                this.currentQuestion = this.questions[this.questionNumber];
             }
-            if (!this.instance.completed) {
+           /* if (!this.instance.completed) {
                //var newInstance = Object.assign(new InstanceWithFormDetailed(), {started: new Date()});
                this.instance.instanceId = 0;
                this.instance.started = new Date();
                
                 
-            }
+            }*/
 
          
-            console.log(res);
-        })
+           // this.currentQuestion = this.questions[this.questionNumber];
+         
+        });
     }
+    this.instance.form = this.form;
+    this.instanceService.addNewInstance(this.instance).subscribe((res) =>{
+        this.instance = res;
+    })
+
+    }
+    ngAfterViewInit(): void {
+      
     }
 
     arrowBack() {
@@ -77,8 +96,16 @@ export class InstanceComponent {
     }
     
     incrementQuestion() {
-        if ( this.questions && this.questionNumber < this.questions.length - 1)
+        if ( this.questions && this.questionNumber < this.questions.length - 1){
+          //  console.log(this.currentQuestion?.answers[0].value);
             ++this.questionNumber;
+            this.currentQuestion = this.questions[this.questionNumber];
+           // console.log('title     ' + this.currentQuestion?.title);
+            //console.log(this.currentQuestion?.answers[0].value);
+           // if (this.currentQuestion.answers[0].value != '') {
+           // this.instanceService.add(this.currentQuestion.answers[0]).subscribe();
+        //}
+    }
         
     }
 
