@@ -48,10 +48,6 @@ export class ShortQuestionComponent implements OnChanges, OnDestroy {
             // Marque comme touché pour afficher les erreurs dès le chargement
             this.ctlShortAnswer.markAllAsTouched();
         }
-
-        if (changes['instanceId']) {
-            console.log('ngOnChanges triggered for instanceId: ' + this.instanceId);
-        }
     }
 
     ngOnDestroy(): void {

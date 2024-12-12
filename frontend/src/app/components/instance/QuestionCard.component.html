@@ -5,45 +5,32 @@
         <div class="question-description">{{question.description}}</div>
         <div class="answer-div">
                 @if(question.type == 1) {
-                    <short-question [instanceId]="instance?.instanceId" [question]="question" ></short-question>
+                    <short-question [question]="question" [instanceId]="instance?.instanceId" ></short-question>
                 }
                 <p>You enter: {{answerValue}}</p>
                 @if(question.type == 2) {
-                    <mat-form-field class="">
-                        <textarea matInput  (input)="answerValue" ></textarea>
-                    </mat-form-field>
+                    <long-question
+                    [question]="question" 
+                    [instanceId]="instance?.instanceId">
+                    </long-question>
                 }
                 @if(question.type == 3) {
-                    <mat-form-field class="date">
-                        <mat-label>Choose a date</mat-label>
-                        <input matInput [matDatepicker]="picker" (input)="dateValue" >
-                       
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
+                    <date-question 
+                    [question]="question"
+                    [instanceId]="instance?.instanceId">
+                    </date-question>
                 }
                 @if(question.type == 4) {
-                    <form [formGroup]="emailForm">
-                    <mat-form-field class="email">
-                        <input matInput name="email" formControlName="email"  (input)="emailValue" >
-                       
-                    </mat-form-field>
-                    @if (emailForm.get('email')?.hasError('email')) {
-                        <mat-error>Please enter a valid email adress</mat-error>
-                        }
-                    </form>
+                    <email-question 
+                         [question]="question"
+                         [instanceId]="instance?.instanceId">
+                    </email-question>
                 }
                 @if(question.type == 5) {
-                    <form [formGroup]="integerForm">
-                        <mat-form-field class="integer">
-                            <input matInput formControlName="integer" (input)="answerValue">
-                           
-                        </mat-form-field>
-                        @if(integerForm.get('integer')?.hasError('notInteger')) {
-                            <mat-error>Please enter a valid integer</mat-error>
-                        }
-                       
-                    </form>
+                    <integer-question 
+                     [question]="question"
+                     [instanceId]="instance?.instanceId">
+                    </integer-question>
                 }
                 
                 @else if(question.type == 6) {

@@ -1,5 +1,6 @@
 import { extend } from 'lodash-es';
 import { Form, FormDetailed } from './form';
+
 export class Instance {
     instanceId: number = 0;
     formId: number = 0;

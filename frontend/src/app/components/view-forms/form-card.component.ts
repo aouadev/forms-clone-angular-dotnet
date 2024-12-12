@@ -47,6 +47,6 @@ export class FormCardComponent {
         });
     }
     createInstance() {
-        this.router.navigate(['instance'], {state: {form: this.form}});
+        this.router.navigate(['instance'], {state: {form: this.form, readOnly: false}});
     }
 }

@@ -20,6 +20,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 })
 export class InstanceComponent implements OnInit, OnChanges, AfterViewInit{
     form: FormDetailed;
+    readOnly: boolean = false;
     submit: boolean = false;
     instance?: InstanceWithFormDetailed;
     questions: Question[] = [];
@@ -35,6 +36,7 @@ export class InstanceComponent implements OnInit, OnChanges, AfterViewInit{
                 private authenticationService: AuthenticationService){
         const navigation = this.router.getCurrentNavigation();
         this.form = navigation?.extras.state?.['form'];
+        this.readOnly = navigation?.extras.state?.['readOnly'];
      
     }
     ngOnChanges(changes: SimpleChanges): void {
@@ -44,75 +46,50 @@ export class InstanceComponent implements OnInit, OnChanges, AfterViewInit{
     }
  
     ngOnInit() {
-        this.instance = Object.assign(new InstanceWithFormDetailed(), {
-            formId: this.form.formId,
-            userId: this.authenticationService.currentUser?.id,
-            started: new Date(),
-           
-        });
-        if (!this.form.lastInstance) {
-          
+
+        if (this.form.lastInstance) {
+            this.instanceService.getInstance(this.form?.lastInstance.instanceId, this.readOnly).subscribe((res) => {
+                this.instance = res;
+                this.form = this.instance.form || this.form;
+                this.questions = this.form.questions;
+                this.currentQuestion = this.questions[this.questionNumber];
+                console.log("instanceid ;;;;=: "+ this.instance.instanceId);
+            });
+        }
+        else {
             this.formService.getFormWithquestions(this.form?.formId).subscribe((res) => {
-                this.form = res;
-                this.form.lastInstance = this.instance;
+                this.instance = res;
+                this.form  = this.instance.form || this.form;
                 this.questions = this.form.questions;
                 this.currentQuestion = this.questions[this.questionNumber];
               
             });
-
         }
-        else {
-        this.instanceService.getInstance(this.form?.lastInstance.instanceId).subscribe((res) => {
-            if(res.form) {
-                this.form = res.form;
-                this.questions = this.form.questions;
-                this.currentQuestion = this.questions[this.questionNumber];
-            }
-           /* if (!this.instance.completed) {
-               //var newInstance = Object.assign(new InstanceWithFormDetailed(), {started: new Date()});
-               this.instance.instanceId = 0;
-               this.instance.started = new Date();
-               
-                
-            }*/
-
-         
-           // this.currentQuestion = this.questions[this.questionNumber];
-         
-        });
-    }
-    this.instance.form = this.form;
-    this.instanceService.addNewInstance(this.instance).subscribe((res) =>{
-        this.instance = res;
-    })
-
     }
     ngAfterViewInit(): void {
       
     }
 
     arrowBack() {
-        this.router.navigate(['/forms']);
+        this.router.navigate(['/view_forms']);
     }
     
     incrementQuestion() {
         if ( this.questions && this.questionNumber < this.questions.length - 1){
-          //  console.log(this.currentQuestion?.answers[0].value);
+            if (this.currentQuestion && !this.readOnly && (this.currentQuestion?.answers[0]?.value || !this.currentQuestion?.required)){
+                this.instanceService.addAnswer(this.currentQuestion.answers[0]).subscribe();
+               }
             ++this.questionNumber;
             this.currentQuestion = this.questions[this.questionNumber];
-           // console.log('title     ' + this.currentQuestion?.title);
-            //console.log(this.currentQuestion?.answers[0].value);
-           // if (this.currentQuestion.answers[0].value != '') {
-           // this.instanceService.add(this.currentQuestion.answers[0]).subscribe();
-        //}
     }
         
     }
 
     decrementQuestion() {
-        if (this.questionNumber > 0)
+        if (this.questionNumber > 0) {
             --this.questionNumber;
-        
+            this.currentQuestion = this.questions[this.questionNumber];
+        }
     }
   
       

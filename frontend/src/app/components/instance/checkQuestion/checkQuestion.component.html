@@ -1,0 +1,13 @@
+@if (question.optionList) {
+    <div class="optionValue">
+        @for (value of question.optionList.optionValues; track value.idx) {
+            <section class="checkbox-div">
+                <mat-checkbox class="checkbox" [checked]="isChecked(value.idx)"
+                              (change)="onCheckboxChange($event.checked, value.idx)" >
+                    {{value.label}}
+                </mat-checkbox>
+            </section>
+
+        }
+    </div>
+}

@@ -25,12 +25,14 @@ public class InstanceController : ControllerBase {
 
     
 [HttpGet("{id}")]
-public async Task<ActionResult<InstanceWithFormDetailedDTO>> GetInstance(int id) {                 
+public async Task<ActionResult<InstanceWithFormDetailedDTO>> GetInstance(int id, bool readOnly) {
+    // Charger l'ancienne instance avec toutes les réponses
+    
     var instance = await _context.Instances
         .Where(i => i.InstanceId == id)
         .Include(i => i.Form)
         .ThenInclude(f => f.Questions)
-        .ThenInclude(q => q.Answers.Where(a => a.InstanceId == id))
+        .ThenInclude(q => q.Answers) // Charger toutes les réponses
         .Include(i => i.Form)
         .ThenInclude(f => f.Questions)
         .ThenInclude(q => q.OptionList)
@@ -38,11 +40,85 @@ public async Task<ActionResult<InstanceWithFormDetailedDTO>> GetInstance(int id)
         .FirstOrDefaultAsync();
 
     if (instance == null)
-        return NotFound(); // Gère le cas où l'instance n'existe pas.
+        return NotFound();
 
-  
-    return _mapper.Map<InstanceWithFormDetailedDTO>(instance); 
+    // Filtrer les réponses de l'ancienne instance
+    var filtredAnswers = instance.Form.Questions.ToList(); //une copie
+    foreach (var question in filtredAnswers) {
+        question.Answers = question.Answers.Where(a => a.InstanceId == id).ToList();
+    }
+
+    if (!readOnly) {
+        // Créer une nouvelle instance
+        var newInstance = new Instance {
+            FormId = instance.FormId,
+            UserId = instance.UserId
+        };
+        _context.Instances.Add(newInstance);
+        await _context.SaveChangesAsync();
+
+        // Copier les réponses filtrées vers la nouvelle instance
+        foreach (var question in filtredAnswers) {
+            var answersCopy = question.Answers.ToList();
+            foreach (var answer in answersCopy) {
+                var newAnswer = new Answer {
+                    InstanceId = newInstance.InstanceId,
+                    QuestionId = answer.QuestionId,
+                    Idx = answer.Idx,
+                    Value = answer.Value
+                };
+                _context.Answers.Add(newAnswer);
+            }
+        }
+        await _context.SaveChangesAsync();
+
+        // Charger la nouvelle instance
+        instance = await _context.Instances
+            .Where(i => i.InstanceId == newInstance.InstanceId)
+            .Include(i => i.Form)
+            .ThenInclude(f => f.Questions)
+            .ThenInclude(q => q.Answers) // Charger toutes les réponses
+            .Include(i => i.Form)
+            .ThenInclude(f => f.Questions)
+            .ThenInclude(q => q.OptionList)
+            .ThenInclude(o => o.OptionValues)
+            .FirstOrDefaultAsync();
+
+        // Filtrer les réponses liées à la nouvelle instance
+        var newFiltredAnswers = instance.Form.Questions.ToList(); //une copie pour éviter les erreurs inattendu
+        foreach (var question in newFiltredAnswers) {
+            question.Answers = question.Answers.Where(a => a.InstanceId == newInstance.InstanceId).ToList();
+        }
+    }
+
+    // Retourner l'instance filtrée (ancienne ou nouvelle)
+    return _mapper.Map<InstanceWithFormDetailedDTO>(instance);
 }
+
+
+    [HttpPost]
+    public async Task<ActionResult<InstanceWithFormDetailedDTO>> PostQuestion(InstanceWithFormDetailedDTO instanceDTO) {
+        var instance = _mapper.Map<Instance>(instanceDTO);
+        _context.Instances.Add(instance);
+        foreach(var question in instanceDTO.Form.Questions) {
+            //var answer[] = _mapper.Map<Answer[]>(question.Answers);
+             
+        }
+       
+        await _context.SaveChangesAsync();
+        return CreatedAtAction(nameof(GetInstance), new { id = instance.InstanceId}, _mapper.Map<InstanceDTO>(instance));
+        
+    }
+
+    /* [HttpGet("{id}")]
+    public async Task<ActionResult<InstanceDTO>> GetSimpleInstance(int id) {
+        var instance = await _context.Instances.FindAsync(id);
+        if (instance == null) {
+            return NotFound();
+        }
+        return _mapper.Map<InstanceDTO>(instance);
+        
+    }*/
 
 
 }

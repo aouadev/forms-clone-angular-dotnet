@@ -6,6 +6,7 @@ import { User } from '../models/user';
 import { catchError, map } from "rxjs/operators";
 import { Observable, of } from "rxjs";
 import { plainToInstance } from "class-transformer";
+import { InstanceWithFormDetailed } from "../models/instance";
 
 @Injectable({ providedIn: 'root'})
 export class FormService {
@@ -41,9 +42,9 @@ export class FormService {
         );
     }
 
-    getFormWithquestions(id: number): Observable<FormDetailed> {
+    getFormWithquestions(id: number): Observable<InstanceWithFormDetailed> {
         return this.http.get<any>(`${this.baseUrl}api/forms/${id}`).pipe(
-            map(res => plainToInstance(FormDetailed, res))
+            map(res => plainToInstance(InstanceWithFormDetailed, res))
         );
     }
 }

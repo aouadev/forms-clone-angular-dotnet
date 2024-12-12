@@ -2,6 +2,13 @@ import { Instance } from "./instance";
 import { Question } from "./question";
 import { User } from "./user";
 
+export enum State {
+    Soumited = 2,
+    InProgress = 1,
+    NotStarted = 0
+
+}
+
 export class Form {
     lastInstance?: Instance;
     owner: User = null!

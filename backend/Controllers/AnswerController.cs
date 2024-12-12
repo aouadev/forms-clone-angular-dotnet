@@ -29,8 +29,13 @@ public class AnswerController : ControllerBase {
 
     [HttpPost]
     public async Task<ActionResult<bool>> PostQuestion(AnswerDTO AnswerDTO) {
-        var answer = _mapper.Map<Answer>(AnswerDTO);
-        _context.Answers.Add(answer);
+        var oldAnswer = await _context.Answers.FirstOrDefaultAsync(a => a.QuestionId == AnswerDTO.QuestionId && a.InstanceId == AnswerDTO.InstanceId);
+        if (oldAnswer == null || oldAnswer.Idx != AnswerDTO.Idx) {
+            var newAnswer = _mapper.Map<Answer>(AnswerDTO);
+            _context.Answers.Add(newAnswer);
+        } else{
+            oldAnswer.Value = AnswerDTO.Value;
+        } 
         await _context.SaveChangesAsync();
         return true;
         

@@ -18,7 +18,6 @@ public class FormWithLastInstanceDTO : FormDTO {
 }
 public class FormWithUserDetailsDTO : FormWithLastInstanceDTO{
     public UserDTO Owner { get; set; } = null!;
-   
 }
 /*public class FormWithQuestionDetailedDTO : FormDTO{
     public ICollection<QuestionWithOLDetailsDTO> QuestionDetails { get; set;} = new HashSet<QuestionWithOLDetailsDTO>();

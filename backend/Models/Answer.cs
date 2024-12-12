@@ -8,8 +8,9 @@ public class Answer {
     public Answer(FormContext formContext) {
         this._formContext = formContext;
     }
-
+    [ForeignKey(nameof(Instance))]
     public int InstanceId { get; set; } = 0;
+    public Instance instance { get; set; }
     [ForeignKey(nameof(Question))]
     public int QuestionId { get; set; } = 0;
     public Question Question { get; set; }

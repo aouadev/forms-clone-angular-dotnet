@@ -16,9 +16,10 @@ export class OpenFormConfirmComponent {
         @Inject(MAT_DIALOG_DATA) public data: {form: Form}) {}
 
 
-    readInstance() {
+    openInstance(readOnly: boolean) {
 
-        this.router.navigate(['/instance'], { state: { form: this.data.form}});
+        this.router.navigate(['/instance'], { state: { form: this.data.form, readOnly: readOnly}});
+        console.log("readonly: " + readOnly);
         this.dialogRef.close();
         
     }

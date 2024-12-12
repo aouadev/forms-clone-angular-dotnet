@@ -22,6 +22,12 @@ import { FormCardComponent } from '../components/view-forms/form-card.component'
 import { OpenFormConfirmComponent } from '../components/openFormConfirm/openFormConfirm.component';
 import { InstanceComponent } from '../components/instance/instance.component';
 import { QuestionCardComponent } from '../components/instance/QuestionCardComponent';
+import { ShortQuestionComponent } from '../components/instance/shortQuestion/shortQuestion.component';
+import {LongQuestionComponent} from "../components/instance/longQuestion/longQuestion.component";
+import {DateQuestionComponent} from "../components/instance/dateQuestion/dateQuestion.component";
+import {EmailQuestionComponent} from "../components/instance/emailQuestion/emailQuestion.component";
+import {IntegerQuestionComponent} from "../components/instance/integerQuestion/integerQuestion.component";
+import {CheckQuestionComponent} from "../components/instance/checkQuestion/checkQuestion.component";
 
 @NgModule({
     declarations: [
@@ -36,7 +42,13 @@ import { QuestionCardComponent } from '../components/instance/QuestionCardCompon
         FormCardComponent,
         OpenFormConfirmComponent,
         InstanceComponent,
-        QuestionCardComponent
+        QuestionCardComponent,
+        ShortQuestionComponent,
+        LongQuestionComponent,
+        DateQuestionComponent,
+        EmailQuestionComponent,
+        IntegerQuestionComponent,
+        CheckQuestionComponent
     ],
     imports: [
         BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
