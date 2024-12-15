@@ -28,14 +28,29 @@ public class AnswerController : ControllerBase {
     }
 
     [HttpPost]
-    public async Task<ActionResult<bool>> PostQuestion(AnswerDTO AnswerDTO) {
-        var oldAnswer = await _context.Answers.FirstOrDefaultAsync(a => a.QuestionId == AnswerDTO.QuestionId && a.InstanceId == AnswerDTO.InstanceId);
-        if (oldAnswer == null || oldAnswer.Idx != AnswerDTO.Idx) {
-            var newAnswer = _mapper.Map<Answer>(AnswerDTO);
-            _context.Answers.Add(newAnswer);
-        } else{
-            oldAnswer.Value = AnswerDTO.Value;
-        } 
+    public async Task<ActionResult<bool>> PostQuestion(List<AnswerDTO> answerDtos) {
+        var oldAnswers = await _context.Answers.Where((answer) => answer.QuestionId == answerDtos[0].QuestionId 
+                                                                  && answer.InstanceId == answerDtos[0].InstanceId).ToListAsync();
+        //pour supprimer les réponses de checklist qui ont été décheckés dans le frontend
+        foreach (var answer in oldAnswers) { 
+            if (!answerDtos.Any(answerDto =>
+                    answerDto.QuestionId == answer.QuestionId 
+                    && answerDto.InstanceId == answer.InstanceId
+                    && answerDto.Idx == answer.Idx)){ 
+                _context.Answers.Remove(answer);
+            }
+        }
+        foreach (var answerDto in answerDtos) {
+            var oldAnswer = oldAnswers.SingleOrDefault(answer => answer.Idx == answerDto.Idx);
+            if (oldAnswer == null ) {
+                var newAnswer = _mapper.Map<Answer>(answerDto);
+                _context.Answers.Add(newAnswer);
+            } else{
+                oldAnswer.Value = answerDto.Value;
+            }
+        }
+        
+      
         await _context.SaveChangesAsync();
         return true;
         

@@ -34,19 +34,7 @@
                 }
                 
                 @else if(question.type == 6) {
-                    @if (question.optionList) {
-                        <div class="optionValue">
-                            @for (value of question.optionList.optionValues; track value.idx) {
-                                <section class="checkbox-div">
-                                    <mat-checkbox class="checkbox" [checked]="isChecked(value.idx)" 
-                                                (change)="onCheckboxChange($event.checked, value.idx)" >
-                                                {{value.label}}
-                                    </mat-checkbox>
-                                </section>
-                                    
-                            }
-                        </div>
-                    }
+                    <check-question [question]="question" [instanceId]="instance?.instanceId"></check-question>
                 }
                 @else if (question.type == 8) {
                     @if (question.optionList) {
@@ -61,7 +49,7 @@
                     }
                 }
                 @else if (question.type == 7) {
-                    @if (question.optionList) {
+                    <!--@if (question.optionList) {
                     <mat-form-field>
                         <mat-select [(value)]="selectedValue" placeholder = 'no value'>
                         @for (value of question.optionList.optionValues; track value.idx) {
@@ -71,7 +59,9 @@
 
                     </mat-form-field>
                     <p>You selected: {{selectedValue}}</p>
-                }
+                }-->
+                    
+                    <combo-question [question]="question" [instanceId]="instance?.instanceId"></combo-question>
             }
                 
         </div>

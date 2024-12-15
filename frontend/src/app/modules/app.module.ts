@@ -28,6 +28,7 @@ import {DateQuestionComponent} from "../components/instance/dateQuestion/dateQue
 import {EmailQuestionComponent} from "../components/instance/emailQuestion/emailQuestion.component";
 import {IntegerQuestionComponent} from "../components/instance/integerQuestion/integerQuestion.component";
 import {CheckQuestionComponent} from "../components/instance/checkQuestion/checkQuestion.component";
+import {ComboQuestionComponent} from "../components/instance/comboQuestion/comboQuestion.component";
 
 @NgModule({
     declarations: [
@@ -48,7 +49,8 @@ import {CheckQuestionComponent} from "../components/instance/checkQuestion/check
         DateQuestionComponent,
         EmailQuestionComponent,
         IntegerQuestionComponent,
-        CheckQuestionComponent
+        CheckQuestionComponent,
+        ComboQuestionComponent
     ],
     imports: [
         BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

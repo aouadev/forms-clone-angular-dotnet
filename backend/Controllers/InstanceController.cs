@@ -48,7 +48,7 @@ public async Task<ActionResult<InstanceWithFormDetailedDTO>> GetInstance(int id,
         question.Answers = question.Answers.Where(a => a.InstanceId == id).ToList();
     }
 
-    if (!readOnly) {
+   /* if (!readOnly) {
         // Créer une nouvelle instance
         var newInstance = new Instance {
             FormId = instance.FormId,
@@ -89,7 +89,7 @@ public async Task<ActionResult<InstanceWithFormDetailedDTO>> GetInstance(int id,
         foreach (var question in newFiltredAnswers) {
             question.Answers = question.Answers.Where(a => a.InstanceId == newInstance.InstanceId).ToList();
         }
-    }
+    }*/
 
     // Retourner l'instance filtrée (ancienne ou nouvelle)
     return _mapper.Map<InstanceWithFormDetailedDTO>(instance);

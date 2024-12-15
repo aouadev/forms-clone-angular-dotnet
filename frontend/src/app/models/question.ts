@@ -12,6 +12,7 @@ export class Question {
     description?: string;
     type: QuestionType = QuestionType.Short;
     required: boolean = false;
+    updated: boolean = false;
     optionList?: OptionList;
     answers: Answer[] = [];
 

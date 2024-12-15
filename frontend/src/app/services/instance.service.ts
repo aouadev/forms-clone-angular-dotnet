@@ -32,8 +32,8 @@ export class InstanceService {
         );
     }
 
-    public addAnswer(a: Answer): Observable<boolean> {
-        return this.http.post<Answer>(`${this.baseUrl}api/answer`, a).pipe(
+    public addAnswer(a: Answer[]): Observable<boolean> {
+        return this.http.post<Answer[]>(`${this.baseUrl}api/answer`, a).pipe(
             map(res => true),
             catchError(err => {
                 console.error(err);

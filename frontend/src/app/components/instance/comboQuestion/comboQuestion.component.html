@@ -1,0 +1,12 @@
+@if (question?.optionList) {
+    <div class="optionValue" [formGroup]="comboForm">
+        <mat-select [(value)]="selectedValue" >
+            @for (value of comboForm.get('optionsValues')?.value; track value.optionIdx) {
+                <mat-option [value]="value.optionIdx" >{{value.label}}</mat-option>
+            }
+        </mat-select>
+
+    </div>
+    <p>You selected:</p>
+}
+

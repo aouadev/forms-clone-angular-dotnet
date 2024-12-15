@@ -8,6 +8,7 @@ import { Answer } from "src/app/models/answer";
 import { AuthenticationService } from "src/app/services/authentication.service";
 import { FormService } from "src/app/services/form.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {forEach} from "lodash-es";
 
 @Component({
     selector: 'instance',
@@ -76,9 +77,11 @@ export class InstanceComponent implements OnInit, OnChanges, AfterViewInit{
     
     incrementQuestion() {
         if ( this.questions && this.questionNumber < this.questions.length - 1){
-            if (this.currentQuestion && !this.readOnly && (this.currentQuestion?.answers[0]?.value || !this.currentQuestion?.required)){
-                this.instanceService.addAnswer(this.currentQuestion.answers[0]).subscribe();
-               }
+            if (this.currentQuestion && !this.readOnly) {
+                if (this.currentQuestion.answers && this.currentQuestion.answers.length > 0 && this.currentQuestion.updated) {
+                    this.instanceService.addAnswer(this.currentQuestion.answers).subscribe();
+                }
+            }
             ++this.questionNumber;
             this.currentQuestion = this.questions[this.questionNumber];
     }
