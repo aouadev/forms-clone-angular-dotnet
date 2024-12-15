@@ -43,6 +43,10 @@ export class ShortQuestionComponent implements OnChanges, OnDestroy {
                         value: value
                     };
                 }
+                if (this.question) {
+                    this.question.updated = true;
+                }
+               
             });
 
             // Marque comme touché pour afficher les erreurs dès le chargement

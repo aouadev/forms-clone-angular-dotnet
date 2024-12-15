@@ -36,6 +36,9 @@ export class LongQuestionComponent implements OnChanges {
                         value : value
                     };
                 }
+                if (this.question) {
+                    this.question.updated = true;
+                }
             });
             this.ctlLongAnswer.markAllAsTouched();
         }

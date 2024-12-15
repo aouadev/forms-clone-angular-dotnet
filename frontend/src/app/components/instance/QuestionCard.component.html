@@ -7,60 +7,26 @@
                 @if(question.type == 1) {
                     <short-question [question]="question" [instanceId]="instance?.instanceId" ></short-question>
                 }
-                <p>You enter: {{answerValue}}</p>
                 @if(question.type == 2) {
-                    <long-question
-                    [question]="question" 
-                    [instanceId]="instance?.instanceId">
-                    </long-question>
+                    <long-question [question]="question" [instanceId]="instance?.instanceId"></long-question>
                 }
                 @if(question.type == 3) {
-                    <date-question 
-                    [question]="question"
-                    [instanceId]="instance?.instanceId">
-                    </date-question>
+                    <date-question [question]="question" [instanceId]="instance?.instanceId"></date-question>
                 }
                 @if(question.type == 4) {
-                    <email-question 
-                         [question]="question"
-                         [instanceId]="instance?.instanceId">
-                    </email-question>
+                    <email-question [question]="question" [instanceId]="instance?.instanceId"></email-question>
                 }
                 @if(question.type == 5) {
-                    <integer-question 
-                     [question]="question"
-                     [instanceId]="instance?.instanceId">
-                    </integer-question>
+                    <integer-question [question]="question" [instanceId]="instance?.instanceId"></integer-question>
                 }
                 
                 @else if(question.type == 6) {
                     <check-question [question]="question" [instanceId]="instance?.instanceId"></check-question>
                 }
                 @else if (question.type == 8) {
-                    @if (question.optionList) {
-                    
-                            @for (value of question.optionList.optionValues; track value.idx) {
-                                <mat-radio-button [checked]="isChecked(value.idx)">
-                                    {{value.label}}
-                                </mat-radio-button>
-                                
-                            }
-                        
-                    }
+                    <radio-question [question]="question" [instanceId]="instance?.instanceId"></radio-question>
                 }
                 @else if (question.type == 7) {
-                    <!--@if (question.optionList) {
-                    <mat-form-field>
-                        <mat-select [(value)]="selectedValue" placeholder = 'no value'>
-                        @for (value of question.optionList.optionValues; track value.idx) {
-                            <mat-option [value]="value.idx.toString()" >{{value.label}}</mat-option>
-                        }
-                    </mat-select>
-
-                    </mat-form-field>
-                    <p>You selected: {{selectedValue}}</p>
-                }-->
-                    
                     <combo-question [question]="question" [instanceId]="instance?.instanceId"></combo-question>
             }
                 

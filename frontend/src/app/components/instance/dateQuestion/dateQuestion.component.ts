@@ -36,6 +36,9 @@ export class DateQuestionComponent implements OnChanges {
                         value : value
                     };
                 }
+                if (this.question) {
+                    this.question.updated = true;
+                }
             });
             this.ctlDateAnswer?.markAllAsTouched();
         }

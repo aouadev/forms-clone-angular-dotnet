@@ -35,6 +35,9 @@ export class IntegerQuestionComponent implements OnChanges {
                         value: value
                     };
                 }
+                if (this.question) {
+                    this.question.updated = true;
+                }
             });
             this.ctlIntegerAnswer.markAllAsTouched();
         }

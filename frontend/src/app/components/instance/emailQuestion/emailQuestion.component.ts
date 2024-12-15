@@ -35,6 +35,9 @@ export class EmailQuestionComponent implements OnChanges {
                       value: value
                   };
               }
+              if (this.question) {
+                this.question.updated = true;
+            }
           });
           this.ctlEmailAnswer?.markAllAsTouched();
       }
