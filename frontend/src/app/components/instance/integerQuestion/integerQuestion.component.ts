@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
-import {Question} from "../../../models/question";
+import {Question, QuestionWithAnswers} from "../../../models/question";
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 
@@ -10,7 +10,7 @@ import {Subscription} from "rxjs";
     
 })
 export class IntegerQuestionComponent implements OnChanges {
-    @Input() question?: Question;
+    @Input() question?: QuestionWithAnswers;
     @Input() instanceId?: number;
     public ctlIntegerAnswer!: FormControl;
     private subscription!: Subscription;

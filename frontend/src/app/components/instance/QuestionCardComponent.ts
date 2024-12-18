@@ -4,7 +4,7 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators }
 import { Answer } from "src/app/models/answer";
 import { Instance } from "src/app/models/instance";
 import { OptionValue } from "src/app/models/optionValue";
-import { Question } from "src/app/models/question";
+import { Question, QuestionWithAnswers } from "src/app/models/question";
 
 @Component({
     selector:'question-card',
@@ -14,7 +14,7 @@ import { Question } from "src/app/models/question";
     ]
 })
 export class QuestionCardComponent {
-    @Input() question?: Question;
+    @Input() question?: QuestionWithAnswers;
     @Input() instance?: Instance;
     
     answerValue: string = "";

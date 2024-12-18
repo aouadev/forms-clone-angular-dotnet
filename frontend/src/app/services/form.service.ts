@@ -1,7 +1,7 @@
 import { Injectable, Inject } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 
-import { Form, FormDetailed } from '../models/form';
+import { Form, FormDetailed, FormWithQuestions } from '../models/form';
 import { User } from '../models/user';
 import { catchError, map } from "rxjs/operators";
 import { Observable, of } from "rxjs";
@@ -45,6 +45,12 @@ export class FormService {
     getFormWithquestions(id: number): Observable<InstanceWithFormDetailed> {
         return this.http.get<any>(`${this.baseUrl}api/forms/${id}`).pipe(
             map(res => plainToInstance(InstanceWithFormDetailed, res))
+        );
+    }
+
+    getForm(id: number): Observable<FormWithQuestions> {
+        return this.http.get<any>(`${this.baseUrl}api/viewForm/${id}`).pipe(
+            map(res => plainToInstance(FormWithQuestions, res))
         );
     }
 }

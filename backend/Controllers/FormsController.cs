@@ -23,27 +23,6 @@ public class FormsController : ControllerBase {
    [HttpGet]
 public async Task<ActionResult<IEnumerable<FormWithUserDetailsDTO>>> GetMyForms() {
     var id = int.Parse(User?.Identity?.Name ?? "0");
-      
-       /*var myForms = await _context.Forms.Where(f => f.OwnerId == id || f.IsPublic == true).ToListAsync();
-        var formsIds = await _context.FormsAccess.Where(f => f.UserId == id).Select(fa => fa.FormId).ToListAsync();
-        var myformsAccess = await _context.Forms.Where(f => formsIds.Contains(f.FormId)).ToListAsync();
-        var AllMyForms = myForms.Concat(myformsAccess);
-        List<FormWithUserDetailsDTO> forms = new List<FormWithUserDetailsDTO>();
-        foreach (var form in AllMyForms) {
-            var owner = _mapper.Map<UserDTO>(await _context.Users.Where(u => u.Id == form.OwnerId).FirstOrDefaultAsync());
-            var lastInstance = await _context.Instances.Where(i => i.FormId == form.FormId && i.UserId == id )
-                                                        .OrderByDescending(i => i.InstanceId)
-                                                        .FirstOrDefaultAsync();
-            
-                var f = _mapper.Map<FormWithUserDetailsDTO>(form);
-                f.Owner = owner;
-                f.LastInstance = _mapper.Map<InstanceDTO>(lastInstance);
-                forms.Add(f);
-        }
-      
-        return forms.OrderBy(f => f.Title).ToList();*/
-    
-   // Charger tous les formulaires accessibles
     var formsQuery = _context.Forms
         .Where(f => f.OwnerId == id || f.IsPublic == true || 
                     _context.FormsAccess.Any(fa => fa.UserId == id && fa.FormId == f.FormId))
@@ -80,16 +59,21 @@ public async Task<ActionResult<IEnumerable<FormWithUserDetailsDTO>>> GetMyForms(
                   .ThenInclude(q => q.OptionList)
                   .ThenInclude(o => o.OptionValues)
                   .FirstOrDefaultAsync();
+        if (form == null) {
+            return NotFound();
+        } else { 
+        var userId = int.Parse(User?.Identity?.Name ?? "0");       
         var newInstance = new Instance {
             FormId = form.FormId,
-            UserId = int.Parse(User?.Identity.Name),
+            UserId = userId,
         };
         _context.Instances.Add(newInstance);
         await _context.SaveChangesAsync();
         var instanceDTO = _mapper.Map<InstanceWithFormDetailedDTO>(newInstance);
         instanceDTO.Form = _mapper.Map<FormWithQuestionAndAnswersDTO>(form);
 
-        return instanceDTO;          
+        return instanceDTO;  
+        }        
     }
 
 

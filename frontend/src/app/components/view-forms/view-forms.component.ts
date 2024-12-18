@@ -30,7 +30,7 @@ export class ViewFormsComponent {
         if (!this.authenticationService.GuestMode) {
             const userId = this.currentUser?.id;
             if (userId) {
-                console.log("role:" + this.currentUser?.role);
+                console.log("role:" + this.currentUser?.roleAsString);
             if (this.currentUser?.role == Role.Admin) {
                     console.log(this.currentUser?.role);
                     this.formService.getAllForms().subscribe((res) => {

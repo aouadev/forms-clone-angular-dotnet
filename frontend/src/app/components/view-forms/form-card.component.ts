@@ -35,6 +35,10 @@ export class FormCardComponent {
 
     }
 
+    openManageForm() {
+        this.router.navigate(['viewForm'], {state: {form: this.form}});
+    }
+
     openDialog(): void {
         const activeElement = document.activeElement;
         if (activeElement instanceof HTMLElement) {

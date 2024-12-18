@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, SimpleChanges} from "@angular/core";
 
-import {Question} from "../../../models/question";
+import {Question, QuestionWithAnswers} from "../../../models/question";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {Subscription} from "rxjs";
 import { OptionValue } from "src/app/models/optionValue";
@@ -13,7 +13,7 @@ import { OptionValue } from "src/app/models/optionValue";
     styleUrls: ["../instance.component.css"]
 })
 export class ComboQuestionComponent implements OnInit{
-    @Input() question?: Question;
+    @Input() question?: QuestionWithAnswers;
     @Input() instanceId?: number;
     public comboForm!: FormGroup;
     public selectedOption!: FormControl;

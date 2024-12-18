@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
 import {Instance} from "../../../models/instance";
-import {Question} from "../../../models/question";
+import {Question, QuestionWithAnswers} from "../../../models/question";
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 
@@ -10,7 +10,7 @@ import {Subscription} from "rxjs";
     styleUrls: ["../instance.component.css"]
 })
 export class EmailQuestionComponent implements OnChanges {
-    @Input() question?: Question;
+    @Input() question?: QuestionWithAnswers;
     @Input() instanceId?: number;
     public ctlEmailAnswer!: FormControl;
     private subscription!: Subscription;

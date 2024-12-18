@@ -14,8 +14,16 @@ export class Question {
     required: boolean = false;
     updated: boolean = false;
     optionList?: OptionList;
-    answers: Answer[] = [];
+
+    public getType(): string {
+        return "coucou";
+    } 
+ 
 
 
     
+}
+
+export class QuestionWithAnswers extends Question{
+    answers: Answer[] = [];
 }

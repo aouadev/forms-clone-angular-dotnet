@@ -26,3 +26,7 @@ public class FormWithQuestionAndAnswersDTO : FormDTO {
     public ICollection<QuestionWithAnswersDTO> Questions { get; set; } = new HashSet<QuestionWithAnswersDTO>();
    // public ICollection<AnswerDTO> Answers { get; set;} = new HashSet<AnswerDTO>();
 }
+
+public class FormWithQuestionsDTO : FormWithUserDetailsDTO {
+    public ICollection<QuestionDTO> Questions { get; set;} = new HashSet<QuestionDTO>();
+}

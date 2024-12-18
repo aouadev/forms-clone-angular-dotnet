@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges, OnDestroy } from "@angular/core";
 import { FormBuilder, FormControl, Validators } from "@angular/forms";
 import { Subscription } from "rxjs";
-import { Question } from "src/app/models/question";
+import { Question, QuestionWithAnswers } from "src/app/models/question";
 
 @Component({
     selector: 'short-question',
@@ -11,7 +11,7 @@ import { Question } from "src/app/models/question";
     ]
 })
 export class ShortQuestionComponent implements OnChanges, OnDestroy {
-    @Input() question?: Question;
+    @Input() question?: QuestionWithAnswers;
     @Input() instanceId?: number;
     public ctlShortAnswer!: FormControl;
     private subscription!: Subscription;

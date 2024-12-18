@@ -3,7 +3,7 @@ import { Form, FormDetailed } from "src/app/models/form";
 import { Router } from "@angular/router";
 import { Instance, InstanceWithFormDetailed } from "src/app/models/instance";
 import { InstanceService } from "src/app/services/instance.service";
-import { Question } from "src/app/models/question";
+import { Question, QuestionWithAnswers } from "src/app/models/question";
 import { Answer } from "src/app/models/answer";
 import { AuthenticationService } from "src/app/services/authentication.service";
 import { FormService } from "src/app/services/form.service";
@@ -24,9 +24,9 @@ export class InstanceComponent implements OnInit, OnChanges, AfterViewInit{
     readOnly: boolean = false;
     submit: boolean = false;
     instance?: InstanceWithFormDetailed;
-    questions: Question[] = [];
+    questions: QuestionWithAnswers[] = [];
     questionNumber: number = 0;
-    currentQuestion?: Question;
+    currentQuestion?: QuestionWithAnswers;
    
 
 

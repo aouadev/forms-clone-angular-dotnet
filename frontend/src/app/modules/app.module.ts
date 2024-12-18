@@ -29,7 +29,9 @@ import {EmailQuestionComponent} from "../components/instance/emailQuestion/email
 import {IntegerQuestionComponent} from "../components/instance/integerQuestion/integerQuestion.component";
 import {CheckQuestionComponent} from "../components/instance/checkQuestion/checkQuestion.component";
 import {ComboQuestionComponent} from "../components/instance/comboQuestion/comboQuestion.component";
-import { radioQuestionComponent } from '../components/instance/radioQuestion/radioQuestion.component';
+import { RadioQuestionComponent} from '../components/instance/radioQuestion/radioQuestion.component';
+import { ViewFormComponent } from '../components/view_form/viewForm.component';
+import { viewQuestionCard } from '../components/view_form/viewQuestionCard.component';
 
 @NgModule({
     declarations: [
@@ -52,7 +54,9 @@ import { radioQuestionComponent } from '../components/instance/radioQuestion/rad
         IntegerQuestionComponent,
         CheckQuestionComponent,
         ComboQuestionComponent,
-        radioQuestionComponent
+        RadioQuestionComponent,
+        ViewFormComponent,
+        viewQuestionCard
     ],
     imports: [
         BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

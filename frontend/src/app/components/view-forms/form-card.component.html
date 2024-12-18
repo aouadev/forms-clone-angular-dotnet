@@ -20,7 +20,7 @@
     <div>
         <button mat-button (click)="handleButtonOpen()">Open</button>
         @if(canManage()) {
-            <a href="#" class="card-link">Manage</a>
+            <button mat-button (click)="openManageForm()">Manage</button>
         }
     </div>
 

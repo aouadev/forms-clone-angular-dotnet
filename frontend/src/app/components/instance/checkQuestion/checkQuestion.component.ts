@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
-import {Question} from "../../../models/question";
+import {Question, QuestionWithAnswers} from "../../../models/question";
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {Answer} from "../../../models/answer";
@@ -13,7 +13,7 @@ import {F} from "@angular/cdk/keycodes";
     styleUrls: ["../instance.component.css"]
 })
 export class CheckQuestionComponent implements OnInit, OnChanges  {
-    @Input() question?: Question;
+    @Input() question?: QuestionWithAnswers;
     @Input() instanceId?: number;
     public comboForm!: FormGroup;
     private answerIndex: number = 0;

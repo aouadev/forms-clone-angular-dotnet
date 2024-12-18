@@ -1,7 +1,7 @@
 .body-container{
   display: flex;
   flex-direction: column;
-  margin-top: 100px;
+  margin-top: 50px;
  
 }
 .form-info-line {
@@ -30,20 +30,14 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
-   
     padding: 30px;
-   
-
-    
-   
-    
-    
 }
 .questions-card {
     width:100%;
     min-width: 330px;
     min-height: 200px;
     padding: 20px;
+    border: 1px solid lightgray;
 }
 .card-title {
 

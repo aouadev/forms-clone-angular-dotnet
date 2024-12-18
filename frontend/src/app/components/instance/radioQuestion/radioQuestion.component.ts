@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
-import { Question } from "src/app/models/question";
+import { Question, QuestionWithAnswers } from "src/app/models/question";
 
 @Component({
     selector:"radio-question",
@@ -10,8 +10,8 @@ import { Question } from "src/app/models/question";
     ]
 
 })
-export class radioQuestionComponent implements OnInit{
-    @Input() question?: Question;
+export class RadioQuestionComponent implements OnInit{
+    @Input() question?: QuestionWithAnswers;
     @Input() instanceId?: number;
     public selectedOption!: FormControl;
     

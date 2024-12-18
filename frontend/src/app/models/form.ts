@@ -1,5 +1,5 @@
 import { Instance } from "./instance";
-import { Question } from "./question";
+import { Question, QuestionWithAnswers } from "./question";
 import { User } from "./user";
 
 export enum State {
@@ -19,5 +19,8 @@ export class Form {
 }
 
 export class FormDetailed extends Form {
-    questions: Question[] = [];
+    questions: QuestionWithAnswers[] = [];
+}
+export class FormWithQuestions extends Form {
+    questions: Question[] = []
 }

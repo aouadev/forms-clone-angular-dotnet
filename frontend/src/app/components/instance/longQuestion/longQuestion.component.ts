@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
-import {Question} from "../../../models/question";
+import {Question, QuestionWithAnswers} from "../../../models/question";
 import {Instance} from "../../../models/instance";
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
@@ -12,7 +12,7 @@ import {Subscription} from "rxjs";
     ]
 })
 export class LongQuestionComponent implements OnChanges {
-    @Input() question?: Question;
+    @Input() question?: QuestionWithAnswers;
     @Input() instanceId?: number;
     public ctlLongAnswer!: FormControl;
     private subscription!: Subscription;

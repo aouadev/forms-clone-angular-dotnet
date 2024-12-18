@@ -53,6 +53,9 @@ public class MappingProfile : Profile
         CreateMap<Question, QuestionWithAnswersDTO>();
         CreateMap<QuestionWithAnswersDTO, Question>();
 
+        CreateMap<Form, FormWithQuestionsDTO>();
+        CreateMap<FormWithQuestionsDTO, Form>();
+
     }
     
     
