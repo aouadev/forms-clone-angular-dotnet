@@ -11,7 +11,9 @@ import {User} from 'src/app/models/user';
 })
 export class NavBarComponent {
     @Input() title: string = '<undefined>';
-    @Output() askToggleFilter: EventEmitter<void> = new EventEmitter<void>();
+    @Input() backUrl: string = '<undefind>';
+    @Input() isHome: boolean =false;
+   // @Output() askToggleFilter: EventEmitter<void> = new EventEmitter<void>();
     currentUser?: User;
     guestMode?: boolean;
     
@@ -23,10 +25,12 @@ export class NavBarComponent {
     logout() {
         this.authenticationService.logout();
     }
-
-    toggleFilter(){
+    goBack() {
+        this.router.navigate([this.backUrl]);
+    }
+    /*toggleFilter(){
         this.askToggleFilter.emit();
         console.log("emit");
-    }
+    }*/
     
 }

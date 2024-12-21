@@ -1,20 +1,17 @@
-<mat-toolbar>
-    <button mat-icon-button>
-        <mat-icon (click)="arrowBack()">arrow_back_ios</mat-icon>
-    </button>
-    <span classe="title">{{form.title}}</span>
-    <span class="spacer"></span>
-    <button mat-icon-button>
-        <mat-icon (click)="arrowBack()">edit</mat-icon>
-    </button>
-    <button mat-icon-button>
-        <mat-icon (click)="arrowBack()">delete</mat-icon>
-    </button>
-    <button mat-icon-button>
-        <mat-icon (click)="arrowBack()">share</mat-icon>
-    </button>
 
-</mat-toolbar>
+
+<app-nav-bar [title]="form.title" [backUrl]="'/view_forms'">
+    <button mat-icon-button  [disabled]="isInstancied">
+        <mat-icon >edit</mat-icon>
+    </button>
+    <button mat-icon-button>
+        <mat-icon >delete</mat-icon>
+    </button>
+    <button mat-icon-button>
+        <mat-icon >share</mat-icon>
+    </button>
+</app-nav-bar>
+
 <div class="body-container">
     @if(form) {
     <div class="form-info">
@@ -40,9 +37,9 @@
     </div>
     <div class="questions-container">
     <h4>Questions</h4>
+        
         @for(question of form.questions; track question.id) {
-          
-            <view-question-card [question]="question"></view-question-card>
+            <view-question-card [question]="question" (askDeleteQuestion)="deleteQuestion(question.id)" [size]="form.questions.length"></view-question-card>
           
         }
     

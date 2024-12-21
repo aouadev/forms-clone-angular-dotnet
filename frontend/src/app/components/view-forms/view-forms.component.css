@@ -1,4 +1,8 @@
 
+app-nav-bar *{
+    color:white;
+}
+
 .body {
    display: flex;
    flex-wrap: wrap;

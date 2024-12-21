@@ -1,9 +1,4 @@
-<mat-toolbar>
-    <button mat-icon-button>
-        <mat-icon (click)="arrowBack()">arrow_back_ios</mat-icon>
-    </button>
-    <span classe="title"> Answer Form</span>
-    <span class="spacer"></span>
+<app-nav-bar title="Answer Form" backUrl="/forms">
     <button mat-icon-button [disabled]="questionNumber <= 0">
         <mat-icon (click)="decrementQuestion()">chevron_left</mat-icon>
     </button>
@@ -17,7 +12,7 @@
         <mat-icon (click)="arrowBack()">save</mat-icon>
     </button>
 
-</mat-toolbar>
+</app-nav-bar>
 <div class="body-container">
     <div class="form-info">
         <div class="form-info-line">

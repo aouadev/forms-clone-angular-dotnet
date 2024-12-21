@@ -54,11 +54,8 @@ export class ViewFormsComponent {
             });
         }
     }
-    askToggleFilter() {
-        console.log(this.filterIsVisible);
+    toggleFilter() {
         this.filterIsVisible = !this.filterIsVisible;
-        console.log(this.filterIsVisible);
-
     }
 
     applyFilter() {

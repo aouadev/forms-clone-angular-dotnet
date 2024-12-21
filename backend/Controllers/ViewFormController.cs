@@ -22,7 +22,20 @@ public class ViewFormController(FormContext context, IMapper mapper) : Controlle
                                         .ThenInclude(q => q.OptionList)
                                         .ThenInclude(o => o.OptionValues)
                                         .FirstOrDefaultAsync();
-
         return _mapper.Map<FormWithQuestionsDTO>(form);                               
     }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteQuestion(int id) {
+        var question = await _context.Questions.FindAsync(id);
+        if (question == null) {
+            return NotFound();
+        }
+        _context.Questions.Remove(question);
+        await _context.SaveChangesAsync();
+        return NoContent();
+
+    }
+
+
 }

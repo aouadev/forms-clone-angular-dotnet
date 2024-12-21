@@ -28,5 +28,6 @@ public class FormWithQuestionAndAnswersDTO : FormDTO {
 }
 
 public class FormWithQuestionsDTO : FormWithUserDetailsDTO {
+    public bool IsInstancied { get; set; } = false;
     public ICollection<QuestionDTO> Questions { get; set;} = new HashSet<QuestionDTO>();
 }

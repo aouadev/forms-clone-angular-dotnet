@@ -32,6 +32,7 @@ import {ComboQuestionComponent} from "../components/instance/comboQuestion/combo
 import { RadioQuestionComponent} from '../components/instance/radioQuestion/radioQuestion.component';
 import { ViewFormComponent } from '../components/view_form/viewForm.component';
 import { viewQuestionCard } from '../components/view_form/viewQuestionCard.component';
+import { DeleteQuestionDialog } from '../components/view_form/dialogs/deleteQuestionDialog.component';
 
 @NgModule({
     declarations: [
@@ -56,7 +57,9 @@ import { viewQuestionCard } from '../components/view_form/viewQuestionCard.compo
         ComboQuestionComponent,
         RadioQuestionComponent,
         ViewFormComponent,
-        viewQuestionCard
+        viewQuestionCard,
+        DeleteQuestionDialog
+        
     ],
     imports: [
         BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

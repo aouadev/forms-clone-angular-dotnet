@@ -26,6 +26,17 @@ public class FormContext : DbContext
         modelBuilder.Entity<Question>().HasIndex(q => new{q.FormId, q.Title}).IsUnique( );
         modelBuilder.Entity<Answer>().HasKey(a => new{a.InstanceId, a.QuestionId, a.Idx});
 
+        modelBuilder.Entity<Answer>()
+            .HasOne(a => a.Question)
+            .WithMany(q => q.Answers)
+            .HasForeignKey(a => a.QuestionId)
+            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<OptionValue>()
+            .HasOne(o => o.OptionList)
+            .WithMany(o => o.OptionValues)
+            .HasForeignKey(o => o.OptionListId)
+            .OnDelete(DeleteBehavior.Cascade);   
+
        /* int count = 0;
         
         modelBuilder.Entity<User>().HasData(

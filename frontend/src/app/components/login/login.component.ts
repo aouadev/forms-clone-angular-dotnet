@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { AuthenticationService } from "src/app/services/authentication.service";
 import { th, tr } from "date-fns/locale";
+import { state } from "@angular/animations";
 
 @Component({
     templateUrl: 'login.component.html',

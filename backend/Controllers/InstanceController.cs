@@ -48,49 +48,6 @@ public async Task<ActionResult<InstanceWithFormDetailedDTO>> GetInstance(int id,
         question.Answers = question.Answers.Where(a => a.InstanceId == id).ToList();
     }
 
-   /* if (!readOnly) {
-        // Créer une nouvelle instance
-        var newInstance = new Instance {
-            FormId = instance.FormId,
-            UserId = instance.UserId
-        };
-        _context.Instances.Add(newInstance);
-        await _context.SaveChangesAsync();
-
-        // Copier les réponses filtrées vers la nouvelle instance
-        foreach (var question in filtredAnswers) {
-            var answersCopy = question.Answers.ToList();
-            foreach (var answer in answersCopy) {
-                var newAnswer = new Answer {
-                    InstanceId = newInstance.InstanceId,
-                    QuestionId = answer.QuestionId,
-                    Idx = answer.Idx,
-                    Value = answer.Value
-                };
-                _context.Answers.Add(newAnswer);
-            }
-        }
-        await _context.SaveChangesAsync();
-
-        // Charger la nouvelle instance
-        instance = await _context.Instances
-            .Where(i => i.InstanceId == newInstance.InstanceId)
-            .Include(i => i.Form)
-            .ThenInclude(f => f.Questions)
-            .ThenInclude(q => q.Answers) // Charger toutes les réponses
-            .Include(i => i.Form)
-            .ThenInclude(f => f.Questions)
-            .ThenInclude(q => q.OptionList)
-            .ThenInclude(o => o.OptionValues)
-            .FirstOrDefaultAsync();
-
-        // Filtrer les réponses liées à la nouvelle instance
-        var newFiltredAnswers = instance.Form.Questions.ToList(); //une copie pour éviter les erreurs inattendu
-        foreach (var question in newFiltredAnswers) {
-            question.Answers = question.Answers.Where(a => a.InstanceId == newInstance.InstanceId).ToList();
-        }
-    }*/
-
     // Retourner l'instance filtrée (ancienne ou nouvelle)
     return _mapper.Map<InstanceWithFormDetailedDTO>(instance);
 }
@@ -110,15 +67,6 @@ public async Task<ActionResult<InstanceWithFormDetailedDTO>> GetInstance(int id,
         
     }
 
-    /* [HttpGet("{id}")]
-    public async Task<ActionResult<InstanceDTO>> GetSimpleInstance(int id) {
-        var instance = await _context.Instances.FindAsync(id);
-        if (instance == null) {
-            return NotFound();
-        }
-        return _mapper.Map<InstanceDTO>(instance);
-        
-    }*/
 
 
 }

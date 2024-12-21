@@ -19,6 +19,7 @@ export class ViewFormComponent implements OnInit{
 
     form: FormWithQuestions;
     owner?: User;
+    isInstancied: boolean = false;
     
 
     constructor(private router: Router,
@@ -27,6 +28,8 @@ export class ViewFormComponent implements OnInit{
     ) {
         const navigation = this.router.getCurrentNavigation();
         this.form = navigation?.extras?.state?.['form'];
+        this.isInstancied = this.form.lastInstance != null;
+        console.log("instancied: " + this.isInstancied);
         //this.owner = navigation?.extras?.state?.['form.owner'];
         
     }
@@ -38,17 +41,19 @@ export class ViewFormComponent implements OnInit{
     ngOnInit(): void {
         if (this.form){
             this.formService.getForm(this.form.formId).subscribe(res =>{
-                console.log("res: " + res.questions.map(q => q.title));
+             
                 this.form = res;
                 this.form.questions = res.questions;
-                console.log("this form coucou:" + this.form.title  + "    " + this.form.questions);
+              
                
             });
-           
         }
         this.owner = this.form.owner;
-        console.log("owner" + this.form.owner.firstName);
-    
     }
 
+    deleteQuestion(id: number) {
+      
+        this.formService.deleteQuestion(id).subscribe();
+        console.log('formservice: '+ id);
+    }
 }

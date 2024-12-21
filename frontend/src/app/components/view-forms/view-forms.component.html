@@ -1,4 +1,11 @@
-<app-nav-bar title="My Forms" class="toolbar-actions" (askToggleFilter) = "askToggleFilter()"></app-nav-bar>
+<app-nav-bar title="My Forms" class="toolbar-actions" [isHome]="true">
+    <button mat-icon-button (click)="toggleFilter()">
+        <mat-icon>search</mat-icon>
+     </button>
+     <button mat-icon-button >
+        <mat-icon>add</mat-icon>
+     </button>
+</app-nav-bar>
 @if (filterIsVisible) {
 <div class="filter-container">
     <mat-form-field class="filter-field" appearance="outline">

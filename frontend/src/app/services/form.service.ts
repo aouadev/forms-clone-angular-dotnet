@@ -53,4 +53,14 @@ export class FormService {
             map(res => plainToInstance(FormWithQuestions, res))
         );
     }
+
+    public deleteQuestion(id: number): Observable<boolean> {
+        return this.http.delete<boolean>(`${this.baseUrl}api/viewform/${id}`).pipe(
+            map(res => true),
+            catchError(err => {
+                console.error(err);
+                return of(false);
+            })
+        );
+    }
 }
