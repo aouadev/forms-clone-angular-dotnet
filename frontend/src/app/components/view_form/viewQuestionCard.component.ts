@@ -18,14 +18,19 @@ import { DeleteQuestionDialog } from "./dialogs/deleteQuestionDialog.component";
 export class viewQuestionCard implements OnInit{
     @Input() question?: Question;
     @Input() size: number = 0;
+    @Input() index: number = 0;
+    @Input() isInstancied: boolean = false;
     @Output() askDeleteQuestion: EventEmitter<void> = new EventEmitter<void>
+    @Output() askUpward: EventEmitter<void> = new EventEmitter<void>
+    @Output() askDownward: EventEmitter<void> = new EventEmitter<void>
+   
     public QuestionType = QuestionType;
     constructor(public confirmDialog: MatDialog) {
       
     }
     ngOnInit(): void {
         if (this.question) {
-        console.log("type:   " + this.question?.getType);
+        console.log("idx:   " + this.question.idx);
         }
     }
 
@@ -42,5 +47,14 @@ export class viewQuestionCard implements OnInit{
                 this.askDeleteQuestion.emit();
             }
         });
+    }
+
+    askUpWard() {
+        this.askUpward.emit();      
+        console.log("emit up");
+    }
+    askDownWard() {
+        this.askDownward.emit();
+        console.log("emit down");
     }
 }

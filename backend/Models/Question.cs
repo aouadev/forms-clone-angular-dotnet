@@ -16,6 +16,7 @@ public enum QuestionType{
         public int Id { get; set; }
         [ForeignKey(nameof(Form))]
         public int FormId { get; set; } = 0;
+        public Form Form { get; set; } = null!;
         
         public int Idx { get; set; } = 0;
         public string Title { get; set; } = null!;

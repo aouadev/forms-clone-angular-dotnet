@@ -33,6 +33,9 @@ import { RadioQuestionComponent} from '../components/instance/radioQuestion/radi
 import { ViewFormComponent } from '../components/view_form/viewForm.component';
 import { viewQuestionCard } from '../components/view_form/viewQuestionCard.component';
 import { DeleteQuestionDialog } from '../components/view_form/dialogs/deleteQuestionDialog.component';
+import { WarningDialog } from '../components/view_form/dialogs/warningDialog.component';
+import { PublicDialog } from '../components/view_form/dialogs/publicDialog.component';
+import { DeleteFormDialog } from '../components/view_form/dialogs/deleteFormDialog.component';
 
 @NgModule({
     declarations: [
@@ -58,7 +61,10 @@ import { DeleteQuestionDialog } from '../components/view_form/dialogs/deleteQues
         RadioQuestionComponent,
         ViewFormComponent,
         viewQuestionCard,
-        DeleteQuestionDialog
+        DeleteQuestionDialog,
+        WarningDialog,
+        PublicDialog,
+        DeleteFormDialog
         
     ],
     imports: [

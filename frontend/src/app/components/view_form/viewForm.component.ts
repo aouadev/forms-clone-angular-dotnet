@@ -1,9 +1,19 @@
 import { InputModalityDetector } from "@angular/cdk/a11y";
-import { Component, Input, OnInit } from "@angular/core";
+import { AfterViewInit, Component, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { User } from "src/app/models/user";
 import { Form, FormWithQuestions } from "src/app/models/form";
 import { FormService } from "src/app/services/form.service";
+import { Question } from "src/app/models/question";
+import { template } from "lodash-es";
+
+import { CommonModule } from '@angular/common';
+import { MatDialog } from "@angular/material/dialog";
+import { WarningDialog } from "./dialogs/warningDialog.component";
+import { AuthenticationService } from "src/app/services/authentication.service";
+import { PublicDialog } from "./dialogs/publicDialog.component";
+import { th } from "date-fns/locale";
+import { DeleteFormDialog } from "./dialogs/deleteFormDialog.component";
 
 @Component({
     selector: "view-form",
@@ -20,16 +30,23 @@ export class ViewFormComponent implements OnInit{
     form: FormWithQuestions;
     owner?: User;
     isInstancied: boolean = false;
+    currentUser?: User;
+    toggleState: boolean = false;
     
 
     constructor(private router: Router,
-                private formService: FormService
+                private formService: FormService,
+                private dialog: MatDialog,
+                private authenticationService: AuthenticationService,
+                
 
     ) {
         const navigation = this.router.getCurrentNavigation();
         this.form = navigation?.extras?.state?.['form'];
-        this.isInstancied = this.form.lastInstance != null;
-        console.log("instancied: " + this.isInstancied);
+        //this.isInstancied = this.form.lastInstance != null;
+        this.currentUser = this.authenticationService.currentUser;
+      
+       
         //this.owner = navigation?.extras?.state?.['form.owner'];
         
     }
@@ -43,17 +60,86 @@ export class ViewFormComponent implements OnInit{
             this.formService.getForm(this.form.formId).subscribe(res =>{
              
                 this.form = res;
-                this.form.questions = res.questions;
-              
-               
+                this.form.questions = res.questions.sort((q1, q2) => q1.idx - q2.idx);
+                this.isInstancied = res.isInstancied;
+                this.toggleState = this.form.isPublic;
+                console.log("instancied: " + this.isInstancied);
+                if (this.isInstancied) {
+                    this.dialog.open(WarningDialog);
+                }
             });
         }
         this.owner = this.form.owner;
     }
 
+
     deleteQuestion(id: number) {
       
-        this.formService.deleteQuestion(id).subscribe();
+        this.formService.deleteQuestion(id).subscribe(res => {
+            if (res) {
+                this.form.questions = this.form.questions.filter(q => q.id != id);
+            }
+        });
         console.log('formservice: '+ id);
     }
+
+    deleteFormDialog() {
+        this.dialog.open(DeleteFormDialog, {autoFocus: true}).afterClosed().subscribe(res => {
+            if(res) {
+                this.formService.deleteForm(this.form.formId).subscribe(res => {
+                    console.log("form deleted: " + res);
+                    this.router.navigate(['/view_forms']);
+                    
+                });
+            }
+        });
+    }
+
+    updateIdx(currentQuestion: Question, direction: string) {
+        console.log("down called");
+        var currentIndex = this.form.questions.findIndex(q => q.id == currentQuestion.id);
+        var index = direction == 'down'? currentIndex + 1 : currentIndex - 1;
+        if (index >= 0 && index < this.form.questions.length - 1) {
+            var nextQuestion = this.form.questions.at(index);
+            console.log("currentQuestion: " + currentQuestion.idx + " - next: " + nextQuestion?.idx );
+            if (nextQuestion) {
+                const tempIdx = currentQuestion.idx;
+                currentQuestion.idx = nextQuestion.idx;
+                nextQuestion.idx = tempIdx;
+                this.form.questions.sort((q1, q2) => q1.idx - q2.idx);
+                this.formService.updateQuestion(currentQuestion).subscribe(res => {
+                console.log("res" + res);
+            });
+        }
+            console.log("currentQuestion: " + currentQuestion.idx + "  next: " + nextQuestion?.idx );
+            //this.formService.updateQuestion()
+
+
+        }
+      
+    }
+
+    trackByFn(index: number, question: Question): number {
+        return question.id; // Utilisez un identifiant unique pour chaque question
+    }
+
+    canManageShare() {
+        return this.currentUser == this.form.owner || this.currentUser?.roleAsString == 'admin';
+    }
+
+    togglePublicBtn() {
+        console.log("Initial isPublic: " + this.form.isPublic + ", toggleState: " + this.toggleState);
+        this.dialog.open(PublicDialog, {
+            data: { isPublic: this.toggleState }, autoFocus: true
+        }).afterClosed().subscribe(result => {
+            if (result) {
+                this.formService.updatePublicForm(this.form.formId).subscribe();
+            } else {
+                this.toggleState = this.form.isPublic;
+                console.log("Change cancelled: toggleState = " + this.toggleState);
+            }
+        });
+    }
+    
+    
 }

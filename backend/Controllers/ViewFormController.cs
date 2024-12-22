@@ -17,12 +17,16 @@ public class ViewFormController(FormContext context, IMapper mapper) : Controlle
 
     [HttpGet("{id}")]
     public async Task<ActionResult<FormWithQuestionsDTO>> GetFormWithQuestions(int id) {
+        var query = await _context.Instances.Where(i => i.FormId == id).ToListAsync();
         var form = await _context.Forms.Where(f => f.FormId == id)
                                         .Include(f => f.Questions)
                                         .ThenInclude(q => q.OptionList)
                                         .ThenInclude(o => o.OptionValues)
                                         .FirstOrDefaultAsync();
-        return _mapper.Map<FormWithQuestionsDTO>(form);                               
+
+        var formDto = _mapper.Map<FormWithQuestionsDTO>(form);
+        formDto.IsInstancied = query.Count() > 0;  
+        return formDto;                             
     }
 
     [HttpDelete("{id}")]
@@ -37,5 +41,24 @@ public class ViewFormController(FormContext context, IMapper mapper) : Controlle
 
     }
 
+    [HttpPut("{id}")]
+    public async Task<ActionResult> PutForm(int id) {
+        var form = await _context.Forms.FindAsync(id);
+        if (form == null) {
+            return BadRequest("Form Not found: " + id);
+        }
+        var isPublic = form.IsPublic;
+        form.IsPublic = !isPublic;
+        Console.WriteLine("is public :::::" + isPublic);
+        if (!isPublic) {
+            var userAccesses = _context.FormsAccess.Where(fa => fa.FormId == id && fa.AccessType == AccessType.User);
+            _context.FormsAccess.RemoveRange(userAccesses);
+        }
+        await _context.SaveChangesAsync();
+        return NoContent();
+
+
+
+    }
 
 }

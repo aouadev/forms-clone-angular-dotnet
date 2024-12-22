@@ -4,11 +4,14 @@
     <button mat-icon-button  [disabled]="isInstancied">
         <mat-icon >edit</mat-icon>
     </button>
-    <button mat-icon-button>
+    <button mat-icon-button (click)="deleteFormDialog()">
         <mat-icon >delete</mat-icon>
     </button>
     <button mat-icon-button>
-        <mat-icon >share</mat-icon>
+        <mat-icon [hidden]="canManageShare()">share</mat-icon>
+    </button>
+    <button mat-icon-button>
+        <mat-icon [hidden]="!isInstancied">query_stats</mat-icon>
     </button>
 </app-nav-bar>
 
@@ -32,16 +35,28 @@
         </div> 
         <div class="form-info-line">
             <div class="form-info-label">Public:</div>
-            <div class="form-info-data"><mat-slide-toggle [checked]="form.isPublic"></mat-slide-toggle></div>
+            <div class="form-info-data"><mat-slide-toggle 
+                                            [(ngModel)]="toggleState"
+                                            (click)="togglePublicBtn()"
+                                            ></mat-slide-toggle></div>
         </div> 
     </div>
     <div class="questions-container">
     <h4>Questions</h4>
         
-        @for(question of form.questions; track question.id) {
-            <view-question-card [question]="question" (askDeleteQuestion)="deleteQuestion(question.id)" [size]="form.questions.length"></view-question-card>
-          
-        }
+
+        <div *ngFor="let question of form.questions; let i = index; trackBy: trackByFn">
+            <view-question-card [question]="question"
+                                (askDeleteQuestion)="deleteQuestion(question.id)" 
+                                [size]="form.questions.length"
+                                [index]="i"
+                                (askDownward)="updateIdx(question, 'down')"
+                                (askUpward)="updateIdx(question,'up')"
+                                [isInstancied]="isInstancied">
+            </view-question-card>
+        </div>
+  
+    
     
 </div>
     }

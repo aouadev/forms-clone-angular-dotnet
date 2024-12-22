@@ -25,12 +25,19 @@
             </div>
         
         </div>
+        @if (!isInstancied) {
         <div class="arrows-div">
             <button mat-icon-button >
-                <mat-icon class="icons" fontIcon="arrow_upward" [hidden]="question?.idx == 1"></mat-icon>
+                <mat-icon class="icons"
+                    fontIcon="arrow_upward" 
+                    [hidden]="index == 0"
+                    (click)="askUpWard()"></mat-icon>
             </button>
             <button mat-icon-button >
-                <mat-icon class="icons" fontIcon="arrow_downward" [hidden]="question?.idx == size"></mat-icon>
+                <mat-icon class="icons"
+                    fontIcon="arrow_downward"
+                    [hidden]="index >= size - 1"
+                    (click)="askDownWard()"></mat-icon>
             </button>
         </div>
         <div class="footer-icons">
@@ -40,7 +47,8 @@
                 <button mat-icon-button (click)="openDialog()">
                     <mat-icon class="icons" fontIcon="delete"></mat-icon>
                 </button>
-            </div>
+        </div>
+    }
     </div>
     
 

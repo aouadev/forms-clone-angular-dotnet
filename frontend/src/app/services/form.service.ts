@@ -7,6 +7,8 @@ import { catchError, map } from "rxjs/operators";
 import { Observable, of } from "rxjs";
 import { plainToInstance } from "class-transformer";
 import { InstanceWithFormDetailed } from "../models/instance";
+import { Question } from "../models/question";
+import { tr } from "date-fns/locale";
 
 @Injectable({ providedIn: 'root'})
 export class FormService {
@@ -62,5 +64,35 @@ export class FormService {
                 return of(false);
             })
         );
+    }
+
+    updateQuestion(question: Question): Observable<boolean> {
+        return this.http.put<void>(`${this.baseUrl}api/question`, question).pipe(
+            map(res => true),
+            catchError(err => {
+                console.error(err);
+                return of(false);
+            })
+        );
+    }
+    updatePublicForm(id: number): Observable<boolean> {
+        console.log("update");
+        return this.http.put<void>(`${this.baseUrl}api/viewform/${id}`, {}).pipe(
+        
+            map(res => true),
+            catchError(err => {
+                console.error(err);
+                return of(false);
+            })
+        );
+    }
+    deleteForm(id: number): Observable<boolean> {
+        return this.http.delete<boolean>(`${this.baseUrl}api/forms/${id}`).pipe(
+            map(res => true),
+            catchError(err => {
+                console.log(err);
+                return of(false);
+            })
+        )
     }
 }

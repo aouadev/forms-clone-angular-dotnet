@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>Make Form {{data.isPublic? 'Public':'Private'}}</h2>
+<mat-dialog-content>
+    Are you sure you want to make this form public? This will 
+    delete all existing shared with 'User' access to this form.
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="cancel()">No</button>
+    <button mat-button (click)="comfirmToggle()">Yes</button>
+</mat-dialog-actions>

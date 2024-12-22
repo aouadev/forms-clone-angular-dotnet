@@ -76,5 +76,16 @@ public async Task<ActionResult<IEnumerable<FormWithUserDetailsDTO>>> GetMyForms(
         }        
     }
 
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteForm(int id) {
+        var form = await _context.Forms.FindAsync(id);
+        if (form == null) {
+            return BadRequest();
+        }
+         _context.Remove(form);
+        await _context.SaveChangesAsync();
+        return NoContent();
+    }
+
 
 }
