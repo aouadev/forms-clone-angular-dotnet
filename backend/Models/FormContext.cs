@@ -51,7 +51,8 @@ public class FormContext : DbContext
             .HasMany(f => f.Accesses)
             .WithOne(a => a.Form)
             .HasForeignKey(a => a.FormId)
-            .OnDelete(DeleteBehavior.Cascade); 
+            .OnDelete(DeleteBehavior.Cascade);
+      
     }
 
     public DbSet<User> Users => Set<User>();

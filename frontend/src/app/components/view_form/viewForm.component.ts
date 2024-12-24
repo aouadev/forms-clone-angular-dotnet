@@ -2,7 +2,7 @@ import { InputModalityDetector } from "@angular/cdk/a11y";
 import { AfterViewInit, Component, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { User } from "src/app/models/user";
-import { Form, FormWithQuestions } from "src/app/models/form";
+import { Form} from "src/app/models/form";
 import { FormService } from "src/app/services/form.service";
 import { Question } from "src/app/models/question";
 import { template } from "lodash-es";
@@ -27,7 +27,7 @@ import { DeleteFormDialog } from "./dialogs/deleteFormDialog.component";
 })
 export class ViewFormComponent implements OnInit{
 
-    form: FormWithQuestions;
+    form: Form;
     owner?: User;
     isInstancied: boolean = false;
     currentUser?: User;
@@ -43,6 +43,7 @@ export class ViewFormComponent implements OnInit{
     ) {
         const navigation = this.router.getCurrentNavigation();
         this.form = navigation?.extras?.state?.['form'];
+        console.log('Form Object: ', this.form);
         //this.isInstancied = this.form.lastInstance != null;
         this.currentUser = this.authenticationService.currentUser;
       
@@ -58,12 +59,14 @@ export class ViewFormComponent implements OnInit{
     ngOnInit(): void {
         if (this.form){
             this.formService.getForm(this.form.formId).subscribe(res =>{
-             
+                //console.log('API Response:', res); // Vérifiez ici si `owner` est présent
                 this.form = res;
+                this.form.ownerFullName = `${this.form.owner?.fullName}`;
+               // console.log("owner: "+ this.form.owner?.firstName  + "res:   "+ res.owner?.firstName);
                 this.form.questions = res.questions.sort((q1, q2) => q1.idx - q2.idx);
                 this.isInstancied = res.isInstancied;
                 this.toggleState = this.form.isPublic;
-                console.log("instancied: " + this.isInstancied);
+                //console.log("instancied: " + this.isInstancied);
                 if (this.isInstancied) {
                     this.dialog.open(WarningDialog);
                 }
@@ -80,14 +83,14 @@ export class ViewFormComponent implements OnInit{
                 this.form.questions = this.form.questions.filter(q => q.id != id);
             }
         });
-        console.log('formservice: '+ id);
+        //console.log('formservice: '+ id);
     }
 
     deleteFormDialog() {
         this.dialog.open(DeleteFormDialog, {autoFocus: true}).afterClosed().subscribe(res => {
             if(res) {
                 this.formService.deleteForm(this.form.formId).subscribe(res => {
-                    console.log("form deleted: " + res);
+                    //console.log("form deleted: " + res);
                     this.router.navigate(['/view_forms']);
                     
                 });
@@ -111,7 +114,7 @@ export class ViewFormComponent implements OnInit{
                 console.log("res" + res);
             });
         }
-            console.log("currentQuestion: " + currentQuestion.idx + "  next: " + nextQuestion?.idx );
+            //console.log("currentQuestion: " + currentQuestion.idx + "  next: " + nextQuestion?.idx );
             //this.formService.updateQuestion()
 
 
@@ -133,13 +136,16 @@ export class ViewFormComponent implements OnInit{
             data: { isPublic: this.toggleState }, autoFocus: true
         }).afterClosed().subscribe(result => {
             if (result) {
-                this.formService.updatePublicForm(this.form.formId).subscribe();
+                this.formService.updatePublicForm(this.form.formId).subscribe(res => this.form.isPublic = this.toggleState);
             } else {
                 this.toggleState = this.form.isPublic;
                 console.log("Change cancelled: toggleState = " + this.toggleState);
             }
         });
     }
+
     
-    
+    openAddEditForm() {
+        this.router.navigate(["addEditForm"], {state: {form: this.form, isNew: false}});
+    }
 }

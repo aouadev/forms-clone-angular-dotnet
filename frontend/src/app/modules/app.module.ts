@@ -36,6 +36,7 @@ import { DeleteQuestionDialog } from '../components/view_form/dialogs/deleteQues
 import { WarningDialog } from '../components/view_form/dialogs/warningDialog.component';
 import { PublicDialog } from '../components/view_form/dialogs/publicDialog.component';
 import { DeleteFormDialog } from '../components/view_form/dialogs/deleteFormDialog.component';
+import { AddEditFormComponent } from '../components/add-edit-form/add-edit-form.component';
 
 @NgModule({
     declarations: [
@@ -64,7 +65,8 @@ import { DeleteFormDialog } from '../components/view_form/dialogs/deleteFormDial
         DeleteQuestionDialog,
         WarningDialog,
         PublicDialog,
-        DeleteFormDialog
+        DeleteFormDialog,
+        AddEditFormComponent
         
     ],
     imports: [

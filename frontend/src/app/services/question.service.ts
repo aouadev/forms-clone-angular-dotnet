@@ -1,7 +1,7 @@
 import { Injectable, Inject } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 
-import { Form, FormDetailed, FormWithQuestions } from '../models/form';
+import { Form} from '../models/form';
 import { User } from '../models/user';
 import { catchError, map } from "rxjs/operators";
 import { Observable, of } from "rxjs";

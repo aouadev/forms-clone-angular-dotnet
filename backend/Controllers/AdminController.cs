@@ -25,7 +25,7 @@ public class AdminController : ControllerBase {
         List<FormWithUserDetailsDTO> AllForms = new List<FormWithUserDetailsDTO>();
         foreach (var form in forms) {
             FormWithUserDetailsDTO f = _mapper.Map<FormWithUserDetailsDTO>(form);
-            var owner = _mapper.Map<UserDTO>(await _context.Users.Where(u => u.Id == form.OwnerId).FirstOrDefaultAsync());
+            var owner = _mapper.Map<UserWithPasswordDTO>(await _context.Users.Where(u => u.Id == form.OwnerId).FirstOrDefaultAsync());
             f.Owner = owner;
             AllForms.Add(f);
         }

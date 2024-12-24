@@ -6,6 +6,7 @@ import {Role} from "../../models/user";
 import { Observable, of } from "rxjs";
 import { AuthenticationService } from "src/app/services/authentication.service";
 import { th } from "date-fns/locale";
+import { Router } from "@angular/router";
 @Component({
     selector: 'view_forms',
     templateUrl: './view-forms.component.html',
@@ -22,7 +23,8 @@ export class ViewFormsComponent {
     
 
     constructor(private formService: FormService,
-                private authenticationService : AuthenticationService) {
+                private authenticationService : AuthenticationService,
+                private router: Router) {
                     this.currentUser = this.authenticationService.currentUser;
                 }
                   
@@ -37,7 +39,7 @@ export class ViewFormsComponent {
                         this.forms = res;
                         this.formsFromBackend = res;
                     });
-                }else {
+            } else {
                     this.formService.getMyForms().subscribe((res) => {
                         this.forms = res;
                         this.formsFromBackend = res;
@@ -69,6 +71,11 @@ export class ViewFormsComponent {
         );
         
         this.filterText != '' ? this.forms = this.filtredForms : this.forms = this.formsFromBackend;
+    }
+
+    openAddEditForm() {
+        console.log("Navigating to addEditForm with:", {form: new Form(), isNew: true});
+        this.router.navigate(["addEditForm"], {state: {form: new Form(), isNew: true}});
     }
 
 

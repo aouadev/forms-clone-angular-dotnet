@@ -22,4 +22,7 @@ export class User {
     public get roleAsString(): string {
         return Role[this.role];
     }
+    public get fullName(): string {
+        return this.firstName + " " + this.lastName;
+    }
 }

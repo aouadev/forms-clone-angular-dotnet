@@ -19,12 +19,16 @@ public class ViewFormController(FormContext context, IMapper mapper) : Controlle
     public async Task<ActionResult<FormWithQuestionsDTO>> GetFormWithQuestions(int id) {
         var query = await _context.Instances.Where(i => i.FormId == id).ToListAsync();
         var form = await _context.Forms.Where(f => f.FormId == id)
+                                        .Include(f => f.Owner)
                                         .Include(f => f.Questions)
                                         .ThenInclude(q => q.OptionList)
                                         .ThenInclude(o => o.OptionValues)
                                         .FirstOrDefaultAsync();
-
+        if (form == null){
+            return NotFound();
+        }
         var formDto = _mapper.Map<FormWithQuestionsDTO>(form);
+        formDto.Owner = _mapper.Map<User, UserWithPasswordDTO>(form.Owner);
         formDto.IsInstancied = query.Count() > 0;  
         return formDto;                             
     }

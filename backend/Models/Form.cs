@@ -13,7 +13,9 @@ namespace prid_2425_f06.Models
         public int FormId { get; set; }
         public string Title { get; set; } = null!;
         public string? Description { get; set; }
+        [ForeignKey(nameof(Owner))]
         public int OwnerId { get; set; } = 0;
+        public User Owner { get; set; } = null!;
         public bool IsPublic { get; set; } = false;
         public ICollection<FormAccess> Accesses { get; set; } = new HashSet<FormAccess>();
         public ICollection<Instance> Instances { get; set; } = new HashSet<Instance>();

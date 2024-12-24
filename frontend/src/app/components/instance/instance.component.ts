@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, OnInit, OnChanges, SimpleChanges, AfterContentChecked, AfterViewInit } from "@angular/core";
-import { Form, FormDetailed } from "src/app/models/form";
+import { Form } from "src/app/models/form";
 import { Router } from "@angular/router";
 import { Instance, InstanceWithFormDetailed } from "src/app/models/instance";
 import { InstanceService } from "src/app/services/instance.service";
@@ -20,7 +20,7 @@ import {forEach} from "lodash-es";
     ]
 })
 export class InstanceComponent implements OnInit, OnChanges, AfterViewInit{
-    form: FormDetailed;
+    form: Form;
     readOnly: boolean = false;
     submit: boolean = false;
     instance?: InstanceWithFormDetailed;
@@ -52,7 +52,7 @@ export class InstanceComponent implements OnInit, OnChanges, AfterViewInit{
             this.instanceService.getInstance(this.form?.lastInstance.instanceId, this.readOnly).subscribe((res) => {
                 this.instance = res;
                 this.form = this.instance.form || this.form;
-                this.questions = this.form.questions;
+                this.questions = this.form.questionsWithAnswers;
                 this.currentQuestion = this.questions[this.questionNumber];
                 console.log("instanceid ;;;;=: "+ this.instance.instanceId);
             });
@@ -61,7 +61,7 @@ export class InstanceComponent implements OnInit, OnChanges, AfterViewInit{
             this.formService.getFormWithquestions(this.form?.formId).subscribe((res) => {
                 this.instance = res;
                 this.form  = this.instance.form || this.form;
-                this.questions = this.form.questions;
+                this.questions = this.form.questionsWithAnswers;
                 this.currentQuestion = this.questions[this.questionNumber];
               
             });

@@ -40,7 +40,7 @@ public async Task<ActionResult<IEnumerable<FormWithUserDetailsDTO>>> GetMyForms(
     // Mapper les données en DTO
     var forms = formsData.Select(data => {
         var formDTO = _mapper.Map<FormWithUserDetailsDTO>(data.Form);
-        formDTO.Owner = _mapper.Map<UserDTO>(data.Owner);
+        formDTO.Owner = _mapper.Map<UserWithPasswordDTO>(data.Owner);
         formDTO.LastInstance = _mapper.Map<InstanceDTO>(data.LastInstance);
         return formDTO;
     }).OrderBy(f => f.Title).ToList();
@@ -85,6 +85,26 @@ public async Task<ActionResult<IEnumerable<FormWithUserDetailsDTO>>> GetMyForms(
          _context.Remove(form);
         await _context.SaveChangesAsync();
         return NoContent();
+    }
+    [HttpPost]
+    public async Task<ActionResult<bool>> PostForm(FormDTO formDto) {
+        if (formDto == null) {
+            return BadRequest("Form data is null");
+        }
+        var form = await _context.Forms.FindAsync(formDto.FormId);
+        if (form == null) {
+            form = _mapper.Map<FormDTO, Form>(formDto);
+            await _context.Forms.AddAsync(form);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(PostForm), new { id = form.FormId}, true);
+         
+        } else {
+            _mapper.Map(formDto, form);
+             await _context.SaveChangesAsync();
+             return Ok(true);
+        }
+        
+
     }
 
 

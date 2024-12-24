@@ -1,0 +1,39 @@
+<app-nav-bar title="Create a New Form" [backUrl]="'/view_forms'">
+    <button mat-icon-button (click)="saveForm()"><mat-icon>save</mat-icon></button>
+</app-nav-bar>
+<div class="body">
+    <form class="example-form" [formGroup]="frm">
+        <mat-form-field class="example-full-width">
+            <mat-label>Title</mat-label>
+            <input type="text" matInput [formControl]="titleCtl"
+            [errorStateMatcher]="matcher">
+            
+            @if(titleCtl.hasError('required')) {
+                <mat-error>Title is <strong>required</strong></mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-label>Description</mat-label>
+            <input type="text" matInput [formControl]="descriptionCtl"
+            [errorStateMatcher]="matcher">
+       
+            @if(descriptionCtl.hasError('minlength') ) {
+                <mat-error>Minimum length is 3</mat-error>
+            }
+        </mat-form-field>
+        @if(form ) {
+        <mat-form-field class="example-full-width">
+            <mat-label>Owner</mat-label>
+           
+            <input type="text" matInput  [value]="owner?.fullName" [disabled]="true">
+            
+       
+        </mat-form-field>
+    }
+
+        <section class="example-section">
+            <mat-checkbox class="example-margin" [checked]="form.isPublic" [formControl]="publicCtl">Public</mat-checkbox>
+        </section>
+    </form>
+
+</div>

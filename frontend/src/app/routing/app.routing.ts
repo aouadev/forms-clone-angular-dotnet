@@ -9,6 +9,7 @@ import { RestrictedComponent } from '../components/restricted/restricted.compone
 import { ViewFormsComponent } from '../components/view-forms/view-forms.component';
 import { InstanceComponent } from '../components/instance/instance.component';
 import { ViewFormComponent } from '../components/view_form/viewForm.component';
+import { AddEditFormComponent } from '../components/add-edit-form/add-edit-form.component';
 
 const appRoutes: Routes = [
     {path: '', component: LoginComponent, pathMatch: 'full'},
@@ -16,6 +17,7 @@ const appRoutes: Routes = [
     {path: 'view_forms', component: ViewFormsComponent},
     {path: 'instance', component: InstanceComponent},
     {path: 'viewForm', component: ViewFormComponent},
+    {path: 'addEditForm', component:AddEditFormComponent},
     {   
         path: 'template',
         component: TemplateComponent,

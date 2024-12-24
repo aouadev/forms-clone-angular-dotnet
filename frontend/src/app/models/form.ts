@@ -13,15 +13,19 @@ export class Form {
     lastInstance?: Instance;
     isInstancied: boolean = false;
     owner: User = null!
+    ownerFullName: string = '';
     formId: number = 0;
+    ownerId: number = 0;
     title: string = '';
     description: string = '';
     isPublic: boolean = false;
+    questionsWithAnswers: QuestionWithAnswers[] = [];
+    questions: Question[] = []
 }
 
-export class FormDetailed extends Form {
+/*export class FormDetailed extends Form {
     questions: QuestionWithAnswers[] = [];
 }
 export class FormWithQuestions extends Form {
     questions: Question[] = []
-}
+}*/

@@ -20,21 +20,18 @@ export class ShortQuestionComponent implements OnChanges, OnDestroy {
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['question'] && this.question) {
-            // Si une subscription existe déjà, désabonne-la
             if (this.subscription) {
                 this.subscription.unsubscribe();
             }
-
-            // Crée un nouveau FormControl
             this.ctlShortAnswer = this.fb.control(
                 this.question?.answers?.[0]?.value || '', 
                 this.question?.required ? [Validators.required] : []
             );
 
-            // Abonne-toi aux changements de valeur
+           
             this.subscription = this.ctlShortAnswer.valueChanges.subscribe(value => {
                 console.log('value:::' + value);
-                // Mets à jour la réponse associée
+               
                 if (this.question?.answers) {
                     this.question.answers[0] = {
                         instanceId: this.instanceId || 0,
@@ -48,14 +45,11 @@ export class ShortQuestionComponent implements OnChanges, OnDestroy {
                 }
                
             });
-
-            // Marque comme touché pour afficher les erreurs dès le chargement
             this.ctlShortAnswer.markAllAsTouched();
         }
     }
 
     ngOnDestroy(): void {
-        // Nettoie les abonnements pour éviter les fuites de mémoire
         if (this.subscription) {
             this.subscription.unsubscribe();
         }

@@ -4,6 +4,7 @@ namespace prid_2425_f06.Models;
 public class FormDTO {
 
     public int FormId { get; set;}
+    public int OwnerId { get; set;}
     public string Title { get; set;} = null!;
     public string? Description { get; set;}
  
@@ -17,7 +18,7 @@ public class FormWithLastInstanceDTO : FormDTO {
     public InstanceDTO? LastInstance { get; set; }
 }
 public class FormWithUserDetailsDTO : FormWithLastInstanceDTO{
-    public UserDTO Owner { get; set; } = null!;
+    public UserWithPasswordDTO Owner { get; set; } = null!;
 }
 /*public class FormWithQuestionDetailedDTO : FormDTO{
     public ICollection<QuestionWithOLDetailsDTO> QuestionDetails { get; set;} = new HashSet<QuestionWithOLDetailsDTO>();
