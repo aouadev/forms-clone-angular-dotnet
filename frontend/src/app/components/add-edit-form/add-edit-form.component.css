@@ -3,7 +3,6 @@ app-nav-bar *{
 }
 .body {
     margin-top: 100px;
-    background-color: aqua;
 }
 .example-form {
     min-width: 150px;
@@ -15,4 +14,20 @@ app-nav-bar *{
   .example-full-width {
     width: 100%;
   }
+
+  .option-list-container {
+    opacity: 1; /* Complètement visible */
+    max-height: 100px; /* Une hauteur maximale arbitraire */
+    transition: opacity 0.5s ease, max-height 0.5s ease; /* Transition fluide */
+    overflow: hidden; /* Cache le contenu dépassant */
+}
+
+.option-list-container.hidden {
+    opacity: 0; /* Invisible */
+    max-height: 0; /* Réduit à une hauteur nulle */
+}
+.optionlist-div{
+  display: flex;
+}
+
   

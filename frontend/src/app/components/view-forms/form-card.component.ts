@@ -36,7 +36,7 @@ export class FormCardComponent {
     }
 
     openManageForm() {
-        this.router.navigate(['viewForm'], {state: {form: this.form}});
+        this.router.navigate(['viewForm'], {state: {data: this.form}});
     }
 
     openDialog(): void {

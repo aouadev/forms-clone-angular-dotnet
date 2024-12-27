@@ -37,6 +37,8 @@ import { WarningDialog } from '../components/view_form/dialogs/warningDialog.com
 import { PublicDialog } from '../components/view_form/dialogs/publicDialog.component';
 import { DeleteFormDialog } from '../components/view_form/dialogs/deleteFormDialog.component';
 import { AddEditFormComponent } from '../components/add-edit-form/add-edit-form.component';
+import { AddEditQuestion } from '../components/add-edit-question/add-edit-question.component';
+import { MyOptionListComponent } from '../components/my-option-lists/my-option-lists.component';
 
 @NgModule({
     declarations: [
@@ -66,7 +68,9 @@ import { AddEditFormComponent } from '../components/add-edit-form/add-edit-form.
         WarningDialog,
         PublicDialog,
         DeleteFormDialog,
-        AddEditFormComponent
+        AddEditFormComponent,
+        AddEditQuestion,
+        MyOptionListComponent
         
     ],
     imports: [

@@ -67,4 +67,8 @@
     margin-left: 20px;
    
    }
+   .add-question-btn {
+    display: flex;
+    justify-self:center;
+   }
   

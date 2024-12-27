@@ -29,10 +29,9 @@ export class MyErrorStateMatcher implements ErrorStateMatcher{
 })
 export class AddEditFormComponent implements OnInit{
     public frm!: FormGroup  
-    public titleCtl!: FormControl;
-    public descriptionCtl!: FormControl;
+  
     public matcher = new MyErrorStateMatcher();
-    public publicCtl!: FormControl;
+
     
     public form: Form;
     public isNew: boolean;
@@ -57,15 +56,15 @@ export class AddEditFormComponent implements OnInit{
 
     ngOnInit(): void {
         this.owner = this.isNew ? this.authenticationService?.currentUser  : this.form?.owner; 
-        this.titleCtl = this.fb.control('', [Validators.required]);
+      /*  this.titleCtl = this.fb.control('', [Validators.required]);
         this.descriptionCtl = this.fb.control('', [Validators.minLength(3)]);
       
     
-        this.publicCtl = this.fb.control('');
+        this.publicCtl = this.fb.control('');*/
         this.frm = this.fb.group({
-            title: this.titleCtl,
-            description: this.descriptionCtl,
-            isPublic: this.publicCtl
+            title: [this.form?.title || '', [Validators.required]],
+            description: [this.form?.description || '', [Validators.minLength(3)]],
+            isPublic: [this.form?.isPublic || false]
         });
         this.frm.patchValue(this.form);
        
@@ -80,9 +79,11 @@ export class AddEditFormComponent implements OnInit{
             this.form.owner = this.owner;
             this.form.ownerId = this.owner.id;
         }
-        this.form.title = this.titleCtl.value;
+       /* this.form.title = this.titleCtl.value;
         this.form.isPublic  = this.publicCtl.value;
-        this.form.description = this.descriptionCtl.value;
+        this.form.description = this.descriptionCtl.value;*/
+        Object.assign(this.form, this.frm.value);
+
 
         console.log("data: ", this.form);
         this.formService.postForm(this.form).subscribe(res => this.router.navigate(['view_forms']));

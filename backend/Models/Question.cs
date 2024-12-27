@@ -16,14 +16,14 @@ public enum QuestionType{
         public int Id { get; set; }
         [ForeignKey(nameof(Form))]
         public int FormId { get; set; } = 0;
-        public Form Form { get; set; } = null!;
+        public Form? Form { get; set; }
         
         public int Idx { get; set; } = 0;
         public string Title { get; set; } = null!;
         public string? Description { get; set; }
         public QuestionType Type { get; set; } = QuestionType.Short;
         public bool Required { get; set; } = false;
-         [ForeignKey(nameof(OptionList))]
+       
         public int? OptionListId { get; set; }
         public OptionList? OptionList { get; set; }
     

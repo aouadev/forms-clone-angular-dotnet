@@ -21,7 +21,7 @@ public class QuestionController : ControllerBase {
     }
 
     [HttpPut]
-    public async Task<IActionResult> PutQuestion(QuestionDTO questionDto) {
+    public async Task<IActionResult> UpdateQuestion(QuestionDTO questionDto) { // pour échanger l'ordre d'affichage entre deux questions
         //chercher la question concerné dans la base de donnée
         var question = await _context.Questions.SingleOrDefaultAsync(q => q.Id == questionDto.Id);
          if (question == null) {
@@ -32,6 +32,7 @@ public class QuestionController : ControllerBase {
         if (otherQuestion == null) {
             return NotFound();
         }
+        //échanger les idx entre les deux questions
         var tmpIdx = question.Idx;
         question.Idx = 0;
         await _context.SaveChangesAsync();
@@ -41,6 +42,23 @@ public class QuestionController : ControllerBase {
 
 
         await _context.SaveChangesAsync();
+        return NoContent();
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<bool>> PostQuestion(QuestionDTO questionDto) {
+       
+        var question = await _context.Questions.FindAsync(questionDto.Id);
+        if (question == null) {
+             question = _mapper.Map<QuestionDTO, Question>(questionDto);
+           await _context.Questions.AddAsync(question);
+            await _context.SaveChangesAsync();
+            return Ok(true);
+        }
+        else {
+            _mapper.Map(questionDto, question);
+            await _context.SaveChangesAsync();
+        }
         return NoContent();
     }
 

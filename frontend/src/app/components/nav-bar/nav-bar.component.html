@@ -16,6 +16,10 @@
         <mat-icon>home</mat-icon>
         <span>My Forms</span>
     </button>
+    <button mat-menu-item routerLink="/myOptionLists">
+        <mat-icon>boy</mat-icon>
+        <span>My Option Lists</span>
+    </button>
     <button mat-menu-item routerLink="/login" (click)="logout()">
         <mat-icon>logout</mat-icon>
         <span>Logout ({{guestMode ? 'Guest' : currentUser }})</span>

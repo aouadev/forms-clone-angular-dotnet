@@ -6,22 +6,15 @@ export enum QuestionType {
 }
 export class Question {
     id: number = 0;
-    formId: number = 0;
+    formId?: number;
     idx: number = 0;
     title: string = '';
     description?: string;
     type: QuestionType = QuestionType.Short;
     required: boolean = false;
     updated: boolean = false;
+    optionListId?: number;
     optionList?: OptionList;
-
-    public getType(): string {
-        return "coucou";
-    } 
- 
-
-
-    
 }
 
 export class QuestionWithAnswers extends Question{

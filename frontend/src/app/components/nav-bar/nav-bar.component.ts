@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import { th } from 'date-fns/locale';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import {User} from 'src/app/models/user';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
     selector: 'app-nav-bar',
@@ -17,7 +18,9 @@ export class NavBarComponent {
     currentUser?: User;
     guestMode?: boolean;
     
-    constructor(private router: Router, private authenticationService: AuthenticationService) {
+    constructor(private router: Router,
+                 private authenticationService: AuthenticationService,
+                 private dataService: DataService) {
         this.currentUser = authenticationService.currentUser;
         this.guestMode = authenticationService.GuestMode;
     }
@@ -26,11 +29,13 @@ export class NavBarComponent {
         this.authenticationService.logout();
     }
     goBack() {
-        this.router.navigate([this.backUrl]);
+        this.router.navigate([this.backUrl], {state: {data: this.dataService.getData()}});
     }
     /*toggleFilter(){
         this.askToggleFilter.emit();
         console.log("emit");
     }*/
     
+    
 }
+

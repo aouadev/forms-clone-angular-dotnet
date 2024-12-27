@@ -91,7 +91,9 @@ public async Task<ActionResult<IEnumerable<FormWithUserDetailsDTO>>> GetMyForms(
         if (formDto == null) {
             return BadRequest("Form data is null");
         }
-        var form = await _context.Forms.FindAsync(formDto.FormId);
+        var form = await _context.Forms.Where(f => f.FormId == formDto.FormId)
+            
+                    .SingleOrDefaultAsync();
         if (form == null) {
             form = _mapper.Map<FormDTO, Form>(formDto);
             await _context.Forms.AddAsync(form);

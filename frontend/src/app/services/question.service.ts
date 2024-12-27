@@ -8,6 +8,8 @@ import { Observable, of } from "rxjs";
 import { plainToInstance } from "class-transformer";
 import { InstanceWithFormDetailed } from "../models/instance";
 import { Question } from "../models/question";
+import { OptionList } from "../models/optionList";
+import { th } from "date-fns/locale";
 
 @Injectable({ providedIn: 'root'})
 export class QuestionService {
@@ -15,8 +17,8 @@ export class QuestionService {
 
     }
 
-    updateQuestion(question: Question): Observable<boolean> {
-        return this.http.put<Question>(`${this.baseUrl}api/question`, question).pipe(
+    postQuestion(question: Question): Observable<boolean> {
+        return this.http.post<boolean>(`${this.baseUrl}api/question`, question).pipe(
             map(res => true),
             catchError(err => {
                 console.error(err);
@@ -24,4 +26,15 @@ export class QuestionService {
             })
         );
     }
+    getOptionLists(id: number): Observable<OptionList[]> {
+        return this.http.get<any[]>(`${this.baseUrl}api/optionList/${id}`).pipe(
+            map(res => plainToInstance(OptionList, res))
+        );
+    }
+
+    getMyOptionLists(): Observable<OptionList[]> {
+        return this.http.get<any[]>(`${this.baseUrl}api/optionList`).pipe(
+            map(res => plainToInstance(OptionList, res))
+        );
+    } 
 }

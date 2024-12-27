@@ -10,6 +10,9 @@ import { ViewFormsComponent } from '../components/view-forms/view-forms.componen
 import { InstanceComponent } from '../components/instance/instance.component';
 import { ViewFormComponent } from '../components/view_form/viewForm.component';
 import { AddEditFormComponent } from '../components/add-edit-form/add-edit-form.component';
+import { AddEditQuestion } from '../components/add-edit-question/add-edit-question.component';
+import { MyOptionListComponent } from '../components/my-option-lists/my-option-lists.component';
+
 
 const appRoutes: Routes = [
     {path: '', component: LoginComponent, pathMatch: 'full'},
@@ -18,6 +21,8 @@ const appRoutes: Routes = [
     {path: 'instance', component: InstanceComponent},
     {path: 'viewForm', component: ViewFormComponent},
     {path: 'addEditForm', component:AddEditFormComponent},
+    {path: 'addEditQuestion', component: AddEditQuestion},
+    {path: 'myOptionLists', component: MyOptionListComponent},
     {   
         path: 'template',
         component: TemplateComponent,

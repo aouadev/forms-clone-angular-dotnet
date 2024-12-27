@@ -54,7 +54,7 @@ public async Task<ActionResult<InstanceWithFormDetailedDTO>> GetInstance(int id,
 
 
     [HttpPost]
-    public async Task<ActionResult<InstanceWithFormDetailedDTO>> PostQuestion(InstanceWithFormDetailedDTO instanceDTO) {
+    public async Task<ActionResult<InstanceWithFormDetailedDTO>> PostInstance(InstanceWithFormDetailedDTO instanceDTO) {
         var instance = _mapper.Map<Instance>(instanceDTO);
         _context.Instances.Add(instance);
         foreach(var question in instanceDTO.Form.Questions) {

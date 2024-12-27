@@ -13,7 +13,8 @@ namespace prid_2425_f06.Models;
         [Key]
         public int Id { get; set; } 
         public string Name { get; set; } = "";
-        public int? OwnerId { get; set; } 
+        public int? OwnerId { get; set; }
+         
 
         public ICollection<OptionValue> OptionValues { get; set; } = new HashSet<OptionValue>();
         public ICollection<Question> Questions { get; set;} = new HashSet<Question>();

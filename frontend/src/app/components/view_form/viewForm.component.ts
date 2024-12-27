@@ -14,6 +14,7 @@ import { AuthenticationService } from "src/app/services/authentication.service";
 import { PublicDialog } from "./dialogs/publicDialog.component";
 import { th } from "date-fns/locale";
 import { DeleteFormDialog } from "./dialogs/deleteFormDialog.component";
+import { DataService } from "src/app/services/data.service";
 
 @Component({
     selector: "view-form",
@@ -36,14 +37,15 @@ export class ViewFormComponent implements OnInit{
 
     constructor(private router: Router,
                 private formService: FormService,
+                private dataService: DataService,
                 private dialog: MatDialog,
                 private authenticationService: AuthenticationService,
                 
 
     ) {
         const navigation = this.router.getCurrentNavigation();
-        this.form = navigation?.extras?.state?.['form'];
-        console.log('Form Object: ', this.form);
+        this.form = navigation?.extras?.state?.['data'];
+        //console.log('Form Object: ', this.form);
         //this.isInstancied = this.form.lastInstance != null;
         this.currentUser = this.authenticationService.currentUser;
       
@@ -71,8 +73,10 @@ export class ViewFormComponent implements OnInit{
                     this.dialog.open(WarningDialog);
                 }
             });
+            this.owner = this.form.owner;
+            this.dataService.setData(this.form);
         }
-        this.owner = this.form.owner;
+        
     }
 
 
@@ -97,22 +101,20 @@ export class ViewFormComponent implements OnInit{
             }
         });
     }
-
+    
     updateIdx(currentQuestion: Question, direction: string) {
-        console.log("down called");
+       // console.log("down called");
         var currentIndex = this.form.questions.findIndex(q => q.id == currentQuestion.id);
         var index = direction == 'down'? currentIndex + 1 : currentIndex - 1;
         if (index >= 0 && index < this.form.questions.length - 1) {
             var nextQuestion = this.form.questions.at(index);
-            console.log("currentQuestion: " + currentQuestion.idx + " - next: " + nextQuestion?.idx );
+           // console.log("currentQuestion: " + currentQuestion.idx + " - next: " + nextQuestion?.idx );
             if (nextQuestion) {
                 const tempIdx = currentQuestion.idx;
                 currentQuestion.idx = nextQuestion.idx;
                 nextQuestion.idx = tempIdx;
                 this.form.questions.sort((q1, q2) => q1.idx - q2.idx);
-                this.formService.updateQuestion(currentQuestion).subscribe(res => {
-                console.log("res" + res);
-            });
+                this.formService.updateQuestion(currentQuestion).subscribe();
         }
             //console.log("currentQuestion: " + currentQuestion.idx + "  next: " + nextQuestion?.idx );
             //this.formService.updateQuestion()
@@ -131,7 +133,7 @@ export class ViewFormComponent implements OnInit{
     }
 
     togglePublicBtn() {
-        console.log("Initial isPublic: " + this.form.isPublic + ", toggleState: " + this.toggleState);
+       // console.log("Initial isPublic: " + this.form.isPublic + ", toggleState: " + this.toggleState);
         this.dialog.open(PublicDialog, {
             data: { isPublic: this.toggleState }, autoFocus: true
         }).afterClosed().subscribe(result => {
@@ -139,7 +141,7 @@ export class ViewFormComponent implements OnInit{
                 this.formService.updatePublicForm(this.form.formId).subscribe(res => this.form.isPublic = this.toggleState);
             } else {
                 this.toggleState = this.form.isPublic;
-                console.log("Change cancelled: toggleState = " + this.toggleState);
+                //console.log("Change cancelled: toggleState = " + this.toggleState);
             }
         });
     }
@@ -147,5 +149,9 @@ export class ViewFormComponent implements OnInit{
     
     openAddEditForm() {
         this.router.navigate(["addEditForm"], {state: {form: this.form, isNew: false}});
+    }
+    openAddEditQuestion(isNew: boolean, index: number) {
+        this.router.navigate(["addEditQuestion"], {state: {isNew: isNew, questionIndex: index, form: this.form}});
+       // console.log('router: '+ isNew);
     }
 }

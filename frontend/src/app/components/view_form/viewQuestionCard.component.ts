@@ -20,9 +20,10 @@ export class viewQuestionCard implements OnInit{
     @Input() size: number = 0;
     @Input() index: number = 0;
     @Input() isInstancied: boolean = false;
-    @Output() askDeleteQuestion: EventEmitter<void> = new EventEmitter<void>
-    @Output() askUpward: EventEmitter<void> = new EventEmitter<void>
-    @Output() askDownward: EventEmitter<void> = new EventEmitter<void>
+    @Output() askDeleteQuestion: EventEmitter<void> = new EventEmitter<void>();
+    @Output() askUpward: EventEmitter<void> = new EventEmitter<void>();
+    @Output() askDownward: EventEmitter<void> = new EventEmitter<void>();
+    @Output() askAddEditQuestion: EventEmitter<void> = new EventEmitter<void>();
    
     public QuestionType = QuestionType;
     constructor(public confirmDialog: MatDialog) {
@@ -30,7 +31,7 @@ export class viewQuestionCard implements OnInit{
     }
     ngOnInit(): void {
         if (this.question) {
-        console.log("idx:   " + this.question.idx);
+        //console.log("formId :   " + this.question.formId);
         }
     }
 
@@ -56,5 +57,9 @@ export class viewQuestionCard implements OnInit{
     askDownWard() {
         this.askDownward.emit();
         console.log("emit down");
+    }
+
+    openAddEditQuestion() {
+        this.askAddEditQuestion.emit();
     }
 }

@@ -52,7 +52,8 @@
                                 [index]="i"
                                 (askDownward)="updateIdx(question, 'down')"
                                 (askUpward)="updateIdx(question,'up')"
-                                [isInstancied]="isInstancied">
+                                [isInstancied]="isInstancied"
+                                (askAddEditQuestion)="openAddEditQuestion(false, i)">
             </view-question-card>
         </div>
   
@@ -60,4 +61,7 @@
     
 </div>
     }
+    <div>
+        <button mat-button class="add-question-btn" [hidden]="isInstancied" (click)="openAddEditQuestion(true, -1)">Add Question</button>
+    </div>
 </div>

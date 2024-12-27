@@ -16,7 +16,7 @@ public class ViewFormController(FormContext context, IMapper mapper) : Controlle
     private readonly IMapper _mapper = mapper;
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<FormWithQuestionsDTO>> GetFormWithQuestions(int id) {
+    public async Task<ActionResult<FormWithQuestionsAndUserDetailsDTO>> GetFormWithQuestions(int id) {
         var query = await _context.Instances.Where(i => i.FormId == id).ToListAsync();
         var form = await _context.Forms.Where(f => f.FormId == id)
                                         .Include(f => f.Owner)
@@ -27,8 +27,8 @@ public class ViewFormController(FormContext context, IMapper mapper) : Controlle
         if (form == null){
             return NotFound();
         }
-        var formDto = _mapper.Map<FormWithQuestionsDTO>(form);
-        formDto.Owner = _mapper.Map<User, UserWithPasswordDTO>(form.Owner);
+        var formDto = _mapper.Map<FormWithQuestionsAndUserDetailsDTO>(form);
+        formDto.Owner= _mapper.Map<User, UserWithPasswordDTO>(form.Owner);
         formDto.IsInstancied = query.Count() > 0;  
         return formDto;                             
     }
