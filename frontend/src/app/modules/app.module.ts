@@ -38,7 +38,8 @@ import { PublicDialog } from '../components/view_form/dialogs/publicDialog.compo
 import { DeleteFormDialog } from '../components/view_form/dialogs/deleteFormDialog.component';
 import { AddEditFormComponent } from '../components/add-edit-form/add-edit-form.component';
 import { AddEditQuestion } from '../components/add-edit-question/add-edit-question.component';
-import { MyOptionListComponent } from '../components/my-option-lists/my-option-lists.component';
+import { OptionListsComponent } from '../components/option-lists/option-lists.component';
+import { DeleteOptionDialogComponent } from '../components/option-lists/delete-dialogue.component';
 
 @NgModule({
     declarations: [
@@ -70,7 +71,10 @@ import { MyOptionListComponent } from '../components/my-option-lists/my-option-l
         DeleteFormDialog,
         AddEditFormComponent,
         AddEditQuestion,
-        MyOptionListComponent
+        OptionListsComponent,
+        DeleteOptionDialogComponent
+        
+        
         
     ],
     imports: [

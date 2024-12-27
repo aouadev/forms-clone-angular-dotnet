@@ -1,0 +1,26 @@
+<app-nav-bar title="My Option Lists" backUrl="/"></app-nav-bar>
+<div class="my-optionlist-container">
+@for(optionList of myOptionLists; track $index) {
+    <div class="option-list-line ">
+        <div class="option-name">{{optionList.name}}{{optionList?.ownerId ? '' : ' (System)'}}</div>
+        <div class="action-div">
+            <button mat-icon-button [disabled]="isNotEditable(optionList)">
+                <mat-icon>
+                    edit
+                </mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteOption(optionList.id)" [disabled]="isNotEditable(optionList)">
+                <mat-icon>
+                    delete
+                </mat-icon>
+            </button>
+            <button mat-icon-button>
+                <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="file_copy"></mat-icon>
+
+            </button>
+            
+        </div>
+        
+    </div>
+}
+</div>

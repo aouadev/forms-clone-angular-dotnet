@@ -62,6 +62,15 @@ public class QuestionController : ControllerBase {
         return NoContent();
     }
 
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<QuestionDTO>>> GetAllQuestions() {
+        var questions = await _context.Questions.ToListAsync();
+        if (questions == null) {
+            return NotFound();
+        }
+        return Ok(_mapper.Map<List<QuestionDTO>>(questions));
+    }
+
 
    
 }

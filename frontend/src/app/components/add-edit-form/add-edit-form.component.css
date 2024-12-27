@@ -30,4 +30,15 @@ app-nav-bar *{
   display: flex;
 }
 
+/* My Option Lists */
+.option-list-line {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  margin: 5px;
+
+}
+.my-optionlist-container {
+   margin: 100px 20px;
+}
   

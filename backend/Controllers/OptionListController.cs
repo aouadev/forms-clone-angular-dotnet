@@ -22,7 +22,9 @@ public class OptionListController : ControllerBase {
     [HttpGet]
     public async Task<ActionResult<IEnumerable<OptionListDTO>>> GetOptionLists() {
         var id = int.Parse(User?.Identity?.Name ?? "0");
-        var optionLists = await _context.OptionLists.Where(o => o.OwnerId == id || o.OwnerId == null).ToListAsync();
+        var optionLists = await _context.OptionLists.Where(o => o.OwnerId == id || o.OwnerId == null)
+                                                    .OrderBy(o => o.Name)
+                                                    .ToListAsync();
         var optionListsDto = _mapper.Map<IEnumerable<OptionListDTO>>(optionLists);
         return Ok(optionListsDto);
         
@@ -34,5 +36,17 @@ public class OptionListController : ControllerBase {
         var optionListsDto = _mapper.Map<IEnumerable<OptionListDTO>>(optionLists);
         return Ok(optionListsDto);
         
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteOptionList(int id) {
+        var option = await _context.OptionLists.Where(o => o.Id == id).FirstOrDefaultAsync();
+        if (option == null) {
+            return BadRequest("this Option does not exist");
+        }
+        _context.OptionLists.Remove(option);
+        _context.SaveChanges();
+        return Ok();
+
     }
 }
