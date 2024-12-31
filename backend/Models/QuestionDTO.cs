@@ -23,5 +23,5 @@ public class QuestionWithAnswersDTO() : QuestionDTO {
    // public ICollection<OptionListDTO> Options { get; set; } = new HashSet<OptionListDTO>();
 }
 public class QuestionWithOptionListDetailsDto : QuestionDTO {
-      public OptionListDTO? OptionList { get; set; }
+      public OptionListWithOptionValuesDto? OptionList { get; set; }
 }

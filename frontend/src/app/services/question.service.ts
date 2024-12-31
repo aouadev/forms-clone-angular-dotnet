@@ -26,12 +26,13 @@ export class QuestionService {
             })
         );
     }
+    //récupérer les optionLists du owner de form et du system
     getOptionLists(id: number): Observable<OptionList[]> {
         return this.http.get<any[]>(`${this.baseUrl}api/optionList/${id}`).pipe(
             map(res => plainToInstance(OptionList, res))
         );
     }
-
+    // récupérer les optionLists de l'utilisateur connecté et du system
     getMyOptionLists(): Observable<OptionList[]> {
         return this.http.get<any[]>(`${this.baseUrl}api/optionList`).pipe(
             map(res => plainToInstance(OptionList, res))
@@ -52,4 +53,15 @@ export class QuestionService {
             })
         );
     }
+
+    public addOptionList(optionList: OptionList): Observable<boolean> {
+        return this.http.post<boolean>(`${this.baseUrl}api/optionList`, optionList).pipe(
+            map(res => true),
+            catchError(err => {
+                console.error(err);
+                return of(false);
+            })
+        )
+    }
+  
 }

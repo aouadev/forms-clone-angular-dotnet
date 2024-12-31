@@ -12,6 +12,7 @@ import { ViewFormComponent } from '../components/view_form/viewForm.component';
 import { AddEditFormComponent } from '../components/add-edit-form/add-edit-form.component';
 import { AddEditQuestion } from '../components/add-edit-question/add-edit-question.component';
 import { OptionListsComponent } from '../components/option-lists/option-lists.component';
+import { AddEditOptionComponent } from '../components/add-edit-option-list/add-edit-option-list.component';
 
 
 const appRoutes: Routes = [
@@ -23,6 +24,7 @@ const appRoutes: Routes = [
     {path: 'addEditForm', component:AddEditFormComponent},
     {path: 'addEditQuestion', component: AddEditQuestion},
     {path: 'optionLists', component: OptionListsComponent},
+    {path: 'addEditOption', component: AddEditOptionComponent},
 
     {   
         path: 'template',

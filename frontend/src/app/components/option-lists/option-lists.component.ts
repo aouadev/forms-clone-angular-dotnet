@@ -7,6 +7,7 @@ import { User } from "src/app/models/user";
 import { AuthenticationService } from "src/app/services/authentication.service";
 import { QuestionService } from "src/app/services/question.service";
 import { DeleteOptionDialogComponent } from "./delete-dialogue.component";
+import { Route, Router } from "@angular/router";
 
 @Component({
     selector: 'option-lists',
@@ -24,7 +25,8 @@ export class OptionListsComponent implements OnInit{
     constructor(
         private questionService: QuestionService,
         private authenticationservice: AuthenticationService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private router: Router
 
     ) {
         this.currentUser = this.authenticationservice.currentUser;
@@ -65,6 +67,7 @@ export class OptionListsComponent implements OnInit{
            
         });
     }
+  
 
     
 }

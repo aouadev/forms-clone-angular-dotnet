@@ -1,0 +1,47 @@
+<app-nav-bar [title]="isNew ?  'Create New Option List' : isCopy ? 'Copy List : ' + optionList.name : 'Edit Option List : ' +  optionList.name " backUrl="optionLists"></app-nav-bar>
+<div class="option-list-container">
+    <form [formGroup]="frm">
+        <mat-form-field>
+            <mat-label>List Name</mat-label>
+            <input matInput formControlName="name" >
+            @if(frm.get('name')?.hasError('required')) {
+                <mat-error>name is required</mat-error>
+            }
+            @if(frm.get('name')?.hasError('minlength')) {
+                <mat-error>must have at least 3 characters</mat-error>
+            }
+            @if(frm.get('name')?.hasError('maxlength')) {
+                <mat-error>must have a maximum of 255 characters</mat-error>
+            }
+        </mat-form-field>
+        <mat-selection-list #optionValues formArrayName="optionValues">
+            @for(value of optionList.optionValues; track value) {
+                <mat-list-option [value]="value">{{value.label}}</mat-list-option>
+            }
+        </mat-selection-list>
+        <button mat-button [hidden]="!optionValues.selectedOptions.hasValue()" (click)="optionValues.selectedOptions.clear()">clear Selection</button>
+        <button mat-button [hidden]="!optionValues.selectedOptions.hasValue()" (click)="deleteSelection(optionValues.selectedOptions.selected)">Delete Selection</button>
+        <div class="add-value">
+           <!---- <add-option-value (askAddOptionValue)="addOption($event)"></add-option-value>-->
+           <mat-form-field >
+            <mat-label>New Value</mat-label>
+            <input matInput formControlName ="valueCtl" >
+            @if(frm.get('valueCtl')?.hasError('labelNotUnique')) {
+                <mat-error>Label must be unique</mat-error>
+            }
+            @if(frm.get('valueCtl')?.hasError('minlength')) {
+                <mat-error>must have at least 3 characters</mat-error>
+            }
+        </mat-form-field>
+        <button mat-icon-button (click)="addOption()" [disabled]="!frm.get('valueCtl')?.value || !frm.get('valueCtl')?.valid ">
+            <mat-icon>add</mat-icon>
+        </button>
+        </div>
+        <section class="example-section" [hidden]="currentUser?.role !== 2">
+            <mat-checkbox class="example-margin" formControlName="system">Is System</mat-checkbox>
+        </section>
+        <button mat-button (click)="openCancelDialog()">Cancel</button>
+        
+        <button mat-button [disabled]="!canSave()" (click)="saveOptionList()">Save List</button>
+    </form>
+</div>

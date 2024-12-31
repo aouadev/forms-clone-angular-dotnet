@@ -62,6 +62,11 @@ public class MappingProfile : Profile
         CreateMap<Question, QuestionWithOptionListDetailsDto>();
         CreateMap<QuestionWithOptionListDetailsDto, Question>();
 
+        CreateMap<OptionList, OptionListWithOptionValuesDto>();
+        CreateMap<OptionListWithOptionValuesDto, OptionList>();
+        CreateMap<OptionValue, OptionValueDTO>();
+        CreateMap<OptionValueDTO, OptionValue>();
+
     }
     
     

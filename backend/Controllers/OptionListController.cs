@@ -20,20 +20,21 @@ public class OptionListController : ControllerBase {
 
     }
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<OptionListDTO>>> GetOptionLists() {
+    public async Task<ActionResult<IEnumerable<OptionListWithOptionValuesDto>>> GetOptionLists() {
         var id = int.Parse(User?.Identity?.Name ?? "0");
         var optionLists = await _context.OptionLists.Where(o => o.OwnerId == id || o.OwnerId == null)
+                                                    .Include(o => o.OptionValues)
                                                     .OrderBy(o => o.Name)
                                                     .ToListAsync();
-        var optionListsDto = _mapper.Map<IEnumerable<OptionListDTO>>(optionLists);
+        var optionListsDto = _mapper.Map<IEnumerable<OptionListWithOptionValuesDto>>(optionLists);
         return Ok(optionListsDto);
         
     }
 
       [HttpGet("{id}")]
-    public async Task<ActionResult<IEnumerable<OptionListDTO>>> GetMyOptionLists(int id) {
+    public async Task<ActionResult<IEnumerable<OptionListWithOptionValuesDto>>> GetMyOptionLists(int id) {
         var optionLists = await _context.OptionLists.Where(o => o.OwnerId == id || o.OwnerId == null).ToListAsync();
-        var optionListsDto = _mapper.Map<IEnumerable<OptionListDTO>>(optionLists);
+        var optionListsDto = _mapper.Map<IEnumerable<OptionListWithOptionValuesDto>>(optionLists);
         return Ok(optionListsDto);
         
     }
@@ -49,4 +50,24 @@ public class OptionListController : ControllerBase {
         return Ok();
 
     }
+
+    [HttpPost]
+    public async Task<ActionResult<bool>> PostOptionList(OptionListWithOptionValuesDto optionListDTO) {
+        var optionList = await _context.OptionLists
+                        .Where(o => o.Id == optionListDTO.Id)
+                        .Include(o => o.OptionValues)
+                        .FirstOrDefaultAsync();
+        if (optionList != null) {
+            _mapper.Map(optionListDTO, optionList);
+            await _context.SaveChangesAsync();
+        }
+        else { 
+            optionList = _mapper.Map<OptionListWithOptionValuesDto, OptionList>(optionListDTO);
+            await _context.OptionLists.AddAsync(optionList); 
+            await _context.SaveChangesAsync();
+        }
+        return Ok();
+    }
+
+   
 }
