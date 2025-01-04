@@ -57,6 +57,16 @@ public class FormContext : DbContext
             .WithMany(o => o.Questions)
             .HasForeignKey(q => q.OptionListId)
             .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<Form>()
+            .HasMany(f => f.Accesses)
+            .WithOne(a => a.Form)
+            .HasForeignKey(a => a.FormId)
+            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<User>()
+            .HasMany(u => u.Accesses)
+            .WithOne(a => a.User)
+            .HasForeignKey(a => a.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
 
        /* modelBuilder.Entity<Form>()
             .HasOne(f => f.Owner)

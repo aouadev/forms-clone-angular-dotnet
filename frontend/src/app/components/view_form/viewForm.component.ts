@@ -154,4 +154,8 @@ export class ViewFormComponent implements OnInit{
         this.router.navigate(["addEditQuestion"], {state: {isNew: isNew, questionIndex: index, form: this.form}});
        // console.log('router: '+ isNew);
     }
+    
+    manageShares() {
+        this.router.navigate(["/manage_shares"], {state: {form: this.form, isNew: false}});
+    }
 }

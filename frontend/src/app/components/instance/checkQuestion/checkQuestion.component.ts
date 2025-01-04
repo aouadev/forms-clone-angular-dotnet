@@ -1,6 +1,15 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
-import {Question, QuestionWithAnswers} from "../../../models/question";
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from "@angular/core";
+import {Question} from "../../../models/question";
+import {
+    AbstractControl,
+    FormArray,
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    ValidationErrors,
+    ValidatorFn,
+    Validators
+} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {Answer} from "../../../models/answer";
 import {plainToClass, plainToInstance} from "class-transformer";
@@ -12,17 +21,19 @@ import {F} from "@angular/cdk/keycodes";
     templateUrl: "./checkQuestion.component.html",
     styleUrls: ["../instance.component.css"]
 })
-export class CheckQuestionComponent implements OnInit, OnChanges  {
-    @Input() question?: QuestionWithAnswers;
+export class CheckQuestionComponent implements OnInit, OnChanges, OnDestroy  {
+    @Input() question?: Question;
     @Input() instanceId?: number;
+    @Output() validationChange = new EventEmitter<boolean>();
     public comboForm!: FormGroup;
     private answerIndex: number = 0;
+    
   
     private subscription!: Subscription;
     constructor(private fb: FormBuilder) {
       
     }
-    ngOnInit() {
+    /*ngOnInit() {
         this.comboForm = this.fb.group({
             optionsValues: this.fb.array(this.question?.optionList?.optionValues?.
             map(option => 
@@ -33,15 +44,62 @@ export class CheckQuestionComponent implements OnInit, OnChanges  {
                     
                 })
             ) || [])
-        });
+        },   this.question?.required ? [Validators.required] : []);
         console.log(this.comboForm.value);
         this.comboForm.valueChanges.subscribe(value => {
+            this.validationChange.emit(this.question?.optionList?.optionValues?.some(option => option.checked));
             console.log(value);
-        })
+        });
+        this.comboForm.markAllAsTouched();
       
    
         
+    }*/
+
+    ngOnInit() {
+        if (this.question && this.question.optionList?.optionValues) {
+            if (this.subscription) {
+                this.subscription.unsubscribe();
+            }
+            const optionsControls = this.question?.optionList?.optionValues?.map(option => {
+                return this.fb.group({
+                    optionIdx: [option.idx],
+                    label: [option.label],
+                    checked: [this.question?.answers?.some(answer => answer.value === option.idx.toString())]
+                });
+            }) || [];
+
+            this.comboForm = this.fb.group({
+                optionsValues: this.fb.array(optionsControls, this.atLeastOneCheckboxCheckedValidator())
+            });
+            const isValid = (this.comboForm.get('optionsValues') as FormArray)
+                .controls.some(control => control.get('checked')?.value)
+            this.validationChange.emit();
+
+            // Écoutez les changements
+            this.subscription = this.comboForm.valueChanges.subscribe(value => {
+                const isValid = (this.comboForm.get('optionsValues') as FormArray)
+                    .controls.some(control => control.get('checked')?.value);
+              
+                this.validationChange.emit(isValid);
+                console.log(value);
+            });
+
+            this.comboForm.markAllAsTouched();
+        }
     }
+
+    // Validateur personnalisé pour vérifier qu'au moins une checkbox est cochée
+    atLeastOneCheckboxCheckedValidator(): ValidatorFn {
+        return (formArray: AbstractControl): ValidationErrors | null => {
+            const atLeastOneChecked = this.question?.required ? (formArray as FormArray).controls.some(control => control.get('checked')?.value) : true ;
+            return atLeastOneChecked ? null : { required: true };
+        };
+    }
+
+
+   
+
     ngOnChanges(changes: SimpleChanges): void {
         if(changes['question']) {
             console.log("comboChange");
@@ -75,5 +133,15 @@ export class CheckQuestionComponent implements OnInit, OnChanges  {
             this.question.updated = true;
         }
         
+    }
+
+    // Getter pour faciliter l'accès au FormArray
+    get optionsValues(): FormArray {
+        return this.comboForm.get('optionsValues') as FormArray;
+    }
+    ngOnDestroy() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 }

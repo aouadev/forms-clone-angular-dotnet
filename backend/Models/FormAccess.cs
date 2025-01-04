@@ -11,11 +11,12 @@ namespace prid_2425_f06.Models
     
     public class FormAccess
     {
-        [ForeignKey(nameof(Form))]
-        public int FormId { get; set; }
-        public Form Form { get; set; } = null!; 
-    
-        public int UserId { get; set; }
+        [ForeignKey(nameof(Form))] 
+        public int FormId { get; set; } = 0;
+        public Form Form { get; set; } = null!;
+
+        public int UserId { get; set; } = 0;
+        public User User { get; set; } = null!;
         public AccessType AccessType { get; set; } = AccessType.User;
         
         

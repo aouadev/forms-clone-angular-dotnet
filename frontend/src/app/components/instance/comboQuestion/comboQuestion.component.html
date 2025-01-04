@@ -12,6 +12,9 @@
     
     <p></p>
 }
+    @if(selectedOption.hasError('required')) {
+        <mat-error >This fiels is required</mat-error>
+    }
 </mat-form-field>
 
 

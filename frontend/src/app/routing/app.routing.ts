@@ -13,6 +13,7 @@ import { AddEditFormComponent } from '../components/add-edit-form/add-edit-form.
 import { AddEditQuestion } from '../components/add-edit-question/add-edit-question.component';
 import { OptionListsComponent } from '../components/option-lists/option-lists.component';
 import { AddEditOptionComponent } from '../components/add-edit-option-list/add-edit-option-list.component';
+import {ManageSharesComponent} from "../components/manage-shares/manage-shares.compoenent";
 
 
 const appRoutes: Routes = [
@@ -25,6 +26,7 @@ const appRoutes: Routes = [
     {path: 'addEditQuestion', component: AddEditQuestion},
     {path: 'optionLists', component: OptionListsComponent},
     {path: 'addEditOption', component: AddEditOptionComponent},
+    {path: 'manage_shares', component: ManageSharesComponent},
 
     {   
         path: 'template',

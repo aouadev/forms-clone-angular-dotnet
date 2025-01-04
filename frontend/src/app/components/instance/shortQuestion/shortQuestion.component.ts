@@ -1,7 +1,8 @@
-import { Component, Input, OnChanges, SimpleChanges, OnDestroy } from "@angular/core";
+import {Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter} from "@angular/core";
 import { FormBuilder, FormControl, Validators } from "@angular/forms";
 import { Subscription } from "rxjs";
-import { Question, QuestionWithAnswers } from "src/app/models/question";
+import { Question} from "src/app/models/question";
+import {F} from "@angular/cdk/keycodes";
 
 @Component({
     selector: 'short-question',
@@ -11,12 +12,15 @@ import { Question, QuestionWithAnswers } from "src/app/models/question";
     ]
 })
 export class ShortQuestionComponent implements OnChanges, OnDestroy {
-    @Input() question?: QuestionWithAnswers;
+    @Input() question?: Question;
     @Input() instanceId?: number;
-    public ctlShortAnswer!: FormControl;
+    @Input() ctlShortAnswer!: FormControl;
+    @Output() validationChange = new EventEmitter<boolean>();
     private subscription!: Subscription;
 
-    constructor(private fb: FormBuilder) {}
+    constructor(private fb: FormBuilder) {
+       
+    }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['question'] && this.question) {
@@ -27,10 +31,17 @@ export class ShortQuestionComponent implements OnChanges, OnDestroy {
                 this.question?.answers?.[0]?.value || '', 
                 this.question?.required ? [Validators.required] : []
             );
+            this.validationChange.emit(this.ctlShortAnswer.valid);
+           
 
            
             this.subscription = this.ctlShortAnswer.valueChanges.subscribe(value => {
                 console.log('value:::' + value);
+                console.log('ctl valid: ', this.ctlShortAnswer.valid);
+              
+            
+                this.validationChange.emit(this.ctlShortAnswer.valid);
+                
                
                 if (this.question?.answers) {
                     this.question.answers[0] = {

@@ -1,7 +1,7 @@
 import { Injectable, Inject } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 
-import { Form } from '../models/form';
+import {Form, FormWithAccessData} from '../models/form';
 import { User } from '../models/user';
 import { catchError, map } from "rxjs/operators";
 import { Observable, of } from "rxjs";
@@ -9,6 +9,7 @@ import { plainToInstance } from "class-transformer";
 import { InstanceWithFormDetailed } from "../models/instance";
 import { Question } from "../models/question";
 import { tr } from "date-fns/locale";
+import {FormAccesses} from "../models/formAccesses";
 
 @Injectable({ providedIn: 'root'})
 export class FormService {
@@ -104,5 +105,18 @@ export class FormService {
                 return of(false);
             })
         )
+    }
+    getFormAccesses(id: number): Observable<FormWithAccessData> {
+        return this.http.get<any>(`${this.baseUrl}api/accesses/${id}`).pipe(
+            map(res => plainToInstance(FormWithAccessData, res)));
+    }
+    deleteAccess(userId: number, formId: number): Observable<boolean> {
+        return this.http.delete<boolean>(`${this.baseUrl}api/accesses/${userId}/${formId}` ).pipe(
+            map(res => true),
+            catchError(err => {
+                console.log(err);
+                return of(false);
+            })
+        );
     }
 }

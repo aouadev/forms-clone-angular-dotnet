@@ -1,6 +1,8 @@
 import { Instance } from "./instance";
-import { Question, QuestionWithAnswers } from "./question";
+import { Question } from "./question";
 import { User } from "./user";
+import {FormArray} from "@angular/forms";
+import {FormAccesses} from "./formAccesses";
 
 export enum State {
     Soumited = 2,
@@ -19,8 +21,12 @@ export class Form {
     title: string = '';
     description: string = '';
     isPublic: boolean = false;
-    questionsWithAnswers: QuestionWithAnswers[] = [];
-    questions: Question[] = []
+    questions: Question[] = [];
+    
+}
+export class FormWithAccessData extends Form {
+    accesses: FormAccesses[] = [];
+    allUsersWithoutAdmins: User[] = [];
 }
 
 /*export class FormDetailed extends Form {

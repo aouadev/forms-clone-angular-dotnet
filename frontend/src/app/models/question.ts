@@ -13,10 +13,12 @@ export class Question {
     type: QuestionType = QuestionType.Short;
     required: boolean = false;
     updated: boolean = false;
+    isValid: boolean = false;
     optionListId?: number;
     optionList?: OptionList;
-}
-
-export class QuestionWithAnswers extends Question{
     answers: Answer[] = [];
 }
+
+/*export class QuestionWithAnswers extends Question{
+    
+}*/

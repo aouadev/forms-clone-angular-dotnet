@@ -14,9 +14,12 @@
                 <mat-error>must have a maximum of 255 characters</mat-error>
             }
         </mat-form-field>
-        <mat-selection-list #optionValues formArrayName="optionValues">
+        <mat-selection-list #optionValues 
+                            formArrayName="optionValues" 
+                            cdkDropList
+                            (cdkDropListDropped)="drop($event)">
             @for(value of optionList.optionValues; track value) {
-                <mat-list-option [value]="value">{{value.label}}</mat-list-option>
+                <mat-list-option [value]="value" cdkDrag>{{value.label}}</mat-list-option>
             }
         </mat-selection-list>
         <button mat-button [hidden]="!optionValues.selectedOptions.hasValue()" (click)="optionValues.selectedOptions.clear()">clear Selection</button>

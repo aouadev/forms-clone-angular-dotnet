@@ -8,6 +8,7 @@ import { Form } from "src/app/models/form";
 import { User } from "src/app/models/user";
 import { AuthenticationService } from "src/app/services/authentication.service";
 import { FormService } from "src/app/services/form.service";
+import {DataService} from "../../services/data.service";
 
 
 export class MyErrorStateMatcher implements ErrorStateMatcher{
@@ -42,12 +43,13 @@ export class AddEditFormComponent implements OnInit{
     constructor(private fb: FormBuilder,
                 private router: Router,
                 private authenticationService: AuthenticationService,
-                private formService: FormService
+                private formService: FormService,
+                private dataService: DataService
     ) {
         const navigation = this.router.getCurrentNavigation();
         this.form = navigation?.extras.state?.['form'];
         this.isNew = navigation?.extras.state?.['isNew'];
-        console.log('Form object:', this.form);
+        this.dataService.setData(this.form);
       
         
       

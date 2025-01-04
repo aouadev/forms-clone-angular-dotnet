@@ -1,5 +1,5 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
-import {Question, QuestionWithAnswers} from "../../../models/question";
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from "@angular/core";
+import {Question} from "../../../models/question";
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 
@@ -10,9 +10,10 @@ import {Subscription} from "rxjs";
     
 })
 export class IntegerQuestionComponent implements OnChanges {
-    @Input() question?: QuestionWithAnswers;
+    @Input() question?: Question;
     @Input() instanceId?: number;
     public ctlIntegerAnswer!: FormControl;
+    @Output() validationChange = new EventEmitter<boolean>();
     private subscription!: Subscription;
     
     constructor(private fb: FormBuilder) {}
@@ -25,8 +26,10 @@ export class IntegerQuestionComponent implements OnChanges {
             this.ctlIntegerAnswer  = this.fb.control(
                 this.question?.answers?.[0]?.value || '',
                 this.question?.required ? [Validators.required, Validators.pattern(/^\d+$/)] : []
-            )
+            );
+            this.validationChange.emit(this.ctlIntegerAnswer.valid);
             this.ctlIntegerAnswer.valueChanges.subscribe(value => {
+                this.validationChange.emit(this.ctlIntegerAnswer.valid);
                 if (this.question?.answers) {
                     this.question.answers[0] = {
                         instanceId: this.instanceId || 0,

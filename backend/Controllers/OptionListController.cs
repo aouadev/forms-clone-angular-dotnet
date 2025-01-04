@@ -58,6 +58,8 @@ public class OptionListController : ControllerBase {
                         .Include(o => o.OptionValues)
                         .FirstOrDefaultAsync();
         if (optionList != null) {
+            _context.OptionValues.RemoveRange(optionList.OptionValues);
+            await _context.SaveChangesAsync();
             _mapper.Map(optionListDTO, optionList);
             await _context.SaveChangesAsync();
         }

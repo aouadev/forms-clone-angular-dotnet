@@ -22,7 +22,7 @@
     </div>
 }-->
 
-@if(question?.optionList) {
+<!--@if(question?.optionList) {
     <div class="optionValue" [formGroup]="comboForm">
         <div class="checkbox-div" formArrayName="optionsValues">
         @for (value of comboForm.get('optionsValues')?.value; track value.optionIdx) {
@@ -31,5 +31,33 @@
             </mat-checkbox>
         }
         </div>
+        @if(comboForm.hasError('required')) {
+            <mat-error >This fiels is required</mat-error>
+        }
+    </div>
+}-->
+
+@if(question?.optionList) {
+    <div class="optionValue" [formGroup]="comboForm">
+        <div class="checkbox-div" formArrayName="optionsValues">
+            <div
+                    *ngFor="let optionGroup of optionsValues.controls; let i = index"
+                    [formGroupName]="i"
+            >
+                <mat-checkbox
+                        class="checkbox"
+                        formControlName="checked"
+                        (change)="addCheckedAnswer($event.checked, optionGroup.value.optionIdx)"
+                >
+                    {{ optionGroup.value.label }}
+                </mat-checkbox>
+            </div>
+        </div>
+        <mat-error *ngIf="optionsValues.hasError('required')">
+            This field is required
+        </mat-error>
     </div>
 }
+
+
+

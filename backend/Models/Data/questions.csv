@@ -33,5 +33,5 @@
 35;14;17;Question 17;;email;0;
 37;15;1;Gender;required for statistical purposes;radio;1;1
 38;15;2;Age group;required for statistical purposes;combo;1;7
-39;15;3;Favorite animal;in lowercase, please;short;0;
+39;15;3;Favorite animal;in lowercase, please;short;1;
 40;15;4;Favorite fruits;;check;0;6

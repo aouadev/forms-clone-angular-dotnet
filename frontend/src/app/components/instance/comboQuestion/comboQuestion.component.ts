@@ -1,7 +1,7 @@
-import {Component, Input, OnInit, SimpleChanges} from "@angular/core";
+import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges} from "@angular/core";
 
-import {Question, QuestionWithAnswers} from "../../../models/question";
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {Question} from "../../../models/question";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 import { OptionValue } from "src/app/models/optionValue";
 //import {Q} from "@angular/cdk/keycodes";
@@ -13,10 +13,11 @@ import { OptionValue } from "src/app/models/optionValue";
     styleUrls: ["../instance.component.css"]
 })
 export class ComboQuestionComponent implements OnInit{
-    @Input() question?: QuestionWithAnswers;
+    @Input() question?: Question;
     @Input() instanceId?: number;
     public comboForm!: FormGroup;
     public selectedOption!: FormControl;
+    @Output() validationChange = new EventEmitter<boolean>();
     private subscription!: Subscription;
     constructor(private fb: FormBuilder) {}
     
@@ -36,9 +37,13 @@ export class ComboQuestionComponent implements OnInit{
             const answer = this.question.answers?.[0]?.value;
             this.selectedOption = this.fb.control(
                 this.question.optionList.optionValues.find(
-                    option => option.idx.toString() === answer)
-            )
+                    option => option.idx.toString() === answer),
+                    this.question?.required ? [Validators.required] : []
+            );
+            this.validationChange.emit(this.selectedOption.valid);
             this.selectedOption.valueChanges.subscribe(value => {
+                this.validationChange.emit(this.selectedOption.valid);
+                
                 console.log("value:::" + value);
                 if(this.question?.answers) {
                     this.question.answers[0] = {
@@ -52,6 +57,7 @@ export class ComboQuestionComponent implements OnInit{
                     this.question.updated = true;
                 }
             });
+            this.selectedOption.markAllAsTouched();
             
 
             

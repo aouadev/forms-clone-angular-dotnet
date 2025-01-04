@@ -13,15 +13,15 @@ public class QuestionDTO {
       
         
 }
+public class QuestionWithOptionListDetailsDto : QuestionDTO {
+    public OptionListWithOptionValuesDto? OptionList { get; set; }
+}
 
 /*public class QuestionWithOLDetailsDTO : QuestionDTO {
     public OptionListWithValuesDTO OL { get; set; } = null!;
 }*/
 
-public class QuestionWithAnswersDTO() : QuestionDTO {
+public class QuestionWithAnswersDTO() : QuestionWithOptionListDetailsDto {
     public ICollection<AnswerDTO> Answers { get; set; } = new HashSet<AnswerDTO>();
    // public ICollection<OptionListDTO> Options { get; set; } = new HashSet<OptionListDTO>();
-}
-public class QuestionWithOptionListDetailsDto : QuestionDTO {
-      public OptionListWithOptionValuesDto? OptionList { get; set; }
 }

@@ -54,11 +54,9 @@ export class LoginComponent implements OnInit {
     get f() { return this.loginForm.controls;}
 
     loginAs(email: string ,password: string) {
-        this.loginForm.setValue({
-            email: email,
-            password: password
-        });
-        this.onSubmit();
+        this.submitted = true;
+        this.loading = true;
+        this.login(email, password);
     }
 
     loginAsGuest() {
@@ -83,6 +81,23 @@ export class LoginComponent implements OnInit {
                 error: error => {
                    /*console.log(error);
                     this.error = error.error.errors[0].errorMessage;*/
+                    const errors = error.error.errors;
+                    for (let err of errors) {
+                        this.loginForm.get(err.propertyName.toLowerCase())?.setErrors({ custom: err.errorMessage })
+                    }
+                    this.loading = false;
+                }
+            })
+    }
+    login(email: string, password: string) {
+        this.authenticationService.login(email, password)
+            .subscribe({
+                next: data => {
+                    this.router.navigate([this.returnUrl]);
+                },
+                error: error => {
+                    /*console.log(error);
+                     this.error = error.error.errors[0].errorMessage;*/
                     const errors = error.error.errors;
                     for (let err of errors) {
                         this.loginForm.get(err.propertyName.toLowerCase())?.setErrors({ custom: err.errorMessage })

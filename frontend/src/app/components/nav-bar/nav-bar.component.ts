@@ -29,6 +29,7 @@ export class NavBarComponent {
         this.authenticationService.logout();
     }
     goBack() {
+        console.log("go back");
         this.router.navigate([this.backUrl], {state: {data: this.dataService.getData()}});
     }
     /*toggleFilter(){

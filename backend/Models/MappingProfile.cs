@@ -26,6 +26,7 @@ public class MappingProfile : Profile
 
         CreateMap<Form, FormWithLastInstanceDTO>();
         CreateMap<FormWithLastInstanceDTO, Form>();
+        
         CreateMap<Form, FormWithUserDetailsDTO>();
         CreateMap<FormWithUserDetailsDTO, Form>();
 
@@ -64,8 +65,18 @@ public class MappingProfile : Profile
 
         CreateMap<OptionList, OptionListWithOptionValuesDto>();
         CreateMap<OptionListWithOptionValuesDto, OptionList>();
+        
         CreateMap<OptionValue, OptionValueDTO>();
         CreateMap<OptionValueDTO, OptionValue>();
+        
+        CreateMap<FormAccess, FormAccessDTO>();
+        CreateMap<FormAccessDTO, FormAccess>();
+
+        CreateMap<FormAccess, FormAccessWithUserDetailsDTO>();
+        CreateMap<FormAccessWithUserDetailsDTO, FormAccess>();
+
+        CreateMap<Form, FormWithUsersAccessesDTO>();
+        CreateMap<FormWithUsersAccessesDTO, Form>();
 
     }
     

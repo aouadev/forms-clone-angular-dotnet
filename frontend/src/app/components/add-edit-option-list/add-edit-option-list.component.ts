@@ -12,6 +12,9 @@ import {MatDialog} from "@angular/material/dialog";
 import { CancelDialogComponent } from "./cancel-dialog.component";
 import {option} from "yargs";
 import { MatListOption } from "@angular/material/list";
+import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
+import {forEach} from "lodash-es";
+
 
 @Component({
     selector:'add-edit-option-value',
@@ -33,7 +36,7 @@ export class AddEditOptionComponent implements OnInit{
     //optionListId = 0;
     optionList!: OptionList;
     constructor(private fb: FormBuilder,
-                 private authenticationSevice: AuthenticationService,
+                 private authenticationService: AuthenticationService,
                  private questionService: QuestionService,
                  private dialog: MatDialog) {
         const navigation = this.router.getCurrentNavigation();
@@ -51,7 +54,7 @@ export class AddEditOptionComponent implements OnInit{
                     this.optionList.optionValues.reduce((max, current) => 
                     Math.max(max, current.idx), 0) : 0;
       
-        this.currentUser = this.authenticationSevice.currentUser;
+        this.currentUser = this.authenticationService.currentUser;
         this.isSystem = this.currentUser?.role == 2 && this.optionList.ownerId == null;
         
     }
@@ -83,6 +86,7 @@ export class AddEditOptionComponent implements OnInit{
            // console.log("system: ", this.isSystem);
        });
        this.frm.valueChanges.subscribe(() => this.isChanged = true);
+        console.log("before::", this.optionList.optionValues);
      
       
      
@@ -141,5 +145,14 @@ export class AddEditOptionComponent implements OnInit{
                                        
     }
 
-   
+
+    drop(event: CdkDragDrop<any>) {
+        console.log(this.optionList.optionValues[event.previousIndex]);
+        console.log(this.optionList.optionValues[event.currentIndex]);
+        
+        moveItemInArray(this.optionList.optionValues, event.previousIndex, event.currentIndex);
+        console.log("after::", this.optionList.optionValues);
+        let newIdx = 0;
+        this.optionList.optionValues.forEach(option => option.idx = ++newIdx);
+    }
 }

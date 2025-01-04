@@ -8,4 +8,7 @@
     @if (ctlDateAnswer.hasError("pattern")) {
         <mat-error>date not valid</mat-error>
     }
+    @if(ctlDateAnswer.hasError('required')) {
+        <mat-error >This fiels is required</mat-error>
+    }
 </mat-form-field>

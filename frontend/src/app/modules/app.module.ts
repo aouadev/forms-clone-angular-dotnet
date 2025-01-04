@@ -42,6 +42,8 @@ import { OptionListsComponent } from '../components/option-lists/option-lists.co
 import { DeleteOptionDialogComponent } from '../components/option-lists/delete-dialogue.component';
 import { AddEditOptionComponent } from '../components/add-edit-option-list/add-edit-option-list.component';
 import {CancelDialogComponent} from "../components/add-edit-option-list/cancel-dialog.component";
+import {ManageSharesComponent} from "../components/manage-shares/manage-shares.compoenent";
+import {CdkDrag, CdkDropList} from "@angular/cdk/drag-drop";
 
 @NgModule({
     declarations: [
@@ -76,7 +78,8 @@ import {CancelDialogComponent} from "../components/add-edit-option-list/cancel-d
         OptionListsComponent,
         DeleteOptionDialogComponent,
         AddEditOptionComponent,
-        CancelDialogComponent
+        CancelDialogComponent,
+        ManageSharesComponent
         
         
         
@@ -88,6 +91,8 @@ import {CancelDialogComponent} from "../components/add-edit-option-list/cancel-d
         AppRoutes,
         BrowserAnimationsModule,
         SharedModule,
+        CdkDropList,
+        CdkDrag,
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

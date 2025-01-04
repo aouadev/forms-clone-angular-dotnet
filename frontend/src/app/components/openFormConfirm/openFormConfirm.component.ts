@@ -19,7 +19,6 @@ export class OpenFormConfirmComponent {
     openInstance(readOnly: boolean) {
 
         this.router.navigate(['/instance'], { state: { form: this.data.form, readOnly: readOnly}});
-        console.log("readonly: " + readOnly);
         this.dialogRef.close();
         
     }

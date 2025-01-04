@@ -35,3 +35,9 @@ public class FormWithQuestionsDTO : FormDTO {
 public class FormWithQuestionsAndUserDetailsDTO: FormWithQuestionsDTO {
       public UserWithPasswordDTO Owner { get; set; } = null!;
 }
+// Dto pour mange-access
+public class FormWithUsersAccessesDTO : FormDTO
+{
+    public ICollection<FormAccessWithUserDetailsDTO> Accesses { get; set; } = new HashSet<FormAccessWithUserDetailsDTO>();
+    public ICollection<UserDTO> AllUsersWithoutAdmins { get; set; } = new HashSet<UserDTO>();
+}

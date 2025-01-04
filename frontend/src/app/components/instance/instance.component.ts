@@ -3,12 +3,13 @@ import { Form } from "src/app/models/form";
 import { Router } from "@angular/router";
 import { Instance, InstanceWithFormDetailed } from "src/app/models/instance";
 import { InstanceService } from "src/app/services/instance.service";
-import { Question, QuestionWithAnswers } from "src/app/models/question";
+import { Question} from "src/app/models/question";
 import { Answer } from "src/app/models/answer";
 import { AuthenticationService } from "src/app/services/authentication.service";
 import { FormService } from "src/app/services/form.service";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {forEach} from "lodash-es";
+import {F} from "@angular/cdk/keycodes";
 
 @Component({
     selector: 'instance',
@@ -24,9 +25,12 @@ export class InstanceComponent implements OnInit, OnChanges, AfterViewInit{
     readOnly: boolean = false;
     submit: boolean = false;
     instance?: InstanceWithFormDetailed;
-    questions: QuestionWithAnswers[] = [];
+    questions?: Question[] ;
     questionNumber: number = 0;
-    currentQuestion?: QuestionWithAnswers;
+    currentQuestion?: Question;
+  //  public frm!: FormGroup;
+   // public ctlShortAnswer!: FormControl;
+    isAllValid?: boolean;
    
 
 
@@ -34,15 +38,18 @@ export class InstanceComponent implements OnInit, OnChanges, AfterViewInit{
     constructor(private router: Router,
                  private instanceService: InstanceService,
                  private formService: FormService,
-                private authenticationService: AuthenticationService){
+                private authenticationService: AuthenticationService,
+                private fb : FormBuilder){
         const navigation = this.router.getCurrentNavigation();
         this.form = navigation?.extras.state?.['form'];
         this.readOnly = navigation?.extras.state?.['readOnly'];
+       
+        
      
     }
     ngOnChanges(changes: SimpleChanges): void {
         if (changes[('questionNumber')]) {
-            this.currentQuestion = this.questions[this.questionNumber];
+            this.currentQuestion = this.questions?.[this.questionNumber];
         }
     }
  
@@ -52,17 +59,29 @@ export class InstanceComponent implements OnInit, OnChanges, AfterViewInit{
             this.instanceService.getInstance(this.form?.lastInstance.instanceId, this.readOnly).subscribe((res) => {
                 this.instance = res;
                 this.form = this.instance.form || this.form;
-                this.questions = this.form.questionsWithAnswers;
+                this.questions = this.form?.questions;
                 this.currentQuestion = this.questions[this.questionNumber];
-                console.log("instanceid ;;;;=: "+ this.instance.instanceId);
+                console.log("currentquestion instance ", this.currentQuestion);
+                console.log("instance", this.instance);
+                this.isAllValid = this.questions.every(q => (q.required && q.answers.length > 0) || !q.required );
+               /* this.frm = this.fb.group({
+                    questionsCtl: this.fb.array((this.questions)?.map(question => {
+                        this.ctlShortAnswer = this.fb.control('',question?.required ? [Validators.required] : []);
+                    }))
+                })
+                console.log('frm: ', this.frm);*/
+              
+              
             });
+           
         }
         else {
             this.formService.getFormWithquestions(this.form?.formId).subscribe((res) => {
                 this.instance = res;
                 this.form  = this.instance.form || this.form;
-                this.questions = this.form.questionsWithAnswers;
+                this.questions = this.form.questions;
                 this.currentQuestion = this.questions[this.questionNumber];
+                this.isAllValid = this.questions.every(q => (q.required && q.answers.length > 0) || !q.required );
               
             });
         }
@@ -72,7 +91,19 @@ export class InstanceComponent implements OnInit, OnChanges, AfterViewInit{
     }
 
     arrowBack() {
-        this.router.navigate(['/view_forms']);
+       // console.log('frm valid: ', this.frm.valid);
+    }
+    //méthode pour mettre à jour la validation globale et gérer le bouton sanve
+    onValisationChange(isValid: boolean, questionIndex: number) {
+        console.log("onvalidation:", isValid);
+    
+        
+        if (this.questions) {
+            this.questions[questionIndex].isValid = isValid;
+            this.isAllValid = this.questions.every(q => q.isValid);
+            console.log("all valid:", this.isAllValid);
+            console.log('questions: ', this.questions);
+        }
     }
     
     incrementQuestion() {
@@ -91,9 +122,10 @@ export class InstanceComponent implements OnInit, OnChanges, AfterViewInit{
     decrementQuestion() {
         if (this.questionNumber > 0) {
             --this.questionNumber;
-            this.currentQuestion = this.questions[this.questionNumber];
+            this.currentQuestion = this.questions?.[this.questionNumber];
         }
     }
-  
-      
+
+
+    protected readonly Question = Question;
 }

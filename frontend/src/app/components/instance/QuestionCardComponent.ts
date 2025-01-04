@@ -1,10 +1,10 @@
 import { I18nPluralPipe } from "@angular/common";
-import { Component, Input } from "@angular/core";
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from "@angular/forms";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import { Answer } from "src/app/models/answer";
 import { Instance } from "src/app/models/instance";
 import { OptionValue } from "src/app/models/optionValue";
-import { Question, QuestionWithAnswers } from "src/app/models/question";
+import { Question } from "src/app/models/question";
 
 @Component({
     selector:'question-card',
@@ -14,29 +14,34 @@ import { Question, QuestionWithAnswers } from "src/app/models/question";
     ]
 })
 export class QuestionCardComponent {
-    @Input() question?: QuestionWithAnswers;
+    @Input() question?: Question;
     @Input() instance?: Instance;
+    @Input() frm!: FormGroup;
+    @Input() index!: number;
+    @Input() ctlShortAnswer!: FormControl;
+    @Output() validationChange = new EventEmitter<boolean>(); // Événement pour notifier le parent
     
-    answerValue: string = "";
+    /*answerValue: string = "";
     selectedValue: string ="";
     dateValue: string = "";
     emailValue: string = "";
     emailForm: FormGroup;
-    integerForm: FormGroup;
+   // integerForm: FormGroup;*/
     
     constructor(private fb: FormBuilder) {
-        this.emailForm = this.fb.group({
+      
+        /*this.emailForm = this.fb.group({
             email: ['',[Validators.required, Validators.email]]
         });
         this.integerForm = this.fb.group({
             integer: ['', [Validators.required, this.integerValidator]]
         })
-        console.log("Selected value:", this.selectedValue);
+        console.log("Selected value:", this.selectedValue);*/
       }
     
-   
 
-      integerValidator(control: AbstractControl): ValidationErrors | null {
+
+    integerValidator(control: AbstractControl): ValidationErrors | null {
         const value = control.value;
         if (value === null || value === undefined || value === '') {
             return null;
@@ -44,6 +49,9 @@ export class QuestionCardComponent {
         console.log(Number.isInteger(+value))
         return Number.isInteger(+value) ? null : { notInteger: true};
       }
+    onValidationChange(isValid: boolean) {
+        this.validationChange.emit(isValid);
+    }
 
   
           
@@ -96,10 +104,10 @@ export class QuestionCardComponent {
       }
 
         // Appelé lors du changement de sélection dans le mat-select
-  onSelectionChange(event: any): void {
+  /*onSelectionChange(event: any): void {
     this.selectedValue = event.value; // Récupère la valeur sélectionnée
     console.log('Selected value:', this.selectedValue);
-  }
+  }*/
       
       
       
