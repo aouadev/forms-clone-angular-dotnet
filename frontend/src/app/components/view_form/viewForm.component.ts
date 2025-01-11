@@ -158,4 +158,5 @@ export class ViewFormComponent implements OnInit{
     manageShares() {
         this.router.navigate(["/manage_shares"], {state: {form: this.form, isNew: false}});
     }
+  
 }

@@ -13,13 +13,13 @@ namespace prid_2425_f06.Models
         [Key]
         public int InstanceId { get; set; }
         [ForeignKey(nameof(Form))]
-        public int? FormId { get; set; } 
-        public Form? Form { get; set; }
+        public int FormId { get; set; } 
+        public Form Form { get; set; } = null!;
         public int UserId { get; set; } 
         public DateTimeOffset Started { get; set; } = DateTimeOffset.Now;
         public DateTimeOffset? Completed { get; set; }
 
-        public ICollection<Answer> InstanceAnswers { get; set; } = new HashSet<Answer>();
+        public ICollection<Answer> Answers { get; set; } = new HashSet<Answer>();
         
         
     }

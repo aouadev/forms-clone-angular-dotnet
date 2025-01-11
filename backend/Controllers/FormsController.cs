@@ -18,9 +18,9 @@ public class FormsController : ControllerBase {
         _context = context;
         _mapper = mapper;
     }
- 
-
-   [HttpGet]
+    
+    
+    [HttpGet]
 public async Task<ActionResult<IEnumerable<FormWithUserDetailsDTO>>> GetMyForms() {
     var id = int.Parse(User?.Identity?.Name ?? "0");
     var formsQuery = _context.Forms
@@ -50,7 +50,7 @@ public async Task<ActionResult<IEnumerable<FormWithUserDetailsDTO>>> GetMyForms(
  
      
     
-
+    
     [HttpGet("{id}")]
     public async Task<ActionResult<InstanceWithFormDetailedDTO>> GetFormsQuestions(int id) {
         

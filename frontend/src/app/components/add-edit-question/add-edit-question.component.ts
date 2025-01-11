@@ -73,10 +73,13 @@ export class AddEditQuestion implements OnInit {
         console.log("isNew : ", this.isNew);
         if (this.isNew) {
             questionToSave.formId = this.form.formId;
-            questionToSave.idx = this.form.questions[this.form.questions.length - 1].idx + 1;
+            // Calculer le maximum des idx existants et ajouter 1
+            questionToSave.idx = this.form.questions.length > 0
+                ? Math.max(...this.form.questions.map(q => q.idx)) + 1
+                : 1; // Si aucune question n'existe, démarrer à 1
         }
         questionToSave.optionList = this.optionLists?.find(o => o.id == questionToSave.optionListId);
-        console.log("idx: ", this.form.questions[this.form.questions.length - 1].idx);
+       // console.log("idx: ", this.form.questions[this.form.questions.length - 1].idx);
         console.log("questionToSave", questionToSave);
       this.questionService.postQuestion(questionToSave).subscribe(res => 
                this.router.navigate(['viewForm'], {state: {data: this.form}})

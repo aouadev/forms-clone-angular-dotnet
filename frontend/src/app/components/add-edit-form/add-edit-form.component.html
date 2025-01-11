@@ -23,7 +23,7 @@
         <mat-form-field class="example-full-width">
             <mat-label>Owner</mat-label>
            
-            <input type="text" matInput  [value]="owner?.fullName" [disabled]="true">
+            <input type="text" matInput  [value]="owner?.firstName +' ' + owner?.lastName" [disabled]="true">
             
        
         </mat-form-field>

@@ -28,6 +28,11 @@ public class FormWithQuestionAndAnswersDTO : FormDTO {
    // public ICollection<AnswerDTO> Answers { get; set;} = new HashSet<AnswerDTO>();
 }
 
+public class FormWithQuestionAndAnswersAndInstanceDTO : FormDTO
+{
+    public ICollection<QuestionWithAnswersAndInstancesDTO> Questions { get; set; } = new HashSet<QuestionWithAnswersAndInstancesDTO>();
+}
+
 public class FormWithQuestionsDTO : FormDTO {
     public bool IsInstancied { get; set; } = false;
     public ICollection<QuestionWithOptionListDetailsDto> Questions { get; set;} = new HashSet<QuestionWithOptionListDetailsDto>();

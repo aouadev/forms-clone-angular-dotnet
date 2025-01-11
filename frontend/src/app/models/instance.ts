@@ -14,6 +14,6 @@ export class Instance {
 
 
 export class InstanceWithFormDetailed extends Instance {
-    form? : Form;
+    form : Form = null!;
 
 }

@@ -10,7 +10,7 @@ public class Answer {
     }
     [ForeignKey(nameof(Instance))]
     public int InstanceId { get; set; } = 0;
-    public Instance instance { get; set; } = null!;
+     public Instance Instance { get; set; } = null!;
     [ForeignKey(nameof(Question))]
     public int QuestionId { get; set; } = 0;
     public Question Question { get; set; } = null!;

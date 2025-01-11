@@ -85,10 +85,8 @@ export class AddEditFormComponent implements OnInit{
         this.form.isPublic  = this.publicCtl.value;
         this.form.description = this.descriptionCtl.value;*/
         Object.assign(this.form, this.frm.value);
-
-
         console.log("data: ", this.form);
-        this.formService.postForm(this.form).subscribe(res => this.router.navigate(['view_forms']));
+        this.formService.postForm(this.form).subscribe(res => this.router.navigate(['viewForm'], {state: {data: this.form}}));
     }
   
     

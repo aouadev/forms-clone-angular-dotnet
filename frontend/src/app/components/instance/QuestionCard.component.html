@@ -5,32 +5,62 @@
         <div class="question-description">{{question.description}}</div>
         <div class="answer-div">
                 @if(question.type == 1) {
-                   
-                    <short-question [question]="question" [instanceId]="instance?.instanceId" (validationChange)="onValidationChange($event)" ></short-question>
+                    <short-question [question]="question" 
+                                    [instance]="instance" 
+                                    (validationChange)="onValidationChange($event)">
+                        
+                    </short-question>
                 }
                 @if(question.type == 2) {
-                    <long-question [question]="question" [instanceId]="instance?.instanceId" (validationChange)="onValidationChange($event)" ></long-question>
+                    <long-question [question]="question"
+                                   [instance]="instance" 
+                                   (validationChange)="onValidationChange($event)" >
+                        
+                    </long-question>
                 }
                 @if(question.type == 3) {
-                    <date-question [question]="question" [instanceId]="instance?.instanceId" (validationChange)="onValidationChange($event)" ></date-question>
+                    <date-question [question]="question"
+                                   [instance]="instance" 
+                                   (validationChange)="onValidationChange($event)" >
+                        
+                    </date-question>
                 }
                 @if(question.type == 4) {
-                    <email-question [question]="question" [instanceId]="instance?.instanceId" (validationChange)="onValidationChange($event)" ></email-question>
+                    <email-question [question]="question" 
+                                    [instance]="instance"
+                                    (validationChange)="onValidationChange($event)" >
+                        
+                    </email-question>
                 }
                 @if(question.type == 5) {
-                    <integer-question [question]="question" [instanceId]="instance?.instanceId" (validationChange)="onValidationChange($event)"  ></integer-question>
+                    <integer-question [question]="question"
+                                      [instance]="instance" 
+                                      (validationChange)="onValidationChange($event)"  >
+                        
+                    </integer-question>
                 }
                 
                 @else if(question.type == 6) {
-                    <check-question [question]="question" [instanceId]="instance?.instanceId" (validationChange)="onValidationChange($event)"  ></check-question>
+                    <check-question [question]="question" 
+                                    [instance]="instance" 
+                                    (validationChange)="onValidationChange($event)"  >
+                        
+                    </check-question>
                 }
                 @else if (question.type == 8) {
-                  
-                    <radio-question [question]="question" [instanceId]="instance?.instanceId" (validationChange)="onValidationChange($event)" ></radio-question>
+                    <radio-question [question]="question" 
+                                    [instance]="instance" 
+                                    (validationChange)="onValidationChange($event)" >
+                        
+                    </radio-question>
                 }
                 @else if (question.type == 7) {
                     
-                    <combo-question [question]="question" [instanceId]="instance?.instanceId" (validationChange)="onValidationChange($event)"  ></combo-question>
+                    <combo-question [question]="question" 
+                                    [instance]="instance" 
+                                    (validationChange)="onValidationChange($event)"  >
+                        
+                    </combo-question>
             }
                 
         </div>

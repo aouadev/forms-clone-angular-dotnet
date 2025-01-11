@@ -13,22 +13,22 @@ export class InstanceService {
     constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {}
  
     getInstance(id: number, readOnly: boolean) : Observable<InstanceWithFormDetailed> {
-        return this.http.get<any>(`${this.baseUrl}api/instance/${id}`, {
-            params: {
+        return this.http.get<any>(`${this.baseUrl}api/instance/${id}`,{
+         /*   params: {
                 readOnly: readOnly.toString() 
-            }
+            }*/
         }).pipe(
             map(res => plainToInstance(InstanceWithFormDetailed, res))
         );
     }
 
-    addNewInstance(instance: InstanceWithFormDetailed): Observable<InstanceWithFormDetailed> {
-        return this.http.post<InstanceWithFormDetailed>(`${this.baseUrl}api/instance`, instance).pipe(
-            map(instance => {
-                instance = plainToClass(InstanceWithFormDetailed, instance);
-                return instance;
-            }
-             )
+    addNewInstance(instance: InstanceWithFormDetailed): Observable<boolean> {
+        return this.http.post<boolean>(`${this.baseUrl}api/instance`, instance).pipe(
+            map(res => true),
+            catchError(err => {
+                console.error(err);
+                return of(false);
+            })
         );
     }
 
@@ -40,5 +40,24 @@ export class InstanceService {
                 return of(false);
             })
         )
+    }
+    public addGuestAnswer(a: Answer[]): Observable<boolean> {
+        return this.http.post<Answer[]>(`${this.baseUrl}api/guestForms`, a).pipe(
+            map(res => true),
+            catchError(err => {
+                console.error(err);
+                return of(false);
+            })
+        )
+    }
+
+    deleteInstance(instanceId: number): Observable<boolean> {
+        return this.http.delete<boolean>(`${this.baseUrl}api/instance/${instanceId}` ).pipe(
+            map(res => true),
+            catchError(err => {
+                console.log(err);
+                return of(false);
+            })
+        );
     }
 }

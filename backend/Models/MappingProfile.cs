@@ -78,6 +78,15 @@ public class MappingProfile : Profile
         CreateMap<Form, FormWithUsersAccessesDTO>();
         CreateMap<FormWithUsersAccessesDTO, Form>();
 
+        CreateMap<Answer, AnswerWithInstanceDto>();
+        CreateMap<AnswerWithInstanceDto, Answer>();
+
+        CreateMap<Question, QuestionWithAnswersAndInstancesDTO>();
+        CreateMap<QuestionWithAnswersAndInstancesDTO, Question>();
+        
+        CreateMap<Form, FormWithQuestionAndAnswersAndInstanceDTO>();
+        CreateMap<FormWithQuestionAndAnswersAndInstanceDTO, Form>();
+
     }
     
     

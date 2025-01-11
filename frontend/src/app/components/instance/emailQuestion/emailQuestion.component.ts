@@ -11,7 +11,7 @@ import {Subscription} from "rxjs";
 })
 export class EmailQuestionComponent implements OnChanges {
     @Input() question?: Question;
-    @Input() instanceId?: number;
+    @Input() instance?: Instance;
     @Output() validationChange = new EventEmitter<boolean>();
     public ctlEmailAnswer!: FormControl;
     private subscription!: Subscription;
@@ -24,15 +24,14 @@ export class EmailQuestionComponent implements OnChanges {
               this.subscription.unsubscribe();
           }
           this.ctlEmailAnswer = this.fb.control(
-              this.question?.answers?.[0]?.value || '',
+              {value: this.question?.answers?.[0]?.value || '', disabled: this.instance?.completed != null},
               this.question?.required ? [Validators.required, Validators.email] : []
           );
-          this.validationChange.emit(this.ctlEmailAnswer.valid);
-          this.ctlEmailAnswer.valueChanges.subscribe(value => {
+          this.subscription = this.ctlEmailAnswer.valueChanges.subscribe(value => {
               this.validationChange.emit(this.ctlEmailAnswer.valid);
-              if (this.question?.answers) {
+              if (this.instance && this.question?.answers && this.ctlEmailAnswer.valid) {
                   this.question.answers[0] = {
-                      instanceId: this.instanceId || 0,
+                      instanceId: this.instance?.instanceId,
                       questionId: this.question.id,
                       idx: 0,
                       value: value

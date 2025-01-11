@@ -4,8 +4,11 @@ import {Role, User} from "../../models/user";
 import { format, formatISO} from 'date-fns';
 import { from } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { OpenFormConfirmComponent } from 'src/app/components/openFormConfirm/openFormConfirm.component';
 import { Router } from '@angular/router';
+import {DeleteFormDialog} from "../view_form/dialogs/deleteFormDialog.component";
+import {OpenFormDialogComponent} from "./dialogs/open-form-dialog.component";
+import {AuthenticationService} from "../../services/authentication.service";
+
 
 @Component({
     selector: 'form-card',
@@ -17,9 +20,8 @@ export class FormCardComponent {
     @Input() currentUser? : User;
     constructor(
         public confirmDialog: MatDialog,
-        private router: Router) {
-
-        }
+        private router: Router,
+        private authenticationService: AuthenticationService,){}
 
     canManage() : boolean {
         return this.currentUser?.role == Role.Admin 
@@ -31,7 +33,11 @@ export class FormCardComponent {
         && !!this.form.lastInstance?.completed;
     }
     handleButtonOpen() {
-        this.canOpenFormConfirm() ? this.openDialog() : this.createInstance();
+        if (!this.authenticationService.GuestMode) {
+            this.canOpenFormConfirm() ? this.openDialog() : this.openInstance();
+        } else {
+            this.router.navigate(['instance'], {state : {form: this.form, isNew: true }});
+        }
 
     }
 
@@ -44,13 +50,22 @@ export class FormCardComponent {
         if (activeElement instanceof HTMLElement) {
         activeElement.blur();
         }
-        this.confirmDialog.open(OpenFormConfirmComponent, {
+        this.confirmDialog.open(OpenFormDialogComponent, {
             data: {form: this.form},
             disableClose: true,
             autoFocus: true,
         });
     }
-    createInstance() {
-        this.router.navigate(['instance'], {state: {form: this.form, readOnly: false}});
+   /* openDialog() {
+        this.confirmDialog.open(OpenFormDialogComponent, {autoFocus: true, disableClose: true}).afterClosed().subscribe(result => {
+            this.router.navigate(['/instance'], { state: { form: this.form, isNew: result }});
+        })
+    }*/
+    
+
+ 
+   
+    openInstance() {
+        this.router.navigate(['instance'], {state: {form: this.form, isNew: false}});
     }
 }

@@ -1,4 +1,4 @@
-import { Answer } from "./answer";
+import {Answer} from "./answer";
 import { OptionList } from "./optionList";
 
 export enum QuestionType {
@@ -6,7 +6,7 @@ export enum QuestionType {
 }
 export class Question {
     id: number = 0;
-    formId?: number;
+    formId: number = 0;
     idx: number = 0;
     title: string = '';
     description?: string;

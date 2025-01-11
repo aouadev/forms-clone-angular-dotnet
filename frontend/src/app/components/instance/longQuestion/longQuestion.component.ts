@@ -13,7 +13,7 @@ import {Subscription} from "rxjs";
 })
 export class LongQuestionComponent implements OnChanges {
     @Input() question?: Question;
-    @Input() instanceId?: number;
+    @Input() instance?: Instance;
     public ctlLongAnswer!: FormControl;
     private subscription!: Subscription;
     @Output() validationChange = new EventEmitter<boolean>();
@@ -25,15 +25,15 @@ export class LongQuestionComponent implements OnChanges {
                 this.subscription.unsubscribe();
             }
             this.ctlLongAnswer = this.fb.control(
-                this.question?.answers?.[0]?.value || '',
+                {value: this.question?.answers?.[0]?.value || '', disabled: this.instance?.completed != null},
                 this.question?.required ? [Validators.required] : []
             );
-            this.validationChange.emit(this.ctlLongAnswer.valid);
+          
             this.subscription = this.ctlLongAnswer.valueChanges.subscribe(value => {
                 this.validationChange.emit(this.ctlLongAnswer.valid);
-                if(this.question?.answers) {
+                if(this.instance && this.question?.answers && this.ctlLongAnswer.valid) {
                     this.question.answers[0] = {
-                        instanceId: this.instanceId || 0,
+                        instanceId: this.instance?.instanceId,
                         questionId: this.question.id,
                         idx: 0,
                         value : value

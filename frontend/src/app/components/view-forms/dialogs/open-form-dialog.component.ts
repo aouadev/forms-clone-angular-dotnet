@@ -1,3 +1,5 @@
+
+
 import {Component, Inject} from '@angular/core';
 import { template } from 'lodash-es';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -6,21 +8,32 @@ import { Form } from 'src/app/models/form';
 import { Router } from '@angular/router';
 @Component({
     selector: 'open-form-confirm',
-    templateUrl: 'openFormConfirm.component.html'
+    templateUrl: 'open-form-dialog.component.html'
 })
 
-export class OpenFormConfirmComponent {
+export class OpenFormDialogComponent {
     constructor(
         private router: Router,
-        private dialogRef: MatDialogRef<OpenFormConfirmComponent>,
+        private dialogRef: MatDialogRef<OpenFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: {form: Form}) {}
 
 
-    openInstance(readOnly: boolean) {
-
-        this.router.navigate(['/instance'], { state: { form: this.data.form, readOnly: readOnly}});
+    openInstance(isNew: boolean) {
+        this.router.navigate(['/instance'], { state: { form: this.data.form, isNew: isNew}});
         this.dialogRef.close();
-        
+
+    }
+    
+
+    read() {
+        this.dialogRef.close(false);
+    }
+
+    respond() {
+        this.dialogRef.close(true);
+    }
+    cancel() {
+        this.dialogRef.close();
     }
 
 }

@@ -40,13 +40,18 @@ export class FormService {
     }
 
     getPublicForms(): Observable<Form[]> {
-        return this.http.get<any[]>(`${this.baseUrl}api/guestForm`).pipe(
+        return this.http.get<any[]>(`${this.baseUrl}api/guestForms`).pipe(
             map(res => plainToInstance(Form, res))
         );
     }
 
     getFormWithquestions(id: number): Observable<InstanceWithFormDetailed> {
         return this.http.get<any>(`${this.baseUrl}api/forms/${id}`).pipe(
+            map(res => plainToInstance(InstanceWithFormDetailed, res))
+        );
+    }
+    getFormForGuest(id: number): Observable<InstanceWithFormDetailed> {
+        return this.http.get<any>(`${this.baseUrl}api/guestForms/${id}`).pipe(
             map(res => plainToInstance(InstanceWithFormDetailed, res))
         );
     }
@@ -118,5 +123,11 @@ export class FormService {
                 return of(false);
             })
         );
+    }
+    
+    getFormWithAllInstances(id: number): Observable<Form> {
+        return this.http.get<any>(`${this.baseUrl}api/Analyze/${id}`).pipe(
+            map(res => plainToInstance(Form, res))
+        )
     }
 }

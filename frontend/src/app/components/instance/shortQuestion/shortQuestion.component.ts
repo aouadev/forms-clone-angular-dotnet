@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, Validators } from "@angular/forms";
 import { Subscription } from "rxjs";
 import { Question} from "src/app/models/question";
 import {F} from "@angular/cdk/keycodes";
+import {Instance} from "../../../models/instance";
 
 @Component({
     selector: 'short-question',
@@ -13,7 +14,7 @@ import {F} from "@angular/cdk/keycodes";
 })
 export class ShortQuestionComponent implements OnChanges, OnDestroy {
     @Input() question?: Question;
-    @Input() instanceId?: number;
+    @Input() instance?: Instance;
     @Input() ctlShortAnswer!: FormControl;
     @Output() validationChange = new EventEmitter<boolean>();
     private subscription!: Subscription;
@@ -28,32 +29,24 @@ export class ShortQuestionComponent implements OnChanges, OnDestroy {
                 this.subscription.unsubscribe();
             }
             this.ctlShortAnswer = this.fb.control(
-                this.question?.answers?.[0]?.value || '', 
+                {value: this.question?.answers?.[0]?.value || '', disabled: this.instance?.completed != null}, 
                 this.question?.required ? [Validators.required] : []
             );
-            this.validationChange.emit(this.ctlShortAnswer.valid);
-           
-
-           
+            //this.validationChange.emit(this.ctlShortAnswer.valid);
             this.subscription = this.ctlShortAnswer.valueChanges.subscribe(value => {
-                console.log('value:::' + value);
-                console.log('ctl valid: ', this.ctlShortAnswer.valid);
-              
-            
                 this.validationChange.emit(this.ctlShortAnswer.valid);
-                
-               
-                if (this.question?.answers) {
+                if (this.question?.answers && this.ctlShortAnswer.valid) {
                     this.question.answers[0] = {
-                        instanceId: this.instanceId || 0,
+                        instanceId: this.instance?.instanceId|| 0,
                         questionId: this.question.id,
                         idx: 0,
                         value: value
                     };
-                }
-                if (this.question) {
                     this.question.updated = true;
+                    console.log('updated', value);
+                    
                 }
+               
                
             });
             this.ctlShortAnswer.markAllAsTouched();

@@ -1,7 +1,8 @@
-import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import { Question } from "src/app/models/question";
 import {Subscription} from "rxjs";
+import {Instance} from "../../../models/instance";
 
 @Component({
     selector:"radio-question",
@@ -11,9 +12,9 @@ import {Subscription} from "rxjs";
     ]
 
 })
-export class RadioQuestionComponent implements OnInit {
+export class RadioQuestionComponent implements OnInit, OnDestroy {
     @Input() question?: Question;
-    @Input() instanceId?: number;
+    @Input() instance?: Instance;
     @Output() validationChange = new EventEmitter<boolean>();
     public selectedOption!: FormControl;
     private subscription!: Subscription;
@@ -25,17 +26,23 @@ export class RadioQuestionComponent implements OnInit {
 
     ngOnInit(): void {
         if (this.question) {
+            if (this.subscription) {
+                this.subscription.unsubscribe();
+            }
             const answer = this.question.answers?.[0];
-            this.selectedOption = this.fb.control(this.question.optionList?.optionValues.find(
-                option => option.idx.toString() == answer?.value), this.question?.required ? [Validators.required] : []);
-            this.validationChange.emit(this.selectedOption.valid);
+            this.selectedOption = this.fb.control({value: 
+                    this.question.optionList?.optionValues.find(
+                option => option.idx.toString() == answer?.value),
+                disabled: this.instance?.completed != null },
+                this.question?.required ? [Validators.required] : []);
+            //this.validationChange.emit(this.selectedOption.valid);
 
-            this.selectedOption.valueChanges.subscribe(value => {
+            this.subscription = this.selectedOption.valueChanges.subscribe(value => {
             this.validationChange.emit(this.selectedOption.valid);
                 console.log(value);
-                if (this.question?.answers) {
+                if (this.instance && this.question?.answers && this.selectedOption.valid) {
                     this.question.answers[0] = {
-                        instanceId: this.instanceId || 0,
+                        instanceId: this.instance?.instanceId,
                         questionId: this.question.id,
                         idx: 0,
                         value: value.toString()
@@ -46,6 +53,12 @@ export class RadioQuestionComponent implements OnInit {
 
 
             });
+        }
+    }
+
+    ngOnDestroy(): void {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
         }
     }
 }

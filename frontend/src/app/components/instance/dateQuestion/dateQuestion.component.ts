@@ -1,8 +1,14 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from "@angular/core";
 import {Instance} from "../../../models/instance";
 import {Question} from "../../../models/question";
-import {FormBuilder, FormControl, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, ValidationErrors, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
+
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import {da} from "date-fns/locale";
+
 
 @Component({
     selector: "date-question",
@@ -11,7 +17,7 @@ import {Subscription} from "rxjs";
 })
 export class DateQuestionComponent implements OnChanges {
     @Input() question?: Question;
-    @Input() instanceId?: number;
+    @Input() instance?: Instance;
     @Output() validationChange = new EventEmitter<boolean>();
     public ctlDateAnswer!: FormControl;
     private subscription!: Subscription;
@@ -23,18 +29,15 @@ export class DateQuestionComponent implements OnChanges {
                 this.subscription.unsubscribe();
             }
             this.ctlDateAnswer = this.fb.control(
-                this.question?.answers?.[0]?.value || '',
-                this.question?.required ? [Validators.required, Validators.pattern(/^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[0-2])\/\d{4}$/)
-
-
+                {value: this.question?.answers?.[0]?.value || '', disabled: this.instance?.completed != null},
+                this.question?.required ? [Validators.required, //this.dateValidator
                 ] : []
             );
-            this.validationChange.emit(this.ctlDateAnswer.valid);
-            this.ctlDateAnswer?.valueChanges.subscribe(value => {
+           this.subscription = this.ctlDateAnswer?.valueChanges.subscribe(value => {
                 this.validationChange.emit(this.ctlDateAnswer.valid);
-                if(this.question?.answers) {
+                if(this.instance && this.question?.answers && this.ctlDateAnswer.valid) {
                     this.question.answers[0] = {
-                        instanceId: this.instanceId || 0,
+                        instanceId: this.instance?.instanceId,
                         questionId: this.question?.id,
                         idx : 0,
                         value : value
@@ -46,6 +49,18 @@ export class DateQuestionComponent implements OnChanges {
             });
             this.ctlDateAnswer?.markAllAsTouched();
         }
+    }
+
+    dateValidator(control: FormControl): ValidationErrors | null {
+        const dateString = control.value as string;
+        const regExp = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
+        if(!regExp.test(dateString)) {
+            console.log("invalidDate");
+            return {invalidDate: true};
+            
+        }
+        console.log("validDate");
+        return null;
     }
     
 }

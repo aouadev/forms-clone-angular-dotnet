@@ -32,6 +32,10 @@ export class NavBarComponent {
         console.log("go back");
         this.router.navigate([this.backUrl], {state: {data: this.dataService.getData()}});
     }
+    getMyForms() {
+        this.dataService.clearData();
+        this.router.navigate(["/"]);
+    }
     /*toggleFilter(){
         this.askToggleFilter.emit();
         console.log("emit");

@@ -27,18 +27,16 @@ public class InstanceController : ControllerBase {
 [HttpGet("{id}")]
 public async Task<ActionResult<InstanceWithFormDetailedDTO>> GetInstance(int id, bool readOnly) {
     // Charger l'ancienne instance avec toutes les réponses
-    
     var instance = await _context.Instances
         .Where(i => i.InstanceId == id)
         .Include(i => i.Form)
-        .ThenInclude(f => f.Questions)
+        .ThenInclude(f =>  f.Questions)
         .ThenInclude(q => q.Answers) // Charger toutes les réponses
         .Include(i => i.Form)
         .ThenInclude(f => f.Questions)
         .ThenInclude(q => q.OptionList)
         .ThenInclude(o => o.OptionValues)
         .FirstOrDefaultAsync();
-
     if (instance == null)
         return NotFound();
 
@@ -53,19 +51,58 @@ public async Task<ActionResult<InstanceWithFormDetailedDTO>> GetInstance(int id,
 }
 
 
-    [HttpPost]
-    public async Task<ActionResult<InstanceWithFormDetailedDTO>> PostInstance(InstanceWithFormDetailedDTO instanceDTO) {
-        var instance = _mapper.Map<Instance>(instanceDTO);
-        _context.Instances.Add(instance);
-        foreach(var question in instanceDTO.Form.Questions) {
-            //var answer[] = _mapper.Map<Answer[]>(question.Answers);
-             
-        }
-       
-        await _context.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetInstance), new { id = instance.InstanceId}, _mapper.Map<InstanceDTO>(instance));
-        
+[HttpPost]
+public async Task<ActionResult<bool>> PutInstance(InstanceWithFormDetailedDTO instanceDTO)
+{ var instance = await _context.Instances
+        .Where(i => i.InstanceId == instanceDTO.InstanceId)
+        .FirstOrDefaultAsync();
+
+    if (instance == null)
+    {
+        return NotFound();
     }
+    var answers = await _context.Answers
+        .Where(a => a.InstanceId == instanceDTO.InstanceId)
+        .Include(a => a.Question)
+        .ToListAsync();
+    var invalidAnswers = new List<Answer>();
+
+    foreach (var answer in answers)
+    {
+        var res = await new AnswerValidator(_context, answer.Question).ValidateAsync(answer);
+        if (!res.IsValid)
+        {
+            invalidAnswers.Add(answer);
+        }
+    }
+    if (invalidAnswers.Any())
+    {
+        _context.Answers.RemoveRange(invalidAnswers);
+        await _context.SaveChangesAsync(); 
+        return BadRequest(new
+        {
+            Message = "some answers are invalid.",
+            InvalidAnswers = invalidAnswers.Select(a => a.Value).ToList()
+        });
+    }
+    instance.Completed = DateTimeOffset.UtcNow;
+    await _context.SaveChangesAsync();
+
+    return Ok(true);
+}
+
+    
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteInstance(int id) {
+        var instance = await _context.Instances.FindAsync(id);
+        if (instance == null) {
+            return BadRequest(); 
+        } 
+        _context.Remove(instance);
+        await _context.SaveChangesAsync();
+        return NoContent(); 
+    }
+        
 
 
 

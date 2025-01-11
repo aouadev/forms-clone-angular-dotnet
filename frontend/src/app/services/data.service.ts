@@ -19,4 +19,7 @@ export class DataService {
     clearData() {
         this.data = null;
     }
+    hasData() {
+        return this.data?.length > 0;
+    }
 }

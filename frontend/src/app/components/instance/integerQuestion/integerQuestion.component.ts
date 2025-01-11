@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {Question} from "../../../models/question";
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
+import {Instance} from "../../../models/instance";
 
 @Component({
     selector: 'integer-question',
@@ -11,7 +12,7 @@ import {Subscription} from "rxjs";
 })
 export class IntegerQuestionComponent implements OnChanges {
     @Input() question?: Question;
-    @Input() instanceId?: number;
+    @Input() instance?: Instance;
     public ctlIntegerAnswer!: FormControl;
     @Output() validationChange = new EventEmitter<boolean>();
     private subscription!: Subscription;
@@ -27,12 +28,12 @@ export class IntegerQuestionComponent implements OnChanges {
                 this.question?.answers?.[0]?.value || '',
                 this.question?.required ? [Validators.required, Validators.pattern(/^\d+$/)] : []
             );
-            this.validationChange.emit(this.ctlIntegerAnswer.valid);
-            this.ctlIntegerAnswer.valueChanges.subscribe(value => {
+       
+           this.subscription = this.ctlIntegerAnswer.valueChanges.subscribe(value => {
                 this.validationChange.emit(this.ctlIntegerAnswer.valid);
-                if (this.question?.answers) {
+                if (this.instance && this.question?.answers) {
                     this.question.answers[0] = {
-                        instanceId: this.instanceId || 0,
+                        instanceId: this.instance?.instanceId|| 0,
                         questionId: this.question.id,
                         idx: 0,
                         value: value

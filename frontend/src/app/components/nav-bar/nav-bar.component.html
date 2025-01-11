@@ -12,7 +12,7 @@
     <ng-content/>
 </mat-toolbar>
 <mat-menu #menu="matMenu">
-    <button mat-menu-item routerLink="/">
+    <button mat-menu-item (click)="getMyForms()">
         <mat-icon>home</mat-icon>
         <span>My Forms</span>
     </button>

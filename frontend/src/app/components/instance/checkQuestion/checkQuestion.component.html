@@ -38,25 +38,26 @@
 }-->
 
 @if(question?.optionList) {
-    <div class="optionValue" [formGroup]="comboForm">
+    <form class="optionValue" [formGroup]="comboForm" >
         <div class="checkbox-div" formArrayName="optionsValues">
             <div
-                    *ngFor="let optionGroup of optionsValues.controls; let i = index"
+                    *ngFor="let option of question?.optionList?.optionValues; let i = index"
                     [formGroupName]="i"
             >
                 <mat-checkbox
                         class="checkbox"
                         formControlName="checked"
-                        (change)="addCheckedAnswer($event.checked, optionGroup.value.optionIdx)"
+                     
+                        (change)="addCheckedAnswer($event.checked, option.idx)"
                 >
-                    {{ optionGroup.value.label }}
+                    {{ option.label }}
                 </mat-checkbox>
             </div>
         </div>
         <mat-error *ngIf="optionsValues.hasError('required')">
             This field is required
         </mat-error>
-    </div>
+    </form>
 }
 
 

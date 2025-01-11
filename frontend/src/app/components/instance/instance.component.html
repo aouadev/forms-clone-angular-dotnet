@@ -1,15 +1,15 @@
-<app-nav-bar title="Answer Form" backUrl="/view_forms">
+<app-nav-bar title="Answer Form" backUrl="view_forms">
     <button mat-icon-button [disabled]="questionNumber <= 0">
         <mat-icon (click)="decrementQuestion()">chevron_left</mat-icon>
     </button>
     <button mat-icon-button [disabled]="questions && questionNumber >= questions.length - 1">
         <mat-icon (click)="incrementQuestion()">chevron_right</mat-icon>
     </button>
-    <button mat-icon-button>
-        <mat-icon (click)="arrowBack()">delete</mat-icon>
+    <button mat-icon-button [disabled]="instance?.completed">
+        <mat-icon (click)="deleteInstance()">delete</mat-icon>
     </button>
-    <button mat-icon-button [disabled]="!isAllValid">
-        <mat-icon (click)="arrowBack() ">save</mat-icon>
+    <button mat-icon-button (click)="saveInstance() " [disabled]="!isAllValid || instance?.completed">
+        <mat-icon >save</mat-icon>
     </button>
 
 </app-nav-bar>
@@ -39,7 +39,7 @@
     </div>
         <question-card [question]="currentQuestion"
                        [instance]="instance"
-                       (validationChange)="onValisationChange($event, questionNumber)"
+                       (validationChange)="onValidationChange($event, questionNumber)"
         ></question-card>
 }
     @else {

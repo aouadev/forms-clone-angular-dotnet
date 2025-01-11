@@ -1,11 +1,13 @@
 @if (question?.optionList?.optionValues) {
-  <div>
-    <mat-radio-group [formControl]="selectedOption">
+  <div >
+    <mat-radio-group [formControl]="selectedOption" class="options-container" >
                     
     @for (value of question?.optionList?.optionValues; track value.idx) {
+        <div class="option-item">
         <mat-radio-button [value]="value?.idx" [checked]="value?.idx == selectedOption.value?.idx">
             {{value.label}}
         </mat-radio-button>
+        </div>
         
     }
     </mat-radio-group>

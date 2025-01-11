@@ -19,7 +19,7 @@ import { LoginComponent } from '../components/login/login.component';
 import { RestrictedComponent } from '../components/restricted/restricted.component';
 import { ViewFormsComponent } from '../components/view-forms/view-forms.component';
 import { FormCardComponent } from '../components/view-forms/form-card.component';
-import { OpenFormConfirmComponent } from '../components/openFormConfirm/openFormConfirm.component';
+
 import { InstanceComponent } from '../components/instance/instance.component';
 import { QuestionCardComponent } from '../components/instance/QuestionCardComponent';
 import { ShortQuestionComponent } from '../components/instance/shortQuestion/shortQuestion.component';
@@ -44,6 +44,12 @@ import { AddEditOptionComponent } from '../components/add-edit-option-list/add-e
 import {CancelDialogComponent} from "../components/add-edit-option-list/cancel-dialog.component";
 import {ManageSharesComponent} from "../components/manage-shares/manage-shares.compoenent";
 import {CdkDrag, CdkDropList} from "@angular/cdk/drag-drop";
+import {OpenFormDialogComponent} from "../components/view-forms/dialogs/open-form-dialog.component";
+import {
+    DeleteInstanceDialogComponent
+} from "../components/instance/delete-instance-dialog/delete-instance-dialog.component";
+import {AnalyzeComponent} from "../components/analyze/analyze.component";
+
 
 @NgModule({
     declarations: [
@@ -56,7 +62,7 @@ import {CdkDrag, CdkDropList} from "@angular/cdk/drag-drop";
         RestrictedComponent,
         ViewFormsComponent,
         FormCardComponent,
-        OpenFormConfirmComponent,
+        //OpenFormConfirmComponent,
         InstanceComponent,
         QuestionCardComponent,
         ShortQuestionComponent,
@@ -79,7 +85,10 @@ import {CdkDrag, CdkDropList} from "@angular/cdk/drag-drop";
         DeleteOptionDialogComponent,
         AddEditOptionComponent,
         CancelDialogComponent,
-        ManageSharesComponent
+        ManageSharesComponent, 
+        OpenFormDialogComponent,
+        DeleteInstanceDialogComponent,
+        AnalyzeComponent
         
         
         
