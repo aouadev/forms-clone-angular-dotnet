@@ -29,6 +29,8 @@ export class InstanceComponent implements OnInit, OnChanges, AfterViewInit, OnDe
     questions?: Question[] ;
     questionNumber: number = 0;
     currentQuestion?: Question;
+    backToViewInstances: boolean = false;
+    isDeleting = false;
   //  public frm!: FormGroup;
    // public ctlShortAnswer!: FormControl;
     isAllValid?: boolean;
@@ -44,8 +46,10 @@ export class InstanceComponent implements OnInit, OnChanges, AfterViewInit, OnDe
                 private dialog: MatDialog,){
         const navigation = this.router.getCurrentNavigation();
         this.form = navigation?.extras.state?.['form'];
+        this.instance = this.form.lastInstance || navigation?.extras.state?.['instance'];
         this.readOnly = navigation?.extras.state?.['readOnly'];
         this.isNew = navigation?.extras.state?.['isNew'];
+        this.backToViewInstances = navigation?.extras.state?.['backToViewInstances'];
        
         
      
@@ -71,8 +75,8 @@ export class InstanceComponent implements OnInit, OnChanges, AfterViewInit, OnDe
             });
             
         } else {
-            if (this.form.lastInstance && !this.isNew) {
-                this.instanceService.getInstance(this.form?.lastInstance.instanceId, this.readOnly).subscribe((res) => {
+            if (this.instance && !this.isNew) {
+                this.instanceService.getInstance(this.instance?.instanceId, this.readOnly).subscribe((res) => {
                     this.instance = res;
                     this.form = this.instance.form || this.form;
                     this.questions = this.form?.questions.map(q => {
@@ -187,7 +191,8 @@ export class InstanceComponent implements OnInit, OnChanges, AfterViewInit, OnDe
     deleteInstance() {
         this.dialog.open(DeleteInstanceDialogComponent, {autoFocus: true}).afterClosed().subscribe(res => {
             if (res && this.instance ) {
-                this.instanceService.deleteInstance(this.instance.instanceId).subscribe(res => {
+                this.isDeleting = true;
+                this.instanceService.deleteInstances(this.instance.instanceId).subscribe(res => {
                     console.log("deleted:", res);
                     this.router.navigate(['view_forms']);
 
@@ -199,7 +204,7 @@ export class InstanceComponent implements OnInit, OnChanges, AfterViewInit, OnDe
     }
 
     ngOnDestroy() {
-        if (this.currentQuestion ) {
+        if (this.currentQuestion && !this.isDeleting) {
             this.saveCurrentQuestionAnswer();
         }
     }

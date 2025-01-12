@@ -11,7 +11,7 @@
         <mat-icon [hidden]="canManageShare()" (click)="manageShares()">share</mat-icon>
     </button>
     <button mat-icon-button [routerLink]="['/analyze']"
-                            [state]="{form: form}">
+                            [state]="{data: form}">
         <mat-icon [hidden]="!isInstancied">query_stats</mat-icon>
     </button>
 </app-nav-bar>

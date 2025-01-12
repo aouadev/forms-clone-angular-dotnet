@@ -11,7 +11,6 @@
           <div class="access-checkbox">
               <section>
                   <mat-checkbox formControlName="userCtl" 
-                                
                                 (change)="updateAccesses(i)">User</mat-checkbox>
                   <mat-checkbox formControlName="editorCtl"
                                 (change)="updateAccesses(i)">Editor</mat-checkbox>
@@ -27,8 +26,8 @@
         <div class="users-access-form">
         <mat-form-field class="example-full-width">
             <mat-label>Select a User</mat-label>
-            <input type="text" matInput [matAutocomplete]="auto" [formControl]="userToAddCtl" [value]="userToAddCtl.value.firstName + ' ' + userToAddCtl.value.lastName" >
-            <mat-autocomplete #auto="matAutocomplete" formArrayName="usersToAddAccess">
+            <input type="text" matInput [matAutocomplete]="auto" [formControl]="userToAddCtl" >
+            <mat-autocomplete #auto="matAutocomplete" formArrayName="usersToAddAccess" [displayWith]="displayUserName">
                 @for(user of form.allUsersWithoutAdmins; track user) {
                     <mat-option [value]="user">{{user.firstName}} {{user.lastName}}</mat-option>
                 }
@@ -36,13 +35,15 @@
           
         </mat-form-field>
         <section>
-            <mat-checkbox formControlName="accessTypeUserCtl">User</mat-checkbox>
-            <mat-checkbox formControlName="accessTypeEditorCtl">Editor</mat-checkbox>
+            <mat-checkbox [formControl]="accessTypeUserCtl">User</mat-checkbox>
+            <mat-checkbox [formControl]="accessTypeEditorCtl">Editor</mat-checkbox>
         </section>
         
     </div>
         <div class="add-button-container">
-            <button mat-raised-button color="primary" class="add-button">Add</button>
+            <button mat-raised-button color="primary" class="add-button"
+                    [disabled]="!canAddUserAccess"
+                    (click)="addUserAccess()">Add</button>
         </div>
     </div>
     </form>

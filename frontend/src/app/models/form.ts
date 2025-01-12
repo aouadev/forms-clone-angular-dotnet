@@ -1,4 +1,4 @@
-import { Instance } from "./instance";
+import {Instance, InstanceWithUserDetailed} from "./instance";
 import { Question } from "./question";
 import { User } from "./user";
 import {FormArray} from "@angular/forms";
@@ -22,6 +22,7 @@ export class Form {
     description: string = '';
     isPublic: boolean = false;
     questions: Question[] = [];
+    instances: InstanceWithUserDetailed[] = [];
     
 }
 export class FormWithAccessData extends Form {

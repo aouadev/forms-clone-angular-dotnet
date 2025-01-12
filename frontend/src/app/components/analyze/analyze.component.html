@@ -1,11 +1,17 @@
-<app-nav-bar title="analyze"></app-nav-bar>
+<app-nav-bar [title]="form.title" [backUrl]="'viewForm'">
+    <button mat-icon-button [routerLink]="['/view_instances']"
+                            [state]="{data: form}"
+                            [disabled]="!form.isInstancied">
+        <mat-icon>list</mat-icon>
+    </button>
+</app-nav-bar>
 <div class="analyze-container">
     <h4 class="title"> Statistics</h4>
     <div >
     @if(form) {
     <form [formGroup]="frm">
     <mat-form-field class="select-div">
-        <mat-select [formControl]="selectedQuestionCtl">
+        <mat-select [formControl]="selectedQuestionCtl" [placeholder]="currentQuestion?.title || ''">
             @for(question of form.questions; track $index) {
                 <mat-option [value]="question">{{question.title}}</mat-option>
             }

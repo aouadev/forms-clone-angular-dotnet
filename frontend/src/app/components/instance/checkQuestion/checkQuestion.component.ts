@@ -28,12 +28,12 @@ export class CheckQuestionComponent implements OnChanges, OnDestroy, OnInit  {
     @Output() validationChange = new EventEmitter<boolean>();
     public comboForm!: FormGroup;
     private answerIndex: number = 0;
-   
-    
-  
     private subscription!: Subscription;
     constructor(private fb: FormBuilder) {
       
+    }
+    ngOnInit() {
+        this.initForm();
     }
     /*ngOnInit() {
         this.comboForm = this.fb.group({
@@ -108,40 +108,33 @@ export class CheckQuestionComponent implements OnChanges, OnDestroy, OnInit  {
                             answer.value === option.idx.toString()),
                         disabled: this.instance?.completed != null}]
                 });
-            }) || [];
+            }) ;
 
             this.comboForm = this.fb.group({
                 optionsValues: this.fb.array(optionsControls, this.atLeastOneCheckboxCheckedValidator())
             });
-            const isValid = !this.question?.required && (this.comboForm.get('optionsValues') as FormArray)
-                .controls.some(control => control.get('checked')?.value);
-            this.validationChange.emit(isValid);
+            this.validateForm();
 
-         /*   this.subscription = this.comboForm.valueChanges.subscribe(value => {
-                const isValid = !this.question?.required || (this.comboForm.get('optionsValues') as FormArray)
-                    .controls.some(control => control.get('checked')?.value);
-                this.validationChange.emit(isValid);
-            });*/
+           this.subscription = this.comboForm.valueChanges.subscribe(() => {
+                this.validateForm();
+            });
 
             this.comboForm.markAllAsTouched();
         }
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes['question'] && this.question && this.question.optionList?.optionValues) {
+        if (changes['question'] && this.question) {
             this.initForm();
            
         }
     }
-   ngOnInit() {
-        if (this.question && this.question.optionList?.optionValues) {
-            console.log("Initial answers:", this.question.answers);
-            const isValid = !this.question?.required || (this.comboForm.get('optionsValues') as FormArray)
-                .controls.some(control => control.get('checked')?.value);
-            this.validationChange.emit(isValid);
-            
-        }
+
+    private validateForm() {
+        const isValid = !this.question?.required || this.optionsValues.controls.some(control => control.get('checked')?.value);
+        this.validationChange.emit(isValid);
     }
+
 
 
 
@@ -162,9 +155,9 @@ export class CheckQuestionComponent implements OnChanges, OnDestroy, OnInit  {
        /* const isValid = !this.question?.required || (this.comboForm.get('optionsValues') as FormArray)
             .controls.some(control => control.get('checked')?.value);
         this.validationChange.emit(isValid);*/
-        if (this.subscription) {
+      /*  if (this.subscription) {
             this.subscription.unsubscribe();
-        }
+        }*/
         if(this.instance && checked && this.question) {
             console.log("test:", this.question.answers.length)
             this.question.answers.push({

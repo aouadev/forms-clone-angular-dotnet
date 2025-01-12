@@ -61,7 +61,7 @@ export class ViewFormComponent implements OnInit{
     ngOnInit(): void {
         if (this.form){
             this.formService.getForm(this.form.formId).subscribe(res =>{
-                //console.log('API Response:', res); // Vérifiez ici si `owner` est présent
+                console.log('API Response:', res); // Vérifiez ici si `owner` est présent
                 this.form = res;
                 this.form.ownerFullName = `${this.form.owner?.fullName}`;
                // console.log("owner: "+ this.form.owner?.firstName  + "res:   "+ res.owner?.firstName);

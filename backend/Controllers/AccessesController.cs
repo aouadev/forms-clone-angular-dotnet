@@ -31,7 +31,7 @@ public class AccessesController : ControllerBase {
             .Where(fa => fa.FormId == id)
             .Select(fa => fa.UserId)
             .ToListAsync();
-        var allUsers = await _context.Users.Where(u => u.Id != owner.Id && u.Role != Role.Admin && !usersWithAccesses.Contains(u.Id)).ToListAsync();
+        var allUsers = await _context.Users.Where(u => u.Id != owner.Id && u.Role == Role.User && !usersWithAccesses.Contains(u.Id)).ToListAsync();
       /*  var allUsers = await _context.Users
             .Where(u => u.Role != Role.Admin && u.Id !=
                             _context.Forms
@@ -50,15 +50,37 @@ public class AccessesController : ControllerBase {
         var formAccess = await _context.FormsAccess
             .Where(fa => fa.FormId == formId && fa.UserId == userId).FirstOrDefaultAsync();
         if (formAccess == null) {
-            BadRequest();
+            BadRequest("Access not found");
 
         }
-
         _context.FormsAccess.Remove(formAccess);
         await _context.SaveChangesAsync();
 
         return Ok(true);  //CreatedAtAction(nameof(GetAccesses), new { id = formId });
     }
+
+    [HttpPost]
+    public async Task<ActionResult<bool>> AddAccesses(FormAccessDTO formAccess) {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == formAccess.UserId);
+        var form = await _context.Forms.FirstOrDefaultAsync(f => f.FormId == formAccess.FormId);
+    
+        if (form == null || user == null) {
+            return BadRequest("User or form not found.");
+        }
+
+        var access = await _context.FormsAccess
+            .FirstOrDefaultAsync(f => f.FormId == formAccess.FormId && f.UserId == formAccess.UserId);
+        if (access == null) {
+            access = _mapper.Map<FormAccess>(formAccess);
+            await _context.FormsAccess.AddAsync(access);
+        }
+
+        await _context.SaveChangesAsync();
+
+        return Ok(true);
+    }
+
+
 
 
 

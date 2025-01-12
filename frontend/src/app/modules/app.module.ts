@@ -49,6 +49,8 @@ import {
     DeleteInstanceDialogComponent
 } from "../components/instance/delete-instance-dialog/delete-instance-dialog.component";
 import {AnalyzeComponent} from "../components/analyze/analyze.component";
+import {ViewInstancesComponent} from "../components/view-instances/view-instances.component";
+import {DeleteInstancesDialogComponent} from "../components/view-instances/delete-instance-dialog.component.";
 
 
 @NgModule({
@@ -62,7 +64,6 @@ import {AnalyzeComponent} from "../components/analyze/analyze.component";
         RestrictedComponent,
         ViewFormsComponent,
         FormCardComponent,
-        //OpenFormConfirmComponent,
         InstanceComponent,
         QuestionCardComponent,
         ShortQuestionComponent,
@@ -88,7 +89,9 @@ import {AnalyzeComponent} from "../components/analyze/analyze.component";
         ManageSharesComponent, 
         OpenFormDialogComponent,
         DeleteInstanceDialogComponent,
-        AnalyzeComponent
+        AnalyzeComponent,
+        ViewInstancesComponent,
+        DeleteInstancesDialogComponent
         
         
         

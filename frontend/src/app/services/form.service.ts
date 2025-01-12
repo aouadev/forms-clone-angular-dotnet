@@ -124,9 +124,24 @@ export class FormService {
             })
         );
     }
+    addAccess(formAccess: FormAccesses): Observable<boolean> {
+        return this.http.post<boolean>(`${this.baseUrl}api/accesses`, formAccess).pipe(
+            map(res => true),
+            catchError(err => {
+                console.log(err);
+                return of(false);
+            })
+        );
+    }
+    
+    getFormWithAllAnswers(id: number): Observable<Form> {
+        return this.http.get<any>(`${this.baseUrl}api/Analyze/${id}`).pipe(
+            map(res => plainToInstance(Form, res))
+        )
+    }
     
     getFormWithAllInstances(id: number): Observable<Form> {
-        return this.http.get<any>(`${this.baseUrl}api/Analyze/${id}`).pipe(
+        return this.http.get<any>(`${this.baseUrl}api/ViewInstances/${id}`).pipe(
             map(res => plainToInstance(Form, res))
         )
     }

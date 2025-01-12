@@ -1,4 +1,4 @@
-<app-nav-bar title="Answer Form" backUrl="view_forms">
+<app-nav-bar title="Answer Form" [backUrl]="backToViewInstances ? 'view_instances' : 'view_forms'">
     <button mat-icon-button [disabled]="questionNumber <= 0">
         <mat-icon (click)="decrementQuestion()">chevron_left</mat-icon>
     </button>

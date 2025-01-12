@@ -15,6 +15,7 @@ import { OptionListsComponent } from '../components/option-lists/option-lists.co
 import { AddEditOptionComponent } from '../components/add-edit-option-list/add-edit-option-list.component';
 import {ManageSharesComponent} from "../components/manage-shares/manage-shares.compoenent";
 import {AnalyzeComponent} from "../components/analyze/analyze.component";
+import {ViewInstancesComponent} from "../components/view-instances/view-instances.component";
 
 
 const appRoutes: Routes = [
@@ -29,6 +30,7 @@ const appRoutes: Routes = [
     {path: 'addEditOption', component: AddEditOptionComponent},
     {path: 'manage_shares', component: ManageSharesComponent},
     {path: 'analyze', component: AnalyzeComponent},
+    {path: 'view_instances', component: ViewInstancesComponent},
     
     
 

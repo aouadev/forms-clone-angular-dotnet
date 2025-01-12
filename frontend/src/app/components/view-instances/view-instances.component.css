@@ -1,0 +1,11 @@
+.view-instances-container {
+    margin: 80px 20px;
+}
+
+.instance-data {
+    color: #4a4a4a;
+    font-size: 14px;
+}
+button {
+    margin: 0 0 20px 20px;
+}

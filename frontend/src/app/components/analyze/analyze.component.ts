@@ -6,6 +6,8 @@ import {Form} from "../../models/form";
 import {Question} from "../../models/question";
 import {MatTableDataSource} from "@angular/material/table";
 import {Answer} from "../../models/answer";
+import {DataService} from "../../services/data.service";
+import {th} from "date-fns/locale";
 @Component({
     selector: "analyze",
     templateUrl: "./analyze.component.html",
@@ -20,40 +22,45 @@ export class AnalyzeComponent implements OnInit {
     public frm!: FormGroup;
     constructor(private fb: FormBuilder,
                 private router: Router,
-                private formService: FormService,) {
+                private formService: FormService,
+                private dataService: DataService,) {
         const navigation = this.router.getCurrentNavigation();
-        this.form = navigation?.extras.state?.['form'];
+        this.form = navigation?.extras.state?.['data'];
         this.selectedQuestionCtl = this.fb.control('');
         this.frm = this.fb.group({
             questions: this.fb.array([]),
-            selectedQuestionCtl:   this.selectedQuestionCtl
+            selectedQuestionCtl:this.selectedQuestionCtl
         });
         
         
     }
     
     ngOnInit() {
+     
         if(this.form) {
-            this.formService.getFormWithAllInstances(this.form.formId).subscribe(res=> {
-                this.form = res;
-                this.currentQuestion = this.form.questions[0];
-                this.dataSource.data = this.analyzeAnswers();
-                console.log(res);
+            if (this.dataService.hasData()) {
+                this.form = this.dataService.getData();
+                console.log("data: ", this.form);
+            } else {
+                this.formService.getFormWithAllAnswers(this.form.formId).subscribe(res => {
+                    this.form = res;
+                    this.currentQuestion = this.form.questions[0];
+                    this.selectedQuestionCtl.setValue(this.currentQuestion);
+                    this.dataSource.data = this.analyzeAnswers();
+                    console.log(res);
 
-                this.frm = this.fb.group({
-                    questions: this.fb.array(this.form.questions),
-                    selectedQuestionCtl:   this.selectedQuestionCtl
-                });
-                this.selectedQuestionCtl.valueChanges.subscribe(value => {
-                    this.currentQuestion = value;
-                    if(this.currentQuestion) 
-                        this.dataSource.data = this.analyzeAnswers();
+                    this.frm = this.fb.group({
+                        questions: this.fb.array(this.form.questions),
+                        selectedQuestionCtl: this.selectedQuestionCtl
+                    });
+                    this.selectedQuestionCtl.valueChanges.subscribe(value => {
+                        this.currentQuestion = value;
+                        if (this.currentQuestion)
+                            this.dataSource.data = this.analyzeAnswers();
+                    })
                 })
-              
-                
-
-             
-            })
+                this.dataService.setData(this.form);
+            }
         }
     }
     analyzeAnswers() {

@@ -12,6 +12,11 @@ public class InstanceWithFormDetailedDTO : InstanceDTO
     public FormWithQuestionAndAnswersDTO Form { get; set; } = null!;
 }
 
+public class InstanceWithUserDetailesDTO : InstanceDTO
+{
+    public UserDTO User { get; set; } = null!;
+}
+
 
 /*public class InstanceWithQuestionsDetailsDTO {
     public ICollection<QuestionWithOLDetailsDTO> QuestionsDTO {get; set;}= new HashSet<QuestionWithOLDetailsDTO>();    

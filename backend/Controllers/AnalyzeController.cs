@@ -21,7 +21,8 @@ public class AnalyzeController : ControllerBase
     }
 
     [HttpGet("{formId}")]
-    public async Task<ActionResult<FormWithQuestionAndAnswersAndInstanceDTO>> GetFormWithAllInstances(int formId) {
+    public async Task<ActionResult<FormWithQuestionAndAnswersDTO>> GetFormWithAllInstances(int formId) {
+        var query = await _context.Instances.Where(i => i.FormId == formId && i.Completed != null).ToListAsync();
         var formWithAllInstance = await _context.Forms
             .Where(f => f.FormId == formId)
             .Include(f => f.Questions)
@@ -29,9 +30,10 @@ public class AnalyzeController : ControllerBase
             .ThenInclude(o => o.OptionValues)
             .Include(f => f.Questions)
             .ThenInclude(q => q.Answers.Where(a => a.Instance.Completed != null))
-            .ThenInclude(a => a.Instance)
             .FirstOrDefaultAsync();
-        var formDTO= _mapper.Map<FormWithQuestionAndAnswersAndInstanceDTO>(formWithAllInstance);
+        
+        var formDTO= _mapper.Map<FormWithQuestionAndAnswersDTO>(formWithAllInstance);
+        formDTO.IsInstancied = query.Count() > 0; //_context.Instances.Any(i => i.FormId == formId);
         return Ok(formDTO);
 
 

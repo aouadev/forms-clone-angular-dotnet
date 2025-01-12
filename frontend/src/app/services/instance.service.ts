@@ -51,8 +51,10 @@ export class InstanceService {
         )
     }
 
-    deleteInstance(instanceId: number): Observable<boolean> {
-        return this.http.delete<boolean>(`${this.baseUrl}api/instance/${instanceId}` ).pipe(
+    deleteInstances(instanceIds: number | number[]): Observable<boolean> {
+        const ids = Array.isArray(instanceIds) ? instanceIds : [instanceIds];
+        const params = ids.map(id => `ids=${id}`).join('&'); // Convertir en query params
+        return this.http.delete<boolean>(`${this.baseUrl}api/instance?${params}` ).pipe(
             map(res => true),
             catchError(err => {
                 console.log(err);

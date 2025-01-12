@@ -24,14 +24,22 @@ public class FormWithUserDetailsDTO : FormWithLastInstanceDTO{
     public ICollection<QuestionWithOLDetailsDTO> QuestionDetails { get; set;} = new HashSet<QuestionWithOLDetailsDTO>();
 }*/
 public class FormWithQuestionAndAnswersDTO : FormDTO {
+    public bool IsInstancied { get; set; } =  false;
     public ICollection<QuestionWithAnswersDTO> Questions { get; set; } = new HashSet<QuestionWithAnswersDTO>();
    // public ICollection<AnswerDTO> Answers { get; set;} = new HashSet<AnswerDTO>();
 }
 
-public class FormWithQuestionAndAnswersAndInstanceDTO : FormDTO
+public class FormWithAllInstancesDTO : FormDTO
 {
-    public ICollection<QuestionWithAnswersAndInstancesDTO> Questions { get; set; } = new HashSet<QuestionWithAnswersAndInstancesDTO>();
+    public ICollection<InstanceWithUserDetailesDTO> Instances { get; set; } = new HashSet<InstanceWithUserDetailesDTO>();
 }
+
+/*public class FormWithQuestionAndAnswersAndInstanceDTO : FormDTO
+{
+    public ICollection<QuestionWithAnswersDTO> Questions { get; set; } = new HashSet<QuestionWithAnswersDTO>();
+    //public ICollection<InstanceWithUserDetailesDTO> Instances { get; set; } = new HashSet<InstanceWithUserDetailesDTO>();
+}*/
+
 
 public class FormWithQuestionsDTO : FormDTO {
     public bool IsInstancied { get; set; } = false;

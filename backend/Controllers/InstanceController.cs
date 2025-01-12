@@ -92,13 +92,18 @@ public async Task<ActionResult<bool>> PutInstance(InstanceWithFormDetailedDTO in
 }
 
     
-    [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteInstance(int id) {
-        var instance = await _context.Instances.FindAsync(id);
-        if (instance == null) {
-            return BadRequest(); 
+    [HttpDelete]
+    public async Task<ActionResult> DeleteInstance([FromQuery] List<int> ids) {
+        if (ids.Count() == 0) {
+            return BadRequest("No instance ids provided.");
+        }
+        var instances = await _context.Instances
+            .Where(i => ids.Contains(i.InstanceId))
+            .ToListAsync();
+        if (instances.Count() != ids.Count()) {
+            return NotFound("one or more instances were not found."); 
         } 
-        _context.Remove(instance);
+        _context.RemoveRange(instances);
         await _context.SaveChangesAsync();
         return NoContent(); 
     }

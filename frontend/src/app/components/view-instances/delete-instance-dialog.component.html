@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Delete Instances</h2>
+<mat-dialog-content>
+    Please confirm you want to delete {{data == 'all' ? 'all' : 'selected'}} instances of this form.
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button mat-dialog-close >No</button>
+    <button mat-button (click)="confirmDelete()">Yes</button>
+</mat-dialog-actions>
