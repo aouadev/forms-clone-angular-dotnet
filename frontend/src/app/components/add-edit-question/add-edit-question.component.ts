@@ -8,6 +8,7 @@ import {Question, QuestionType} from "src/app/models/question";
 import {QuestionService} from "src/app/services/question.service";
 import {AuthenticationService} from "../../services/authentication.service";
 import {Role} from "../../models/user";
+import {DataService} from "../../services/data.service";
 
 @Component({
     selector:'add-edit-question',
@@ -29,7 +30,8 @@ export class AddEditQuestion implements OnInit {
         private router: Router,
         private fb: FormBuilder,
         private questionService: QuestionService,
-        private authService: AuthenticationService){
+        private authService: AuthenticationService,
+        private dataService: DataService){
         const navigation = this.router.getCurrentNavigation();
         const questionIndex = navigation?.extras.state?.['questionIndex'];
         this.form = navigation?.extras.state?.['form'];
@@ -47,11 +49,10 @@ export class AddEditQuestion implements OnInit {
 
     ngOnInit(): void {
         this.frm = this.fb.group({
-            title: [this.question?.title || '', [Validators.required]],
-            description: [this.question?.description],
+            title: [this.question?.title || '', [Validators.required, Validators.minLength(3)]],
+            description: [this.question?.description, Validators.minLength(3)],
             type: [this.question?.type, [Validators.required]],
-            optionListId: [this.question?.optionListId, [Validators.required]],
-
+            optionListId: [this.question?.optionListId],
             required: [this.question?.required]
         });
         this.hasOptionList = this.frm.value.type == 6 || this.frm.value.type == 7 || this.frm.value.type == 8;
@@ -59,13 +60,11 @@ export class AddEditQuestion implements OnInit {
             this.hasOptionList = value == 6 || value == 7 || value == 8;
                 
         });
-        
-      
-       
-
+        this.dataService.setData(this.form);
         const ownerId = this.form.ownerId;
         this.questionService.getOptionLists(ownerId).subscribe( res => {
             this.optionLists = res});
+        this.frm.markAllAsTouched();
        // console.log("enum: " ,QuestionType)
     }
 

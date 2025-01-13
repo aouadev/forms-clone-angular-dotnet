@@ -1,5 +1,5 @@
 <app-nav-bar [title]="isNew? 'Create a New Form': 'Edit Form'" [backUrl]="isNew? 'view_forms' : 'viewForm'">
-    <button mat-icon-button (click)="saveForm()" [disabled]="frm.invalid"><mat-icon>save</mat-icon></button>
+    <button mat-icon-button (click)="saveForm()" [disabled]="!frm.valid"><mat-icon>save</mat-icon></button>
 </app-nav-bar>
 <div class="body">
     <form class="example-form" [formGroup]="frm">
@@ -7,8 +7,11 @@
             <mat-label>Title</mat-label>
             <input matInput type="text" formControlName="title" [errorStateMatcher]="matcher">
             
-            @if(frm.get('title')?.hasError('required')) {
+            @if(frm.get('title')?.hasError('required')){
                 <mat-error>Title is <strong>required</strong></mat-error>
+            }
+            @if(frm.get('title')?.hasError('minlength')){
+                <mat-error>Title must have a minimum of 3 characters</mat-error>
             }
         </mat-form-field>
         <mat-form-field class="example-full-width">
@@ -16,7 +19,7 @@
             <input matInput type="text"  formControlName="description" [errorStateMatcher]="matcher">
        
             @if(frm.get('description')?.hasError('minlength') ) {
-                <mat-error>Minimum length is 3</mat-error>
+                <mat-error>Description must have a minimum of 3 characters</mat-error>
             }
         </mat-form-field>
         @if(form ) {

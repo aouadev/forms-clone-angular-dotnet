@@ -1,15 +1,24 @@
 <app-nav-bar [title]="isNew? 'Add Question': 'Edit Question'" [backUrl]="'viewForm'">
-    <button mat-icon-button (click)="saveQuestion()" ><mat-icon>save</mat-icon></button>
+    <button mat-icon-button (click)="saveQuestion()" [disabled]="frm.invalid"><mat-icon>save</mat-icon></button>
 </app-nav-bar>
 <div class="body">
     <form class="example-form" [formGroup]="frm">
         <mat-form-field class="example-full-width">
             <mat-label>Title</mat-label>
             <input matInput formControlName="title">
+            @if(frm.get('title')?.hasError('required')) {
+                <mat-error>Title is <strong>required</strong></mat-error>
+            }
+            @if(frm.get('title')?.hasError('minlength')){
+                <mat-error>Title must have a minimum of 3 characters</mat-error>
+            }
         </mat-form-field>
         <mat-form-field class="example-full-width">
             <mat-label>description</mat-label>
             <input matInput formControlName="description">
+            @if(frm.get('description')?.hasError('minlength') ) {
+                <mat-error>Description must have a minimum of 3 characters</mat-error>
+            }
         </mat-form-field>
         <mat-form-field class="example-full-width">
             <mat-label>Type</mat-label>

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from "@angular/core";
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import { Question } from "src/app/models/question";
 import {Subscription} from "rxjs";
@@ -12,7 +12,7 @@ import {Instance} from "../../../models/instance";
     ]
 
 })
-export class RadioQuestionComponent implements OnInit, OnDestroy {
+export class RadioQuestionComponent implements OnChanges {
     @Input() question?: Question;
     @Input() instance?: Instance;
     @Output() validationChange = new EventEmitter<boolean>();
@@ -25,8 +25,8 @@ export class RadioQuestionComponent implements OnInit, OnDestroy {
 
     }
 
-    ngOnInit(): void {
-        if (this.question) {
+    ngOnChanges(changes:SimpleChanges): void {
+        if (changes['question'] && this.question) {
             if (this.subscription) {
                 this.subscription.unsubscribe();
             }

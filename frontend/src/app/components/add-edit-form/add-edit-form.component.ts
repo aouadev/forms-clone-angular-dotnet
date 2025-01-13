@@ -31,10 +31,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher{
 })
 export class AddEditFormComponent implements OnInit{
     public frm!: FormGroup  
-  
     public matcher = new MyErrorStateMatcher();
-
-    
     public form: Form;
     public isNew: boolean;
     public owner?: User;
@@ -65,11 +62,12 @@ export class AddEditFormComponent implements OnInit{
     
         this.publicCtl = this.fb.control('');*/
         this.frm = this.fb.group({
-            title: [this.form?.title || '', [Validators.required]],
+            title: [this.form?.title || '', [Validators.required, Validators.minLength(3)]],
             description: [this.form?.description || '', [Validators.minLength(3)]],
             isPublic: [this.form?.isPublic || false]
         });
         this.frm.patchValue(this.form);
+        this.frm.markAllAsTouched();
        
     
         console.log(this.frm);
