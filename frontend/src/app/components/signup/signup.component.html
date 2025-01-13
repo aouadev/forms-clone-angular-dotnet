@@ -1,0 +1,68 @@
+<mat-toolbar>
+    <mat-icon>
+        history_edu
+    </mat-icon>
+    <span>&nbsp;Welcome to My Forms App!</span>
+</mat-toolbar>
+<div class="login-container">
+    <mat-card class="login-card">
+        <h6>Sign up</h6>
+        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+            <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <mat-icon matPrefix>email</mat-icon>
+                <input matInput formControlName="email" required />
+                <mat-error *ngIf="f.email.errors?.required">Email is required</mat-error>
+                <mat-error *ngIf="f.email.errors?.email">Invalid email format</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>First Name</mat-label>
+                <mat-icon matPrefix>person</mat-icon>
+                <input matInput formControlName="firstName" />
+                <mat-error *ngIf="f.firstName.errors?.minlength">First Name must be at least 3 characters</mat-error>
+                <mat-error *ngIf="f.firstName.errors?.maxlength">First Name cannot exceed 50 characters</mat-error>
+                <mat-error *ngIf="f.firstName.errors?.pattern">First Name cannot start or end with whitespace</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Last Name</mat-label>
+                <mat-icon matPrefix>person</mat-icon>
+                <input matInput formControlName="lastName" />
+                <mat-error *ngIf="f.lastName.errors?.minlength">Last Name must be at least 3 characters</mat-error>
+                <mat-error *ngIf="f.lastName.errors?.maxlength">Last Name cannot exceed 50 characters</mat-error>
+                <mat-error *ngIf="f.lastName.errors?.pattern">Last Name cannot start or end with whitespace</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Birth Date</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="birthDate"  />
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-error *ngIf="f.birthDate.errors?.invalidAge">Age must be between 18 and 125</mat-error>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+         
+
+            <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <mat-icon matPrefix>key</mat-icon>
+                <input matInput type="password" formControlName="password" required />
+                <mat-error *ngIf="f.password.errors?.required">Password is required</mat-error>
+                <mat-error *ngIf="f.password.errors?.minlength">Password must be at least 3 characters</mat-error>
+                <mat-error *ngIf="f.password.errors?.maxlength">Password cannot exceed 10 characters</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Confirm Password</mat-label>
+                <mat-icon matPrefix>key</mat-icon>
+                <input matInput type="password" formControlName="confirmPassword" required />
+                <mat-error *ngIf="f.confirmPassword.errors?.required">Confirm Password is required</mat-error>
+                <mat-error *ngIf="f.confirmPassword.errors?.passwordMismatch">Passwords do not match</mat-error>
+            </mat-form-field>
+
+            <button [disabled]="loading || signupForm.invalid" mat-flat-button color="primary">Sign up</button>
+           <button mat-button [routerLink]="['/login']">Cancel</button>
+        </form>
+    </mat-card>
+</div>
+

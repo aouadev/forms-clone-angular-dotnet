@@ -23,6 +23,7 @@ public class FormsController : ControllerBase {
     [HttpGet]
 public async Task<ActionResult<IEnumerable<FormWithUserDetailsDTO>>> GetMyForms() {
     var id = int.Parse(User?.Identity?.Name ?? "0");
+    
     var formsQuery = _context.Forms
         .Where(f => f.OwnerId == id || f.IsPublic == true || 
                     _context.FormsAccess.Any(fa => fa.UserId == id && fa.FormId == f.FormId))
@@ -32,7 +33,8 @@ public async Task<ActionResult<IEnumerable<FormWithUserDetailsDTO>>> GetMyForms(
             LastInstance = _context.Instances
                                 .Where(i => i.FormId == f.FormId && i.UserId == id)
                                 .OrderByDescending(i => i.InstanceId)
-                                .FirstOrDefault()
+                                .FirstOrDefault(),
+            IsEditor = _context.FormsAccess.Any(fa => fa.UserId == id && fa.FormId == f.FormId && fa.AccessType == AccessType.Editor),
         });
 
     var formsData = await formsQuery.ToListAsync();
@@ -42,6 +44,7 @@ public async Task<ActionResult<IEnumerable<FormWithUserDetailsDTO>>> GetMyForms(
         var formDTO = _mapper.Map<FormWithUserDetailsDTO>(data.Form);
         formDTO.Owner = _mapper.Map<UserWithPasswordDTO>(data.Owner);
         formDTO.LastInstance = _mapper.Map<InstanceDTO>(data.LastInstance);
+        formDTO.IsEditor = data.IsEditor;
         return formDTO;
     }).OrderBy(f => f.Title).ToList();
 
@@ -87,18 +90,25 @@ public async Task<ActionResult<IEnumerable<FormWithUserDetailsDTO>>> GetMyForms(
         return NoContent();
     }
     [HttpPost]
-    public async Task<ActionResult<bool>> PostForm(FormDTO formDto) {
+    public async Task<ActionResult<int>> PostForm(FormDTO formDto) {
         if (formDto == null) {
             return BadRequest("Form data is null");
         }
         var form = await _context.Forms.Where(f => f.FormId == formDto.FormId)
-            
-                    .SingleOrDefaultAsync();
+            .SingleOrDefaultAsync();
         if (form == null) {
             form = _mapper.Map<FormDTO, Form>(formDto);
+            var res = await new FormValidator().ValidateAsync(form);
+            if (!res.IsValid) {
+                return BadRequest(new
+                    { Message = "form is invalid."});
+            }
+            
+            
             await _context.Forms.AddAsync(form);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(PostForm), new { id = form.FormId}, true);
+            var id = form.FormId;
+            return id ;
          
         } else {
             _mapper.Map(formDto, form);

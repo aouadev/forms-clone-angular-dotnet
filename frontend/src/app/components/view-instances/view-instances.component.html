@@ -3,7 +3,7 @@
 </app-nav-bar>
 <div class="view-instances-container">
     <h5 class="title"> Submitted instances</h5>
-    <div >
+    <div>
         @if(form) {
            <mat-selection-list #instances>
                @for(instance of form.instances; track $index) {
@@ -19,8 +19,8 @@
                }
            </mat-selection-list>
             <div class="actions">
-                <button mat-flat-button (click)="deleteSelectedInstances(instances)" [disabled]="instances.selectedOptions.selected.length == 0">Delete Selected</button>
-                <button mat-flat-button (click)="deleteAllInstances()">Delete All</button>
+                <button mat-flat-button (click)="deleteSelectedInstances(instances)" [disabled]="form.instances.length == 0">Delete Selected</button>
+                <button mat-flat-button (click)="deleteAllInstances()" [disabled]="form.instances.length == 0">Delete All</button>
             </div>
           
         

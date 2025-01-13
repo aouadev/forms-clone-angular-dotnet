@@ -25,7 +25,7 @@ export class FormCardComponent {
 
     canManage() : boolean {
         return this.currentUser?.role == Role.Admin 
-        || this.currentUser?.id == this.form.owner.id;
+        || this.currentUser?.id == this.form.owner.id || this.form.isEditor;
     }
 
     canOpenFormConfirm(): boolean {

@@ -10,6 +10,7 @@ import {FormBuilder} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {DeleteInstanceDialogComponent} from "./delete-instance-dialog/delete-instance-dialog.component";
 import {Role} from "../../models/user";
+import {Subscription} from "rxjs";
 
 @Component({
     selector: 'instance',
@@ -31,8 +32,7 @@ export class InstanceComponent implements OnInit, OnChanges, AfterViewInit, OnDe
     currentQuestion?: Question;
     backToViewInstances: boolean = false;
     isDeleting = false;
-  //  public frm!: FormGroup;
-   // public ctlShortAnswer!: FormControl;
+    errorMessages:  string[] = [];
     isAllValid?: boolean;
    
 
@@ -50,14 +50,12 @@ export class InstanceComponent implements OnInit, OnChanges, AfterViewInit, OnDe
         this.readOnly = navigation?.extras.state?.['readOnly'];
         this.isNew = navigation?.extras.state?.['isNew'];
         this.backToViewInstances = navigation?.extras.state?.['backToViewInstances'];
-       
-        
-     
     }
     ngOnChanges(changes: SimpleChanges): void {
         if (changes[('questionNumber')]) {
             this.currentQuestion = this.questions?.[this.questionNumber];
             this.isAllValid = this.questions?.every(q => q.isValid );
+          
             
         }
     }
@@ -88,6 +86,7 @@ export class InstanceComponent implements OnInit, OnChanges, AfterViewInit, OnDe
                     console.log("currentquestion instance ", this.currentQuestion);
                     console.log("instance", this.instance);
                     this.isAllValid = this.questions.every(q => q.isValid);
+                    
                     /* this.frm = this.fb.group({
                          questionsCtl: this.fb.array((this.questions)?.map(question => {
                              this.ctlShortAnswer = this.fb.control('',question?.required ? [Validators.required] : []);
@@ -139,17 +138,27 @@ export class InstanceComponent implements OnInit, OnChanges, AfterViewInit, OnDe
             ++this.questionNumber;
             this.currentQuestion = this.questions[this.questionNumber];
         }
+      /*  if (this.subscription) {
+            console.log("supscription");
+            this.subscription.unsubscribe();
+            this.subscription = new Subscription();
+        }*/
     }
 
     decrementQuestion() {
        if (this.currentQuestion && !this.readOnly) {
             this.saveCurrentQuestionAnswer();
+          
         }
 
         if (this.questionNumber > 0) {
             --this.questionNumber;
             this.currentQuestion = this.questions?.[this.questionNumber];
         }
+      /*  if (this.subscription) {
+            this.subscription.unsubscribe();
+            this.subscription = new Subscription();
+        }*/
     }
 
     saveCurrentQuestionAnswer() {
@@ -158,25 +167,56 @@ export class InstanceComponent implements OnInit, OnChanges, AfterViewInit, OnDe
             console.log('guestanswers:', this.currentQuestion.answers);
             if (this.authenticationService.GuestMode) {
                 console.log('guestMode', this.authenticationService.GuestMode);
-                this.instanceService.addGuestAnswer(this.currentQuestion.answers).subscribe(res => {
-                    console.log("servor:", res);
-                    if (this.currentQuestion) {
-                        this.currentQuestion.updated = false;
+                this.instanceService.addGuestAnswer(this.currentQuestion.answers).subscribe( {
+                    next: data => {
+                        if (this.currentQuestion) {
+                            this.currentQuestion.updated = false;
+                        }
+                    },
+                    error: error => {
+                        const errors = error.error.errors;
+                        for (let err of errors) {
+                            this.errorMessages.push(err.errorMessage);
+                        }
+                        
                     }
+                 
                 });
                 
             }
             else {
                 console.log('guestMode else', this.authenticationService.GuestMode);
-                this.instanceService.addAnswer(this.currentQuestion.answers).subscribe(res => {
-                    console.log("servor:", res);
-                    if (this.currentQuestion) {
-                        this.currentQuestion.updated = false;
+                this.instanceService.addAnswer(this.currentQuestion.answers).subscribe( {
+                    next: data => {
+                        if (this.currentQuestion) {
+                            this.currentQuestion.updated = false;
+                        }
+                    },
+                    error: error => {
+                        const errors = error.error.errors;
+                        for (let err of errors) {
+                            this.errorMessages.push(err.errorMessage);
+                        }
+
                     }
                 });
             }
         }
     }
+    /*  .subscribe({
+                next: data => {
+                    this.router.navigate([this.returnUrl]);
+                },
+                error: error => {
+                    const errors = error.error.errors;
+                    for (let err of errors) {
+                        this.loginForm.get(err.propertyName.toLowerCase())?.setErrors({ custom: err.errorMessage })
+                    }
+                    this.loading = false;
+                }
+            })
+    }*/
+    
     saveInstance() {
         if(this.instance && this.isAllValid) {
             console.log("instance to save" , this.instance);

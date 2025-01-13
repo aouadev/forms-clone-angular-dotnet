@@ -47,6 +47,21 @@ export class AuthenticationService {
             }));
     }
 
+    signup(email: string, password: string, firstName: string, lastName: string, birthDate: string): Observable<User> {
+        const newUser = { email, password, firstName, lastName, birthDate };
+        return this.http.post<any>(`${this.baseUrl}api/users/signup`, newUser)
+            .pipe(map(user => {
+                user = plainToClass(User, user);
+                if (user && user.token) {
+                    sessionStorage.setItem('currentUser', JSON.stringify(user));
+                    sessionStorage.setItem('mode', 'user');
+                    this.currentUser = user;
+                    this.GuestMode = false;
+                }
+                return user;
+            }));
+    }
+
     loginAsGuest() {
         sessionStorage.setItem('mode', 'guest');
         this.GuestMode = true;

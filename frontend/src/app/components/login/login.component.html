@@ -14,7 +14,10 @@
                 <mat-icon matPrefix>person</mat-icon>
                 <input #email matInput [formControl]="ctlEmail" required appSetFocus/>
                 @if (ctlEmail.hasError('required')) {
-                    <mat-error class="field-error">required</mat-error>
+                    <mat-error class="field-error">required!</mat-error>
+                }
+                @if (ctlEmail.hasError('email')) {
+                    <mat-error class="field-error">email must have a valid form</mat-error>
                 }
                 @if (ctlEmail.hasError('custom')) {
                     <mat-error class="field-error">{{ctlEmail.errors?.custom}}</mat-error>
@@ -25,10 +28,16 @@
                 <mat-icon matPrefix>key</mat-icon>
                 <input matInput type="password" [formControl]="ctlPassword" required>
                 @if (ctlPassword.hasError('required')) {
-                    <mat-error class="field-error">required</mat-error>
+                    <mat-error class="field-error">required!</mat-error>
+                }
+                @if (ctlPassword.hasError('minlength')) {
+                    <mat-error class="field-error">Password must have a minimum of 3 characters</mat-error>
+                }
+                @if (ctlPassword.hasError('maxlength')) {
+                    <mat-error class="field-error">Password must have a maximum of 10 characters</mat-error>
                 }
                 @if (ctlPassword.hasError('custom')) {
-                    <mat-error class="field-error">{{ctlPassword.errors?.custom}}</mat-error>
+                    <mat-error class="field-error">{{ctlEmail.errors?.custom}}</mat-error>
                 }
             </mat-form-field>
         
@@ -36,18 +45,16 @@
                 @if (loading) {
                     <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                 }
-                <button [disabled]="loading" mat-stroked-button (click)="loginAsGuest()">Login as Guest</button>
+                <button type="button" [disabled]="loading" mat-stroked-button (click)="loginAsGuest()">Login as Guest</button>
                
 
-                <a class="subscribe-link"href="" > New here? Click here to subscribe!</a>
+                <a class="subscribe-link" [routerLink]="['/signup']" > New here? Click here to subscribe!</a>
                 <div class="default-login">
                     <p><strong>For Debug Purpose</strong></p>
-                    <a class="default-login-link" href="#" (click)="loginAs('admin@epfc.eu', 'Password1,')">Login as <b>admin&#64;epfc.eu</b></a>
-                    <a class="default-login-link" href="#" (click)="loginAs('bepenelle@epfc.eu', 'Password1,')">Login as <b>bepenelle&#64;epfc.eu</b></a>
-                    <a class="default-login-link" href="#" (click)="loginAs('boverhaegen@epfc.eu', 'Password1,')">Login as  <b>boverheagen&#64;epfc.eu</b></a>
-                    <a class="default-login-link" href="#" (click)="loginAs('brlacroix@epfc.eu', 'Password1,')">Login as <b>brlacroix&#64;epfc.eu</b></a>
-                   
-
+                    <button  class="default-login-link red-button" mat-button href="#"   (click)="loginAs('admin@epfc.eu', 'Password1,')">Login as <b>admin&#64;epfc.eu</b></button>
+                    <button class="default-login-link" mat-button href="#" (click)="loginAs('bepenelle@epfc.eu', 'Password1,')">Login as <b>bepenelle&#64;epfc.eu</b></button>
+                    <button class="default-login-link" mat-button href="#" (click)="loginAs('boverhaegen@epfc.eu', 'Password1,')">Login as  <b>boverheagen&#64;epfc.eu</b></button>
+                    <button class="default-login-link" mat-button href="#" (click)="loginAs('brlacroix@epfc.eu', 'Password1,')">Login as <b>brlacroix&#64;epfc.eu</b></button>
                 </div>
             
             

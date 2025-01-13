@@ -48,30 +48,6 @@ public class AdminController : ControllerBase {
       return formsDto;
     }
     
-  /*  public async Task<ActionResult<IEnumerable<FormWithUserDetailsDTO>>> GetMyForms() {
-        var id = int.Parse(User?.Identity?.Name ?? "0");
-        var formsQuery = _context.Forms
-            .Where(f => f.OwnerId == id || f.IsPublic == true || 
-                        _context.FormsAccess.Any(fa => fa.UserId == id && fa.FormId == f.FormId))
-            .Select(f => new {
-                Form = f,
-                Owner = _context.Users.Where(u => u.Id == f.OwnerId).FirstOrDefault(),
-                LastInstance = _context.Instances
-                    .Where(i => i.FormId == f.FormId && i.UserId == id)
-                    .OrderByDescending(i => i.InstanceId)
-                    .FirstOrDefault()
-            });
 
-        var formsData = await formsQuery.ToListAsync();
-
-        // Mapper les données en DTO
-        var forms = formsData.Select(data => {
-            var formDTO = _mapper.Map<FormWithUserDetailsDTO>(data.Form);
-            formDTO.Owner = _mapper.Map<UserWithPasswordDTO>(data.Owner);
-            formDTO.LastInstance = _mapper.Map<InstanceDTO>(data.LastInstance);
-            return formDTO;
-        }).OrderBy(f => f.Title).ToList();
-
-        return forms;
-    }*/
+    
 }

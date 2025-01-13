@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Router} from "@angular/router";
 import { th } from 'date-fns/locale';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import {User} from 'src/app/models/user';
+import {Role, User} from 'src/app/models/user';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -40,7 +40,8 @@ export class NavBarComponent {
         this.askToggleFilter.emit();
         console.log("emit");
     }*/
-    
-    
+
+
+    protected readonly Role = Role;
 }
 

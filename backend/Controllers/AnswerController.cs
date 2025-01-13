@@ -13,7 +13,7 @@ using System.Security.Cryptography;
 
 namespace prid_2425_f06.Controllers;
 
-
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 
@@ -44,6 +44,11 @@ public class AnswerController : ControllerBase {
             var oldAnswer = oldAnswers.SingleOrDefault(answer => answer.Idx == answerDto.Idx);
             if (oldAnswer == null ) {
                 var newAnswer = _mapper.Map<Answer>(answerDto);
+                var res = await new AnswerValidator(_context, newAnswer.Question).ValidateAsync(newAnswer);
+                if (!res.IsValid) {
+                    return BadRequest(new
+                    { Message = "answer is invalid."});
+                }
                 _context.Answers.Add(newAnswer);
             } else{
                 oldAnswer.Value = answerDto.Value;

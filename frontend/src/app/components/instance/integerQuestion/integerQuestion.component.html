@@ -6,6 +6,10 @@
     @if(ctlIntegerAnswer.hasError('required')){
         <mat-error>Required!</mat-error>
     }
+
+    @if(ctlIntegerAnswer.hasError('custom')){
+        <mat-error>Integer not valid</mat-error>
+    }
 </mat-form-field>
     
 

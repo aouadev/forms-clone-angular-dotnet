@@ -21,6 +21,7 @@ export class DateQuestionComponent implements OnChanges {
     @Output() validationChange = new EventEmitter<boolean>();
     public ctlDateAnswer!: FormControl;
     private subscription!: Subscription;
+    @Input() errorMessages!: string[];
     
     constructor(private fb: FormBuilder) {}
     ngOnChanges(changes: SimpleChanges): void {
@@ -30,8 +31,7 @@ export class DateQuestionComponent implements OnChanges {
             }
             this.ctlDateAnswer = this.fb.control(
                 {value: this.question?.answers?.[0]?.value || '', disabled: this.instance?.completed != null},
-                this.question?.required ? [Validators.required, //this.dateValidator
-                ] : []
+                [this.question?.required ? Validators.required : Validators.nullValidator] 
             );
            this.subscription = this.ctlDateAnswer?.valueChanges.subscribe(value => {
                 this.validationChange.emit(this.ctlDateAnswer.valid);

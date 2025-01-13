@@ -45,7 +45,6 @@ export class ViewInstancesComponent implements OnInit {
     initForm() {
         this.formService.getFormWithAllInstances(this.form.formId).subscribe(res => {
             this.form = res;
-          
             this.dataService.setData(this.form);
             //  this.instancesArray.setValue(this.form.instances);
 

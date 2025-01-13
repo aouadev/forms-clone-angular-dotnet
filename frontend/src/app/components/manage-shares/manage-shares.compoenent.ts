@@ -98,7 +98,7 @@ export class ManageSharesComponent implements OnInit{
         console.log(userCtl);
         console.log("userid: ",this.form.accesses[index].userId);
 
-        if (!userCtl && !editorCtl) {
+        if ((!userCtl && !editorCtl) || (this.isPublic && !editorCtl) ) {
             this.formService.deleteAccess(this.form.accesses[index].userId, this.form.formId).subscribe(res => {
                 if (res) {
                     this.formService.getFormAccesses(this.form.formId).subscribe(updatedForm => {
@@ -107,9 +107,26 @@ export class ManageSharesComponent implements OnInit{
                     });
                 }
             });
-        } else {
-            editorCtl ? accessGroup.get('userCtl')?.disable() : accessGroup.get('userCtl')?.enable();
         }
+        else {
+            const user = this.form.accesses[index].user;
+            if (user) {
+                const access = {
+                    user: user,
+                    userId: user?.id,
+                    formId: this.form.formId,
+                    accessType: editorCtl ? AccessType.Editor : AccessType.User
+                };
+                console.log("access:", access);
+                this.formService.addAccess(access).subscribe(res => {
+                    if (res) {
+                        //this.refresh();
+                        
+                    }
+                })
+            }
+        }
+        editorCtl ? accessGroup.get('userCtl')?.disable() : accessGroup.get('userCtl')?.enable();
     }
     
     displayUserName(user: any): string {
@@ -140,6 +157,7 @@ export class ManageSharesComponent implements OnInit{
         const editorType = this.accessTypeEditorCtl.value;
         this.canAddUserAccess = !!user && ((!this.isPublic && ( userType|| editorType)) || (this.isPublic && editorType));
     }
+    
 
 
 }

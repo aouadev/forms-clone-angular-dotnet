@@ -16,11 +16,13 @@ import { AddEditOptionComponent } from '../components/add-edit-option-list/add-e
 import {ManageSharesComponent} from "../components/manage-shares/manage-shares.compoenent";
 import {AnalyzeComponent} from "../components/analyze/analyze.component";
 import {ViewInstancesComponent} from "../components/view-instances/view-instances.component";
+import {SignupComponent} from "../components/signup/signup.component";
 
 
 const appRoutes: Routes = [
     {path: '', component: LoginComponent, pathMatch: 'full'},
     {path: 'login', component: LoginComponent },
+    {path: 'signup', component: SignupComponent },
     {path: 'view_forms', component: ViewFormsComponent},
     {path: 'instance', component: InstanceComponent},
     {path: 'viewForm', component: ViewFormComponent},

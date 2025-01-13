@@ -73,6 +73,8 @@ public class AccessesController : ControllerBase {
         if (access == null) {
             access = _mapper.Map<FormAccess>(formAccess);
             await _context.FormsAccess.AddAsync(access);
+        } else {
+            _mapper.Map(formAccess, access);
         }
 
         await _context.SaveChangesAsync();

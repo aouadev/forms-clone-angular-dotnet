@@ -1,6 +1,6 @@
 
 
-<app-nav-bar [title]="form.title" backUrl="view_forms">
+<app-nav-bar [title]="form.title" [backUrl]="'/view_forms'">
     <button mat-icon-button  [disabled]="isInstancied" (click)="openAddEditForm()">
         <mat-icon >edit</mat-icon>
     </button>
@@ -8,7 +8,7 @@
         <mat-icon >delete</mat-icon>
     </button>
     <button mat-icon-button>
-        <mat-icon [hidden]="canManageShare()" (click)="manageShares()">share</mat-icon>
+        <mat-icon [hidden]="!canManageShare()" (click)="manageShares()">share</mat-icon>
     </button>
     <button mat-icon-button [routerLink]="['/analyze']"
                             [state]="{data: form}">

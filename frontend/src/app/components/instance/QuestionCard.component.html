@@ -7,7 +7,7 @@
                 @if(question.type == 1) {
                     <short-question [question]="question" 
                                     [instance]="instance" 
-                                    (validationChange)="onValidationChange($event)">
+                                    (validationChange)="onValidationChange($event)" >
                         
                     </short-question>
                 }
@@ -58,7 +58,8 @@
                     
                     <combo-question [question]="question" 
                                     [instance]="instance" 
-                                    (validationChange)="onValidationChange($event)"  >
+                                    (validationChange)="onValidationChange($event)" 
+                                    >
                         
                     </combo-question>
             }

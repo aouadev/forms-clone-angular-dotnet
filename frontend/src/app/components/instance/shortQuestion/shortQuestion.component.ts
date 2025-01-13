@@ -18,6 +18,7 @@ export class ShortQuestionComponent implements OnChanges, OnDestroy {
     @Input() ctlShortAnswer!: FormControl;
     @Output() validationChange = new EventEmitter<boolean>();
     private subscription!: Subscription;
+    @Input() errorMessages!: string[];
 
     constructor(private fb: FormBuilder) {
        

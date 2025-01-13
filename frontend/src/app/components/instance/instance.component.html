@@ -40,6 +40,7 @@
         <question-card [question]="currentQuestion"
                        [instance]="instance"
                        (validationChange)="onValidationChange($event, questionNumber)"
+                       [errorMessages]="errorMessages"
         ></question-card>
 }
     @else {

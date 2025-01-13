@@ -9,6 +9,7 @@ import { User } from "src/app/models/user";
 import { AuthenticationService } from "src/app/services/authentication.service";
 import { FormService } from "src/app/services/form.service";
 import {DataService} from "../../services/data.service";
+import {number} from "yargs";
 
 
 export class MyErrorStateMatcher implements ErrorStateMatcher{
@@ -76,17 +77,21 @@ export class AddEditFormComponent implements OnInit{
 
     saveForm() {
        // var data = plainToInstance(Form, this.frm.value);
-        if ( this.isNew && this.owner) {
+        if ( this.isNew && this.authenticationService?.currentUser) {
 
-            this.form.owner = this.owner;
-            this.form.ownerId = this.owner.id;
+            this.form.owner = this.authenticationService?.currentUser;
+            this.form.ownerId = this.form.owner.id;
         }
        /* this.form.title = this.titleCtl.value;
         this.form.isPublic  = this.publicCtl.value;
         this.form.description = this.descriptionCtl.value;*/
         Object.assign(this.form, this.frm.value);
         console.log("data: ", this.form);
-        this.formService.postForm(this.form).subscribe(res => this.router.navigate(['viewForm'], {state: {data: this.form}}));
+        this.formService.postForm(this.form).subscribe(res => {
+            console.log("res", res);
+           this.isNew ? this.router.navigate(['/']) :      // redirection à home car oublié pendant le develpement et découvet à la deniere heure 
+               this.router.navigate(['viewForm'], {state: {data: this.form}}) } 
+        );
     }
   
     

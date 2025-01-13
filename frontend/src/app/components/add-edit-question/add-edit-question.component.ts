@@ -1,13 +1,13 @@
-import { Q } from "@angular/cdk/keycodes";
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { plainToInstance } from "class-transformer";
-import { th } from "date-fns/locale";
-import { Form } from "src/app/models/form";
-import { OptionList } from "src/app/models/optionList";
-import { Question, QuestionType } from "src/app/models/question";
-import { QuestionService } from "src/app/services/question.service";
+import {Component, OnInit} from "@angular/core";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Router} from "@angular/router";
+import {plainToInstance} from "class-transformer";
+import {Form} from "src/app/models/form";
+import {OptionList} from "src/app/models/optionList";
+import {Question, QuestionType} from "src/app/models/question";
+import {QuestionService} from "src/app/services/question.service";
+import {AuthenticationService} from "../../services/authentication.service";
+import {Role} from "../../models/user";
 
 @Component({
     selector:'add-edit-question',
@@ -28,7 +28,8 @@ export class AddEditQuestion implements OnInit {
     constructor(
         private router: Router,
         private fb: FormBuilder,
-        private questionService: QuestionService){
+        private questionService: QuestionService,
+        private authService: AuthenticationService){
         const navigation = this.router.getCurrentNavigation();
         const questionIndex = navigation?.extras.state?.['questionIndex'];
         this.form = navigation?.extras.state?.['form'];
@@ -85,5 +86,10 @@ export class AddEditQuestion implements OnInit {
                this.router.navigate(['viewForm'], {state: {data: this.form}})
         );
        
+    }
+    canEditOptionList() {
+        return this.authService.currentUser?.id == this.form.ownerId 
+            || this.authService.currentUser?.role == Role.Admin
+            || this.form.isEditor;
     }
 }

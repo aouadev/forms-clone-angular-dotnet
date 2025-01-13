@@ -22,78 +22,18 @@ import {Instance} from "../../../models/instance";
     templateUrl: "./checkQuestion.component.html",
     styleUrls: ["../instance.component.css"]
 })
-export class CheckQuestionComponent implements OnChanges, OnDestroy, OnInit  {
+export class CheckQuestionComponent implements OnChanges, OnDestroy  {
     @Input() question?: Question;
     @Input() instance?: Instance;
     @Output() validationChange = new EventEmitter<boolean>();
     public comboForm!: FormGroup;
     private answerIndex: number = 0;
     private subscription!: Subscription;
+    @Input() errorMessages!: string[];
     constructor(private fb: FormBuilder) {
       
     }
-    ngOnInit() {
-        this.initForm();
-    }
-    /*ngOnInit() {
-        this.comboForm = this.fb.group({
-            optionsValues: this.fb.array(this.question?.optionList?.optionValues?.
-            map(option => 
-                    this.fb.control({
-                    optionIdx: option.idx,
-                    label: option.label,
-                    checked: this.question?.answers?.some(answer => answer.value === option.idx.toString())
-                    
-                })
-            ) || [])
-        },   this.question?.required ? [Validators.required] : []);
-        console.log(this.comboForm.value);
-        this.comboForm.valueChanges.subscribe(value => {
-            this.validationChange.emit(this.question?.optionList?.optionValues?.some(option => option.checked));
-            console.log(value);
-        });
-        this.comboForm.markAllAsTouched();
-      
-   
-        
-    }*/
 
-   /* ngOnInit() {
-        if (this.question && this.question.optionList?.optionValues) {
-            console.log(this.question.answers);
-            if (this.subscription) {
-                this.subscription.unsubscribe();
-            }
-            if (this.subscription) {
-                this.subscription.unsubscribe();
-            }
-            const optionsControls = this.question?.optionList?.optionValues?.map(option => {
-                return this.fb.group({
-                    optionIdx: [option.idx],
-                    label: [option.label],
-                    checked: [{value: this.question?.answers?.some(answer =>
-                            answer.value === option.idx.toString()),
-                        disabled: this.instance?.completed != null}],
-                });
-            }) || [];
-
-            this.comboForm = this.fb.group({
-                optionsValues: this.fb.array(optionsControls, this.atLeastOneCheckboxCheckedValidator())
-            });
-       
-
-            // Écoutez les changements
-            this.subscription = this.comboForm.valueChanges.subscribe(value => {
-                const isValid = (this.comboForm.get('optionsValues') as FormArray)
-                    .controls.some(control => control.get('checked')?.value);
-              
-                this.validationChange.emit(isValid);
-                console.log(value);
-            });
-
-            this.comboForm.markAllAsTouched();
-        }
-    }*/
     initForm() {
         if (this.question && this.question.optionList?.optionValues) {
             if (this.subscription) {
@@ -113,7 +53,7 @@ export class CheckQuestionComponent implements OnChanges, OnDestroy, OnInit  {
             this.comboForm = this.fb.group({
                 optionsValues: this.fb.array(optionsControls, this.atLeastOneCheckboxCheckedValidator())
             });
-            this.validateForm();
+           // this.validateForm();
 
            this.subscription = this.comboForm.valueChanges.subscribe(() => {
                 this.validateForm();

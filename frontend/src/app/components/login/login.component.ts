@@ -14,10 +14,6 @@ export class LoginComponent implements OnInit {
     loginForm!: FormGroup;
     loading = false;
     submitted = false;
-   /* returnUrl?: string;
-    error = '';
-
-    @ViewChild('email') email!: ElementRef;*/
     returnUrl!: string;
     ctlEmail!: FormControl;
     ctlPassword!: FormControl;
@@ -37,8 +33,8 @@ export class LoginComponent implements OnInit {
 
 
     ngOnInit() {
-        this.ctlEmail = this.formBuilder.control('', Validators.required);
-        this.ctlPassword = this.formBuilder.control('', Validators.required);
+        this.ctlEmail = this.formBuilder.control('', [Validators.required, Validators.email]);
+        this.ctlPassword = this.formBuilder.control('', [Validators.required, Validators.maxLength(10), Validators.minLength(3)]);
         this.loginForm = this .formBuilder.group({
            email: this.ctlEmail,
            password: this.ctlPassword
@@ -54,9 +50,11 @@ export class LoginComponent implements OnInit {
     get f() { return this.loginForm.controls;}
 
     loginAs(email: string ,password: string) {
-        this.submitted = true;
+       /* this.submitted = true;
         this.loading = true;
-        this.login(email, password);
+        this.login(email, password);*/
+        this.ctlPassword.setValue(password);
+        this.ctlEmail.setValue(email);
     }
 
     loginAsGuest() {
@@ -69,9 +67,7 @@ export class LoginComponent implements OnInit {
 
     onSubmit() {
         this.submitted = true;
-
         if (this.loginForm.invalid) return;
-
         this.loading = true;
         this.authenticationService.login(this.f.email.value, this.f.password.value)
             .subscribe({
@@ -79,8 +75,6 @@ export class LoginComponent implements OnInit {
                     this.router.navigate([this.returnUrl]);
                 },
                 error: error => {
-                   /*console.log(error);
-                    this.error = error.error.errors[0].errorMessage;*/
                     const errors = error.error.errors;
                     for (let err of errors) {
                         this.loginForm.get(err.propertyName.toLowerCase())?.setErrors({ custom: err.errorMessage })

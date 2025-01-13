@@ -18,6 +18,7 @@ export class RadioQuestionComponent implements OnInit, OnDestroy {
     @Output() validationChange = new EventEmitter<boolean>();
     public selectedOption!: FormControl;
     private subscription!: Subscription;
+    @Input() errorMessages!: string[];
 
 
     constructor(private fb: FormBuilder) {

@@ -14,6 +14,7 @@ export enum State {
 export class Form {
     lastInstance?: Instance;
     isInstancied: boolean = false;
+    isEditor: boolean = false;
     owner: User = null!
     ownerFullName: string = '';
     formId: number = 0;

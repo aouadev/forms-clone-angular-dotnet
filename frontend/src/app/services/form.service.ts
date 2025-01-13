@@ -10,6 +10,7 @@ import { InstanceWithFormDetailed } from "../models/instance";
 import { Question } from "../models/question";
 import { tr } from "date-fns/locale";
 import {FormAccesses} from "../models/formAccesses";
+import {number} from "yargs";
 
 @Injectable({ providedIn: 'root'})
 export class FormService {
@@ -102,9 +103,12 @@ export class FormService {
         )
     }
 
-    postForm(form: Form): Observable<boolean> {
-        return this.http.post<boolean>(`${this.baseUrl}api/forms`, form).pipe(
-            map(res => true),
+    postForm(form: Form): Observable<number|boolean> {
+        return this.http.post<any>(`${this.baseUrl}api/forms`,form).pipe(
+            map(res => {
+                console.log(res);
+                return res;
+            }),
             catchError(err => {
                 console.log(err);
                 return of(false);

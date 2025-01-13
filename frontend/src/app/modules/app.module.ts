@@ -51,6 +51,7 @@ import {
 import {AnalyzeComponent} from "../components/analyze/analyze.component";
 import {ViewInstancesComponent} from "../components/view-instances/view-instances.component";
 import {DeleteInstancesDialogComponent} from "../components/view-instances/delete-instance-dialog.component.";
+import {SignupComponent} from "../components/signup/signup.component";
 
 
 @NgModule({
@@ -91,7 +92,8 @@ import {DeleteInstancesDialogComponent} from "../components/view-instances/delet
         DeleteInstanceDialogComponent,
         AnalyzeComponent,
         ViewInstancesComponent,
-        DeleteInstancesDialogComponent
+        DeleteInstancesDialogComponent,
+        SignupComponent
         
         
         

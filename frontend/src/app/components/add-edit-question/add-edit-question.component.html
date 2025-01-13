@@ -31,10 +31,11 @@
 
         </mat-form-field>
 
-        <button mat-icon-button>
+        <button mat-icon-button  [routerLink]="['/addEditOption']" [state]="{optionList: null, copy: false, isNew: true}" [disabled]="!canEditOptionList()">
             <mat-icon>add</mat-icon>
         </button>
-        <button mat-icon-button>
+        <button mat-icon-button  [routerLink]="['/addEditOption']"
+                [state]="{optionList: question.optionList, copy: false, isNew: false}" [disabled]="!canEditOptionList()">
             <mat-icon>edit</mat-icon>
         </button>
         </div>

@@ -17,6 +17,7 @@ export class LongQuestionComponent implements OnChanges {
     public ctlLongAnswer!: FormControl;
     private subscription!: Subscription;
     @Output() validationChange = new EventEmitter<boolean>();
+    @Input() errorMessages!: string[];
     
     constructor(private fb: FormBuilder) {}
     ngOnChanges(changes: SimpleChanges): void {

@@ -22,6 +22,6 @@
     </button>
     <button mat-menu-item routerLink="/login" (click)="logout()">
         <mat-icon>logout</mat-icon>
-        <span>Logout ({{guestMode ? 'Guest' : currentUser }})</span>
+        <span>Logout ({{guestMode ? 'Guest' : currentUser?.role == Role.Admin ? 'Admin' : currentUser }})</span>
     </button>
 </mat-menu>

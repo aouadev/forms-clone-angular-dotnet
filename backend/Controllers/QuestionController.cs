@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using prid_2425_f06.Models;
@@ -6,7 +7,7 @@ using prid_2425_f06.Helpers;
 
 namespace prid_2425_f06.Controllers;
 
-
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 
@@ -51,7 +52,13 @@ public class QuestionController : ControllerBase {
         var question = await _context.Questions.FindAsync(questionDto.Id);
         if (question == null) {
              question = _mapper.Map<QuestionDTO, Question>(questionDto);
-           await _context.Questions.AddAsync(question);
+             var res = await new QuestionValidator().ValidateAsync(question);
+             if (!res.IsValid) {
+                 return BadRequest(new
+                     { Message = "question is invalid."});
+             }
+             await _context.Questions.AddAsync(question);
+           
             await _context.SaveChangesAsync();
             return Ok(true);
         }

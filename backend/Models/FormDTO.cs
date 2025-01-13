@@ -19,6 +19,7 @@ public class FormWithLastInstanceDTO : FormDTO {
 }
 public class FormWithUserDetailsDTO : FormWithLastInstanceDTO{
     public UserWithPasswordDTO Owner { get; set; } = null!;
+    public bool IsEditor { get; set; } = false;
 }
 /*public class FormWithQuestionDetailedDTO : FormDTO{
     public ICollection<QuestionWithOLDetailsDTO> QuestionDetails { get; set;} = new HashSet<QuestionWithOLDetailsDTO>();

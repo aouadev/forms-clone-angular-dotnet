@@ -21,7 +21,7 @@ export class ViewFormsComponent implements OnInit{
     filterText: string = '';
     filtredForms?: Form[];
     formsFromBackend?: Form[];
-    
+    isEditor: boolean = false;
 
     constructor(private formService: FormService,
                 private authenticationService : AuthenticationService,
@@ -50,6 +50,7 @@ export class ViewFormsComponent implements OnInit{
                                 this.forms = res;
                                 this.formsFromBackend = res;
                                 console.log(res);
+                                
                             });
                         }
                 }

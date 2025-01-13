@@ -15,6 +15,7 @@ export class EmailQuestionComponent implements OnChanges {
     @Output() validationChange = new EventEmitter<boolean>();
     public ctlEmailAnswer!: FormControl;
     private subscription!: Subscription;
+    @Input() errorMessages!: string[];
     
     constructor(private fb: FormBuilder) {}
     
@@ -25,7 +26,7 @@ export class EmailQuestionComponent implements OnChanges {
           }
           this.ctlEmailAnswer = this.fb.control(
               {value: this.question?.answers?.[0]?.value || '', disabled: this.instance?.completed != null},
-              this.question?.required ? [Validators.required, Validators.email] : []
+               [this.question?.required ? Validators.required : Validators.nullValidator, Validators.email]
           );
           this.subscription = this.ctlEmailAnswer.valueChanges.subscribe(value => {
               this.validationChange.emit(this.ctlEmailAnswer.valid);

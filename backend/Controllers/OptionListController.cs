@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using prid_2425_f06.Models;
@@ -6,7 +7,7 @@ using prid_2425_f06.Helpers;
 
 namespace prid_2425_f06.Controllers;
 
-
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 

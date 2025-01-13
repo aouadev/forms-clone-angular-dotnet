@@ -1,4 +1,4 @@
-<app-nav-bar [title]="isNew? 'Create a New Form': 'Edit Form'" [backUrl]="'viewForm'">
+<app-nav-bar [title]="isNew? 'Create a New Form': 'Edit Form'" [backUrl]="isNew? 'view_forms' : 'viewForm'">
     <button mat-icon-button (click)="saveForm()" [disabled]="frm.invalid"><mat-icon>save</mat-icon></button>
 </app-nav-bar>
 <div class="body">

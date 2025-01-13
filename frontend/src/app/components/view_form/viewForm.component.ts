@@ -129,7 +129,8 @@ export class ViewFormComponent implements OnInit{
     }
 
     canManageShare() {
-        return this.currentUser == this.form.owner || this.currentUser?.roleAsString == 'admin';
+        return this.currentUser?.id == this.form.owner?.id || this.currentUser?.roleAsString == 'Admin';
+        
     }
 
     togglePublicBtn() {

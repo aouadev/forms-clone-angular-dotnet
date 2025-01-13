@@ -1,11 +1,12 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using prid_2425_f06.Models;
 using prid_2425_f06.Helpers;
 
 namespace prid_2425_f06.Controllers;
-
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 
@@ -56,7 +57,6 @@ public async Task<ActionResult<bool>> PutInstance(InstanceWithFormDetailedDTO in
 { var instance = await _context.Instances
         .Where(i => i.InstanceId == instanceDTO.InstanceId)
         .FirstOrDefaultAsync();
-
     if (instance == null)
     {
         return NotFound();
@@ -66,7 +66,6 @@ public async Task<ActionResult<bool>> PutInstance(InstanceWithFormDetailedDTO in
         .Include(a => a.Question)
         .ToListAsync();
     var invalidAnswers = new List<Answer>();
-
     foreach (var answer in answers)
     {
         var res = await new AnswerValidator(_context, answer.Question).ValidateAsync(answer);

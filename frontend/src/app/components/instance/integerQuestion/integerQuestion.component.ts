@@ -3,6 +3,7 @@ import {Question} from "../../../models/question";
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {Instance} from "../../../models/instance";
+import {C} from "@angular/cdk/keycodes";
 
 @Component({
     selector: 'integer-question',
@@ -16,6 +17,7 @@ export class IntegerQuestionComponent implements OnChanges {
     public ctlIntegerAnswer!: FormControl;
     @Output() validationChange = new EventEmitter<boolean>();
     private subscription!: Subscription;
+    @Input() errorMessages!: string[];
     
     constructor(private fb: FormBuilder) {}
     
@@ -26,7 +28,7 @@ export class IntegerQuestionComponent implements OnChanges {
             }
             this.ctlIntegerAnswer  = this.fb.control(
                 this.question?.answers?.[0]?.value || '',
-                this.question?.required ? [Validators.required, Validators.pattern(/^\d+$/)] : []
+                [this.question?.required ? Validators.required : Validators.nullValidator, Validators.pattern(/^\d+$/)]
             );
        
            this.subscription = this.ctlIntegerAnswer.valueChanges.subscribe(value => {
@@ -45,6 +47,16 @@ export class IntegerQuestionComponent implements OnChanges {
             });
             this.ctlIntegerAnswer.markAllAsTouched();
         }
+        if (changes['errorMessages'] && changes['errorMessages'].currentValue) {
+            this.handleErrors(changes['errorMessages'].currentValue);
+        }
     }
-    
+
+    private handleErrors(errors: string[]): void {
+        errors.forEach(error => {
+            this.ctlIntegerAnswer.setErrors({ custom: error });
+        });
+    }
+
+    protected readonly C = C;
 }
