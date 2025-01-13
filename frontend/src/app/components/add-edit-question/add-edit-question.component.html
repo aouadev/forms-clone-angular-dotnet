@@ -1,0 +1,47 @@
+<app-nav-bar [title]="isNew? 'Add Question': 'Edit Question'" [backUrl]="'viewForm'">
+    <button mat-icon-button (click)="saveQuestion()" ><mat-icon>save</mat-icon></button>
+</app-nav-bar>
+<div class="body">
+    <form class="example-form" [formGroup]="frm">
+        <mat-form-field class="example-full-width">
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-label>description</mat-label>
+            <input matInput formControlName="description">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="type" >
+                @for(t of questionTypes; track t.key) {
+                    <mat-option [value]="t.key">{{t.value}}</mat-option>
+                }
+            </mat-select>
+
+        </mat-form-field>
+        <div class="optionlist-div" [hidden]="!hasOptionList">
+        <mat-form-field class="example-full-width" >
+            <mat-label>OptionList</mat-label>
+            <mat-select formControlName="optionListId" >
+                @for(o of optionLists; track o.id) {
+                    <mat-option [value]="o.id">{{o.name}}</mat-option>
+                }
+            </mat-select>
+
+        </mat-form-field>
+
+        <button mat-icon-button  [routerLink]="['/addEditOption']" [state]="{optionList: null, copy: false, isNew: true}" [disabled]="!canEditOptionList()">
+            <mat-icon>add</mat-icon>
+        </button>
+        <button mat-icon-button  [routerLink]="['/addEditOption']"
+                [state]="{optionList: question.optionList, copy: false, isNew: false}" [disabled]="!canEditOptionList()">
+            <mat-icon>edit</mat-icon>
+        </button>
+        </div>
+        <section class="example-section">
+            <mat-checkbox class="example-margin"[checked]="question.required" >Is Required</mat-checkbox>
+        </section>
+
+    </form>
+</div>

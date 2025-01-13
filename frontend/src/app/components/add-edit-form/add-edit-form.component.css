@@ -1,0 +1,44 @@
+app-nav-bar *{
+    color:white;
+}
+.body {
+    margin-top: 100px;
+}
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 90%;
+    margin: 20px;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+
+  .option-list-container {
+    opacity: 1; /* Complètement visible */
+    max-height: 100px; /* Une hauteur maximale arbitraire */
+    transition: opacity 0.5s ease, max-height 0.5s ease; /* Transition fluide */
+    overflow: hidden; /* Cache le contenu dépassant */
+}
+
+.option-list-container.hidden {
+    opacity: 0; /* Invisible */
+    max-height: 0; /* Réduit à une hauteur nulle */
+}
+.optionlist-div{
+  display: flex;
+}
+
+/* My Option Lists */
+.option-list-line {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  margin: 5px;
+
+}
+.my-optionlist-container {
+   margin: 100px 20px;
+}
+  

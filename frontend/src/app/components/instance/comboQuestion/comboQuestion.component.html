@@ -1,0 +1,20 @@
+<mat-form-field>
+@if (question?.optionList) {
+    <div class="optionValue" [formGroup]="comboForm">
+        
+        <mat-select  [formControl]="selectedOption" [placeholder]="selectedOption.value?.label" >
+            @for (value of comboForm.get('optionValues')?.value; track value.optionIdx) {
+                <mat-option [value]="value.optionIdx" >{{value.label}}</mat-option>
+            }
+        </mat-select>
+
+    </div>
+    
+    <p></p>
+}
+    @if(selectedOption.hasError('required')) {
+        <mat-error >This fiels is required</mat-error>
+    }
+</mat-form-field>
+
+

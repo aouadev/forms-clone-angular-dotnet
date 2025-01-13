@@ -1,0 +1,9 @@
+<mat-form-field class="">
+    <input matInput [formControl]="ctlShortAnswer" placeholder="" >
+    @if(ctlShortAnswer.hasError('required')) {
+        <mat-error >This fiels is required</mat-error>
+    }
+</mat-form-field>
+
+
+

@@ -1,15 +1,27 @@
 <mat-toolbar>
-    <button mat-icon-button class="example-icon" [matMenuTriggerFor]="menu">
+    <button mat-icon-button class="example-icon" [matMenuTriggerFor]="menu" [hidden]="!isHome">
         <mat-icon>menu</mat-icon>
+    </button>
+    <button mat-icon-button [hidden]="isHome" (click)="goBack()">
+        <mat-icon >arrow_back_ios</mat-icon>
     </button>
     <span class="title">{{ title }}</span>
     <span class="spacer"></span>
     <!-- pour mettre des éléments à droite -->
+ 
     <ng-content/>
 </mat-toolbar>
 <mat-menu #menu="matMenu">
-    <button mat-menu-item routerLink="/">
+    <button mat-menu-item (click)="getMyForms()">
         <mat-icon>home</mat-icon>
         <span>My Forms</span>
+    </button>
+    <button mat-menu-item routerLink="/optionLists">
+        <mat-icon>boy</mat-icon>
+        <span>My Option Lists</span>
+    </button>
+    <button mat-menu-item routerLink="/login" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Logout ({{guestMode ? 'Guest' : currentUser?.role == Role.Admin ? 'Admin' : currentUser }})</span>
     </button>
 </mat-menu>

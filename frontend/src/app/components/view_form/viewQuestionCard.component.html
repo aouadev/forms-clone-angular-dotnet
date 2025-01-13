@@ -1,0 +1,57 @@
+<mat-card class="view-question-card">
+    <div>
+        <div class="question-container">
+        
+            <h6 class="question-title">{{question?.title}}</h6>
+            
+            @if(question && question.description) {
+                <p class="description">{{question.description}}</p>
+            }
+            
+            <div>
+                @if (question) {
+                    <div class="question-data-row">
+                        <div class="data-label">Type: </div><div>{{QuestionType[question.type]}}</div>
+                    </div>
+                }
+                    <div class="question-data-row">
+                    <div class="data-label">Required: </div><div>{{question?.required}}</div>
+                    </div>
+                    <div class="question-data-row">
+                    @if(question && question.optionList) {
+                        <div class="data-label">Option List: </div><div>{{question.optionList.name}}</div>
+                    }
+                    </div>
+            </div>
+        
+        </div>
+        @if (!isInstancied) {
+        <div class="arrows-div">
+            <button mat-icon-button >
+                <mat-icon class="icons"
+                    fontIcon="arrow_upward" 
+                    [hidden]="index == 0"
+                    (click)="askUpWard()"></mat-icon>
+            </button>
+            <button mat-icon-button >
+                <mat-icon class="icons"
+                    fontIcon="arrow_downward"
+                    [hidden]="index >= size - 1"
+                    (click)="askDownWard()"></mat-icon>
+            </button>
+        </div>
+        <div class="footer-icons">
+            <button mat-icon-button >
+                    <mat-icon class="icons" (click)="openAddEditQuestion()">edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="openDialog()">
+                    <mat-icon class="icons" fontIcon="delete"></mat-icon>
+                </button>
+        </div>
+    }
+    </div>
+    
+
+      
+    
+</mat-card>

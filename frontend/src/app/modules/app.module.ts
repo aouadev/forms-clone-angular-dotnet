@@ -15,6 +15,44 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {JwtInterceptor} from "../interceptors/jwt.interceptor";
 import {UnknownComponent} from "../components/unknown/unknown.component";
 import {TemplateComponent} from "../components/template/template.component";
+import { LoginComponent } from '../components/login/login.component';
+import { RestrictedComponent } from '../components/restricted/restricted.component';
+import { ViewFormsComponent } from '../components/view-forms/view-forms.component';
+import { FormCardComponent } from '../components/view-forms/form-card.component';
+
+import { InstanceComponent } from '../components/instance/instance.component';
+import { QuestionCardComponent } from '../components/instance/QuestionCardComponent';
+import { ShortQuestionComponent } from '../components/instance/shortQuestion/shortQuestion.component';
+import {LongQuestionComponent} from "../components/instance/longQuestion/longQuestion.component";
+import {DateQuestionComponent} from "../components/instance/dateQuestion/dateQuestion.component";
+import {EmailQuestionComponent} from "../components/instance/emailQuestion/emailQuestion.component";
+import {IntegerQuestionComponent} from "../components/instance/integerQuestion/integerQuestion.component";
+import {CheckQuestionComponent} from "../components/instance/checkQuestion/checkQuestion.component";
+import {ComboQuestionComponent} from "../components/instance/comboQuestion/comboQuestion.component";
+import { RadioQuestionComponent} from '../components/instance/radioQuestion/radioQuestion.component';
+import { ViewFormComponent } from '../components/view_form/viewForm.component';
+import { viewQuestionCard } from '../components/view_form/viewQuestionCard.component';
+import { DeleteQuestionDialog } from '../components/view_form/dialogs/deleteQuestionDialog.component';
+import { WarningDialog } from '../components/view_form/dialogs/warningDialog.component';
+import { PublicDialog } from '../components/view_form/dialogs/publicDialog.component';
+import { DeleteFormDialog } from '../components/view_form/dialogs/deleteFormDialog.component';
+import { AddEditFormComponent } from '../components/add-edit-form/add-edit-form.component';
+import { AddEditQuestion } from '../components/add-edit-question/add-edit-question.component';
+import { OptionListsComponent } from '../components/option-lists/option-lists.component';
+import { DeleteOptionDialogComponent } from '../components/option-lists/delete-dialogue.component';
+import { AddEditOptionComponent } from '../components/add-edit-option-list/add-edit-option-list.component';
+import {CancelDialogComponent} from "../components/add-edit-option-list/cancel-dialog.component";
+import {ManageSharesComponent} from "../components/manage-shares/manage-shares.compoenent";
+import {CdkDrag, CdkDropList} from "@angular/cdk/drag-drop";
+import {OpenFormDialogComponent} from "../components/view-forms/dialogs/open-form-dialog.component";
+import {
+    DeleteInstanceDialogComponent
+} from "../components/instance/delete-instance-dialog/delete-instance-dialog.component";
+import {AnalyzeComponent} from "../components/analyze/analyze.component";
+import {ViewInstancesComponent} from "../components/view-instances/view-instances.component";
+import {DeleteInstancesDialogComponent} from "../components/view-instances/delete-instance-dialog.component.";
+import {SignupComponent} from "../components/signup/signup.component";
+
 
 @NgModule({
     declarations: [
@@ -23,6 +61,42 @@ import {TemplateComponent} from "../components/template/template.component";
         AppComponent, 
         SetFocusDirective,
         NavBarComponent,
+        LoginComponent,
+        RestrictedComponent,
+        ViewFormsComponent,
+        FormCardComponent,
+        InstanceComponent,
+        QuestionCardComponent,
+        ShortQuestionComponent,
+        LongQuestionComponent,
+        DateQuestionComponent,
+        EmailQuestionComponent,
+        IntegerQuestionComponent,
+        CheckQuestionComponent,
+        ComboQuestionComponent,
+        RadioQuestionComponent,
+        ViewFormComponent,
+        viewQuestionCard,
+        DeleteQuestionDialog,
+        WarningDialog,
+        PublicDialog,
+        DeleteFormDialog,
+        AddEditFormComponent,
+        AddEditQuestion,
+        OptionListsComponent,
+        DeleteOptionDialogComponent,
+        AddEditOptionComponent,
+        CancelDialogComponent,
+        ManageSharesComponent, 
+        OpenFormDialogComponent,
+        DeleteInstanceDialogComponent,
+        AnalyzeComponent,
+        ViewInstancesComponent,
+        DeleteInstancesDialogComponent,
+        SignupComponent
+        
+        
+        
     ],
     imports: [
         BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -31,6 +105,8 @@ import {TemplateComponent} from "../components/template/template.component";
         AppRoutes,
         BrowserAnimationsModule,
         SharedModule,
+        CdkDropList,
+        CdkDrag,
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

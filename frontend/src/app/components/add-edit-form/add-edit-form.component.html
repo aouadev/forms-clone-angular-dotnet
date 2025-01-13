@@ -1,0 +1,37 @@
+<app-nav-bar [title]="isNew? 'Create a New Form': 'Edit Form'" [backUrl]="isNew? 'view_forms' : 'viewForm'">
+    <button mat-icon-button (click)="saveForm()" [disabled]="frm.invalid"><mat-icon>save</mat-icon></button>
+</app-nav-bar>
+<div class="body">
+    <form class="example-form" [formGroup]="frm">
+        <mat-form-field class="example-full-width">
+            <mat-label>Title</mat-label>
+            <input matInput type="text" formControlName="title" [errorStateMatcher]="matcher">
+            
+            @if(frm.get('title')?.hasError('required')) {
+                <mat-error>Title is <strong>required</strong></mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-label>Description</mat-label>
+            <input matInput type="text"  formControlName="description" [errorStateMatcher]="matcher">
+       
+            @if(frm.get('description')?.hasError('minlength') ) {
+                <mat-error>Minimum length is 3</mat-error>
+            }
+        </mat-form-field>
+        @if(form ) {
+        <mat-form-field class="example-full-width">
+            <mat-label>Owner</mat-label>
+           
+            <input type="text" matInput  [value]="owner?.firstName +' ' + owner?.lastName" [disabled]="true">
+            
+       
+        </mat-form-field>
+    }
+
+        <section class="example-section">
+            <mat-checkbox class="example-margin" [checked]="form.isPublic" formControlName="isPublic">Public</mat-checkbox>
+        </section>
+    </form>
+
+</div>

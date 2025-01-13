@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, mergeMap } from 'rxjs/operators';
 import { User } from '../models/user';
+import { Role } from '../models/user';
 import { plainToClass } from 'class-transformer';
 import { Observable } from 'rxjs';
 
@@ -10,29 +11,62 @@ export class AuthenticationService {
 
     // l'utilisateur couramment connecté (undefined sinon)
     public currentUser?: User;
+    public GuestMode?: boolean;
+    
 
     constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
         // au départ on récupère un éventuel utilisateur stocké dans le sessionStorage
+        let mode = sessionStorage.getItem('mode');
+        if(mode == 'user') {
         let data = sessionStorage.getItem('currentUser');
         if (data)
             data = JSON.parse(data);
         this.currentUser = plainToClass(User, data);
+        console.log(data);
+        console.log(this.currentUser);
+        }
+        else {
+            this.GuestMode = true;
+        }
     }
 
-    login(pseudo: string, password: string): Observable<User> {
-        return this.http.post<any>(`${this.baseUrl}api/users/authenticate`, { pseudo, password })
+    login(email: string, password: string): Observable<User> {
+        return this.http.post<any>(`${this.baseUrl}api/users/authenticate`, { email, password })
             .pipe(map(user => {
                 user = plainToClass(User, user);
                 // login successful if there's a jwt token in the response
                 if (user && user.token) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     sessionStorage.setItem('currentUser', JSON.stringify(user));
+                    sessionStorage.setItem('mode', 'user')
                     this.currentUser = user;
+                    this.GuestMode = false;
                 }
 
                 return user;
             }));
     }
+
+    signup(email: string, password: string, firstName: string, lastName: string, birthDate: string): Observable<User> {
+        const newUser = { email, password, firstName, lastName, birthDate };
+        return this.http.post<any>(`${this.baseUrl}api/users/signup`, newUser)
+            .pipe(map(user => {
+                user = plainToClass(User, user);
+                if (user && user.token) {
+                    sessionStorage.setItem('currentUser', JSON.stringify(user));
+                    sessionStorage.setItem('mode', 'user');
+                    this.currentUser = user;
+                    this.GuestMode = false;
+                }
+                return user;
+            }));
+    }
+
+    loginAsGuest() {
+        sessionStorage.setItem('mode', 'guest');
+        this.GuestMode = true;
+    }
+    
 
     logout() {
         // remove user from local storage to log user out

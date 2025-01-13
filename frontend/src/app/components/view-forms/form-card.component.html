@@ -1,0 +1,27 @@
+<mat-card class="mat-form-card">
+    <div class="form-title">
+        <strong>{{form.title}}</strong>
+        <span class="public-icon">
+            <mat-icon>{{form.isPublic ? 'public' : 'public_off'}}</mat-icon>
+        </span>
+    </div>
+    <div class="form-description"> {{form.description}} </div>
+    <div class="form-owner"> by <strong>{{form.owner.firstName}} {{form.owner.lastName}}</strong></div>
+    @if (form.lastInstance) {
+    <div class="started">Started: <strong>{{form.lastInstance.started | date:'dd/MM/yyyy HH:mm:ss'}}</strong></div>
+    <div class="completed">
+        @if (form.lastInstance.completed) {
+          Completed: <strong>{{(form.lastInstance.completed | date:'dd/MM/yyyy HH:mm:ss')}}</strong>
+         } @else {
+            in Progress
+        }
+    </div>
+    }
+    <div>
+        <button mat-button (click)="handleButtonOpen()">Open</button>
+        @if(canManage()) {
+            <button mat-button (click)="openManageForm()">Manage</button>
+        }
+    </div>
+
+</mat-card>

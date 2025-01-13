@@ -1,0 +1,64 @@
+<!--@if (question.optionList) {
+    <div class="optionValue">
+        @for (value of question.optionList.optionValues; track value.idx) {
+            <section class="checkbox-div">
+                <mat-checkbox class="checkbox" [checked]="isChecked(value.idx)"
+                              (change)="onCheckboxChange($event.checked, value.idx)" >
+                    {{value.label}}
+                </mat-checkbox>
+            </section>
+        }
+    </div>
+}
+@if (question?.optionList) {
+    <div class="optionValue" [formGroup]="form">
+        <div  class="checkbox-div"  formArrayName="options">
+        @for (value of options; track $index) {
+            <mat-checkbox class="checkbox" [formControlName]="$index">
+                {{value.label}}
+            </mat-checkbox>
+        }
+        </div>
+    </div>
+}-->
+
+<!--@if(question?.optionList) {
+    <div class="optionValue" [formGroup]="comboForm">
+        <div class="checkbox-div" formArrayName="optionsValues">
+        @for (value of comboForm.get('optionsValues')?.value; track value.optionIdx) {
+            <mat-checkbox class="checkbox" [checked]="value.checked" (change)=" 
+            addCheckedAnswer($event.checked, value.optionIdx)">{{value.label}}
+            </mat-checkbox>
+        }
+        </div>
+        @if(comboForm.hasError('required')) {
+            <mat-error >This fiels is required</mat-error>
+        }
+    </div>
+}-->
+
+@if(question?.optionList) {
+    <form class="optionValue" [formGroup]="comboForm" >
+        <div class="checkbox-div" formArrayName="optionsValues">
+            <div
+                    *ngFor="let option of question?.optionList?.optionValues; let i = index"
+                    [formGroupName]="i"
+            >
+                <mat-checkbox
+                        class="checkbox"
+                        formControlName="checked"
+                     
+                        (change)="addCheckedAnswer($event.checked, option.idx)"
+                >
+                    {{ option.label }}
+                </mat-checkbox>
+            </div>
+        </div>
+        <mat-error *ngIf="optionsValues.hasError('required')">
+            This field is required
+        </mat-error>
+    </form>
+}
+
+
+

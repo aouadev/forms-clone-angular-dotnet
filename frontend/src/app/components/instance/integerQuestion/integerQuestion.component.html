@@ -1,0 +1,15 @@
+<mat-form-field>
+    <input matInput [formControl]="ctlIntegerAnswer">
+    @if(ctlIntegerAnswer.hasError('pattern')) {
+        <mat-error>Enter a valid integer please</mat-error>
+    }
+    @if(ctlIntegerAnswer.hasError('required')){
+        <mat-error>Required!</mat-error>
+    }
+
+    @if(ctlIntegerAnswer.hasError('custom')){
+        <mat-error>Integer not valid</mat-error>
+    }
+</mat-form-field>
+    
+

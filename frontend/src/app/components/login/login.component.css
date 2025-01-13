@@ -1,0 +1,64 @@
+form {
+    width: 100%;
+    display: grid;
+    grid-row-gap: 10px;
+}
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+    
+  }
+  
+  .login-card {
+    width: 100%;
+    max-width: 380px; 
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  mat-toolbar {
+    background-color: #3f51b5;
+    color: white;
+    
+  }
+  h6{
+    
+    text-align: center;
+    
+    border-bottom: 1px solid black;
+    
+  }
+  .subscribe-link{
+    text-align: center;
+    margin: 20px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight:500 ;
+
+    
+
+    
+
+  }
+.default-login {
+    color:red;
+    border-top: 2px solid lightgray;
+    text-align: center;
+    padding: 20px;
+
+    
+}
+.default-login-link {
+    display: block;
+    color: red !important;
+    font-size: 14px;
+    max-height:20px;
+    left: 20%;
+ 
+}
+p {
+  font-size: 18px;  
+}
+
+ 

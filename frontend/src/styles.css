@@ -2,21 +2,40 @@
 html,
 body {
     height: 100%;
-    width: 100%;
 }
 
 body {
+    margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.toolbar-actions button:disabled mat-icon {
-    color: gray;
+.center_div {
+    width: 100%;
+    max-width: 1024px;
+    margin: 0 auto;
 }
 
-.toolbar-actions button mat-icon {
-    color: white;
+nav.center_div {
+    margin-bottom: 25px;
 }
 
-.body {
-    padding: 66px 10px 10px 10px;
+.field-error {
+    float: right;
 }
+
+.form {
+    margin: 0;
+    display: grid;
+    /* grid-row-gap: 10px; */
+}
+
+.header {
+    margin-bottom: 20px;
+}
+
+.footer {
+    margin-top: 20px;
+    display: inline-grid;
+    grid-template-columns: auto auto;
+}
+

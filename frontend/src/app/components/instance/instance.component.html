@@ -1,0 +1,52 @@
+<app-nav-bar title="Answer Form" [backUrl]="backToViewInstances ? 'view_instances' : 'view_forms'">
+    <button mat-icon-button [disabled]="questionNumber <= 0">
+        <mat-icon (click)="decrementQuestion()">chevron_left</mat-icon>
+    </button>
+    <button mat-icon-button [disabled]="questions && questionNumber >= questions.length - 1">
+        <mat-icon (click)="incrementQuestion()">chevron_right</mat-icon>
+    </button>
+    <button mat-icon-button [disabled]="instance?.completed">
+        <mat-icon (click)="deleteInstance()">delete</mat-icon>
+    </button>
+    <button mat-icon-button (click)="saveInstance() " [disabled]="!isAllValid || instance?.completed">
+        <mat-icon >save</mat-icon>
+    </button>
+
+</app-nav-bar>
+<div class="body-container">
+    <div class="form-info">
+        <div class="form-info-line">
+                <div class="form-info-label">Title:</div>
+                <div class="form-info-data"> {{form.title}}</div>
+        </div> 
+        <div class="form-info-line">
+            <div class="form-info-label">Description:</div>
+            <div class="form-info-data">{{form.description}}</div>
+        </div> 
+        <div class="form-info-line">
+            <div class="form-info-label">Started:</div>
+            <div class="form-info-data">{{instance?.started | date:'dd/MM/yyyy HH:mm:ss'}}</div>
+        </div> 
+        <div class="form-info-line">
+            <div class="form-info-label">Completed:</div>
+            <div class="form-info-data">{{(instance?.completed | date:'dd/MM/yyyy HH:mm:ss')}}</div>
+        </div>
+    </div> 
+
+<div class="questions">
+    @if (questions && questions.length > 0){
+    <div class="card-title">Question {{questionNumber + 1}}/ {{questions.length}}
+    </div>
+        <question-card [question]="currentQuestion"
+                       [instance]="instance"
+                       (validationChange)="onValidationChange($event, questionNumber)"
+                       [errorMessages]="errorMessages"
+        ></question-card>
+}
+    @else {
+        <p> This Form does not contain any questions yet</p>
+    }
+    
+  
+</div>
+</div>

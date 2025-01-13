@@ -1,0 +1,68 @@
+
+
+<app-nav-bar [title]="form.title" [backUrl]="'/view_forms'">
+    <button mat-icon-button  [disabled]="isInstancied" (click)="openAddEditForm()">
+        <mat-icon >edit</mat-icon>
+    </button>
+    <button mat-icon-button (click)="deleteFormDialog()">
+        <mat-icon >delete</mat-icon>
+    </button>
+    <button mat-icon-button>
+        <mat-icon [hidden]="!canManageShare()" (click)="manageShares()">share</mat-icon>
+    </button>
+    <button mat-icon-button [routerLink]="['/analyze']"
+                            [state]="{data: form}">
+        <mat-icon [hidden]="!isInstancied">query_stats</mat-icon>
+    </button>
+</app-nav-bar>
+
+<div class="body-container">
+    @if(form) {
+    <div class="form-info">
+        <div class="form-info-line">
+                <div class="form-info-label">Title:</div>
+                <div class="form-info-data"> {{form.title}}</div>
+        </div> 
+        <div class="form-info-line">
+            <div class="form-info-label">Description:</div>
+            <div class="form-info-data">{{form.description}}</div>
+        </div> 
+        <div class="form-info-line">
+            <div class="form-info-label">Owner:</div>
+            
+            <div class="form-info-data">{{owner?.firstName}} {{owner?.lastName}}</div>
+            
+            
+        </div> 
+        <div class="form-info-line">
+            <div class="form-info-label">Public:</div>
+            <div class="form-info-data"><mat-slide-toggle 
+                                            [(ngModel)]="toggleState"
+                                            (click)="togglePublicBtn()"
+                                            ></mat-slide-toggle></div>
+        </div> 
+    </div>
+    <div class="questions-container">
+    <h4>Questions</h4>
+        
+
+        <div *ngFor="let question of form.questions; let i = index; trackBy: trackByFn">
+            <view-question-card [question]="question"
+                                (askDeleteQuestion)="deleteQuestion(question.id)" 
+                                [size]="form.questions.length"
+                                [index]="i"
+                                (askDownward)="updateIdx(question, 'down')"
+                                (askUpward)="updateIdx(question,'up')"
+                                [isInstancied]="isInstancied"
+                                (askAddEditQuestion)="openAddEditQuestion(false, i)">
+            </view-question-card>
+        </div>
+  
+    
+    
+</div>
+    }
+    <div>
+        <button mat-button class="add-question-btn" [hidden]="isInstancied" (click)="openAddEditQuestion(true, -1)">Add Question</button>
+    </div>
+</div>

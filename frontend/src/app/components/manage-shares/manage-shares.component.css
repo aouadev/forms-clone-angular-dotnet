@@ -1,0 +1,35 @@
+.manage-shares-container {
+    
+    margin: 100px 20px;
+    max-width: 700px;
+    
+    
+    
+}
+li {
+    list-style: none;
+}
+.user-access-line {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.users-access-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.add-users-access {
+    margin-top: 24px;
+}
+.add-button-container {
+    display: flex;
+    /* Centre horizontalement */
+    margin-top: 16px;
+}
+
+.add-button {
+    width: 100%; /* Prend toute la largeur du conteneur parent */
+    max-width: 400px; /* Limite la largeur maximale */
+}
+

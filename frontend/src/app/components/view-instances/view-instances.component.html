@@ -1,0 +1,31 @@
+<app-nav-bar [title]="form.title" [backUrl]="'analyze'">
+  
+</app-nav-bar>
+<div class="view-instances-container">
+    <h5 class="title"> Submitted instances</h5>
+    <div>
+        @if(form) {
+           <mat-selection-list #instances>
+               @for(instance of form.instances; track $index) {
+                   <mat-list-option class="select-option" [value]="instance"><div class="instance-data">
+                       {{instance.completed  | date:'dd/MM/yyyy HH:mm:ss'}}
+                       <div class="user-data">Answerd by <strong>{{instance.user.firstName}}
+                           {{instance.user.lastName}}</strong> </div>
+                   </div></mat-list-option>
+                   <button mat-button
+                           [routerLink]="['/instance']"
+                           [state]="{form: form, instance: instance, isNew: false, backToViewInstances: true}"
+                   >Review</button>
+               }
+           </mat-selection-list>
+            <div class="actions">
+                <button mat-flat-button (click)="deleteSelectedInstances(instances)" [disabled]="form.instances.length == 0">Delete Selected</button>
+                <button mat-flat-button (click)="deleteAllInstances()" [disabled]="form.instances.length == 0">Delete All</button>
+            </div>
+          
+        
+         
+        }
+    </div>
+
+</div>

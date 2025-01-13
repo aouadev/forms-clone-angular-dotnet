@@ -1,0 +1,89 @@
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using prid_2425_f06.Models;
+
+
+namespace prid_2425_f06.Controllers;
+
+[Authorize]
+[Route("api/[controller]")]
+[ApiController]
+public class AccessesController : ControllerBase { 
+    private readonly IMapper _mapper; 
+    private readonly FormContext _context;
+    public AccessesController(IMapper mapper, FormContext context) {
+        _mapper = mapper;
+        _context = context; 
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<FormWithUsersAccessesDTO>>GetAccesses(int id) {
+        var from =  await _context.Forms.Where(f => f.FormId == id)
+            .Include(f => f.Accesses)
+            .ThenInclude(fa => fa.User)
+            .FirstOrDefaultAsync();
+        var owner = await _context.Forms
+            .Where(f => f.FormId == id)
+            .Select(f => f.Owner).FirstOrDefaultAsync();
+        var usersWithAccesses = await _context.FormsAccess
+            .Where(fa => fa.FormId == id)
+            .Select(fa => fa.UserId)
+            .ToListAsync();
+        var allUsers = await _context.Users.Where(u => u.Id != owner.Id && u.Role == Role.User && !usersWithAccesses.Contains(u.Id)).ToListAsync();
+      /*  var allUsers = await _context.Users
+            .Where(u => u.Role != Role.Admin && u.Id !=
+                            _context.Forms
+                                .Where(f => f.FormId == id)
+                                .Select(f => f.OwnerId)
+                                .FirstOrDefault())
+            .ToListAsync();*/
+       // if (fromAccesses == null) return NotFound();
+       var formDto = _mapper.Map<FormWithUsersAccessesDTO>(from);
+       formDto.AllUsersWithoutAdmins = _mapper.Map<List<UserDTO>>(allUsers);
+       return formDto;
+    }
+
+    [HttpDelete("{userId}/{formId}")]
+    public async Task<ActionResult<bool>> DeleteAccesses(int userId, int formId) {
+        var formAccess = await _context.FormsAccess
+            .Where(fa => fa.FormId == formId && fa.UserId == userId).FirstOrDefaultAsync();
+        if (formAccess == null) {
+            BadRequest("Access not found");
+
+        }
+        _context.FormsAccess.Remove(formAccess);
+        await _context.SaveChangesAsync();
+
+        return Ok(true);  //CreatedAtAction(nameof(GetAccesses), new { id = formId });
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<bool>> AddAccesses(FormAccessDTO formAccess) {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == formAccess.UserId);
+        var form = await _context.Forms.FirstOrDefaultAsync(f => f.FormId == formAccess.FormId);
+    
+        if (form == null || user == null) {
+            return BadRequest("User or form not found.");
+        }
+
+        var access = await _context.FormsAccess
+            .FirstOrDefaultAsync(f => f.FormId == formAccess.FormId && f.UserId == formAccess.UserId);
+        if (access == null) {
+            access = _mapper.Map<FormAccess>(formAccess);
+            await _context.FormsAccess.AddAsync(access);
+        } else {
+            _mapper.Map(formAccess, access);
+        }
+
+        await _context.SaveChangesAsync();
+
+        return Ok(true);
+    }
+
+
+
+
+
+}

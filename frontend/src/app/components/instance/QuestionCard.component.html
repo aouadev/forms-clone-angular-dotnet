@@ -1,0 +1,71 @@
+
+<mat-card class="questions-card">
+    @if(question) {
+        <div class="card-question-title">{{question.required ? '(*)' : '' }}{{question.title}}</div>
+        <div class="question-description">{{question.description}}</div>
+        <div class="answer-div">
+                @if(question.type == 1) {
+                    <short-question [question]="question" 
+                                    [instance]="instance" 
+                                    (validationChange)="onValidationChange($event)" >
+                        
+                    </short-question>
+                }
+                @if(question.type == 2) {
+                    <long-question [question]="question"
+                                   [instance]="instance" 
+                                   (validationChange)="onValidationChange($event)" >
+                        
+                    </long-question>
+                }
+                @if(question.type == 3) {
+                    <date-question [question]="question"
+                                   [instance]="instance" 
+                                   (validationChange)="onValidationChange($event)" >
+                        
+                    </date-question>
+                }
+                @if(question.type == 4) {
+                    <email-question [question]="question" 
+                                    [instance]="instance"
+                                    (validationChange)="onValidationChange($event)" >
+                        
+                    </email-question>
+                }
+                @if(question.type == 5) {
+                    <integer-question [question]="question"
+                                      [instance]="instance" 
+                                      (validationChange)="onValidationChange($event)"  >
+                        
+                    </integer-question>
+                }
+                
+                @else if(question.type == 6) {
+                    <check-question [question]="question" 
+                                    [instance]="instance" 
+                                    (validationChange)="onValidationChange($event)"  >
+                        
+                    </check-question>
+                }
+                @else if (question.type == 8) {
+                    <radio-question [question]="question" 
+                                    [instance]="instance" 
+                                    (validationChange)="onValidationChange($event)" >
+                        
+                    </radio-question>
+                }
+                @else if (question.type == 7) {
+                    
+                    <combo-question [question]="question" 
+                                    [instance]="instance" 
+                                    (validationChange)="onValidationChange($event)" 
+                                    >
+                        
+                    </combo-question>
+            }
+                
+        </div>
+       
+    
+    }
+</mat-card>

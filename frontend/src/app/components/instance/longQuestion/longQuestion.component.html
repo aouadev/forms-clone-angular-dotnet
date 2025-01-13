@@ -1,0 +1,6 @@
+<mat-form-field class="">
+    <textarea matInput [formControl]="ctlLongAnswer" ></textarea>
+    @if(ctlLongAnswer.hasError('required')) {
+        <mat-error >This fiels is required</mat-error>
+    }
+</mat-form-field>
